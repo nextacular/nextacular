@@ -1,0 +1,6 @@
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "prettier.singleQuote": true,
+  "cSpell.words": ["Hasura", "saas", "tailwindcss", "Vercel"]
+}
