@@ -35,3 +35,11 @@ An opinionated boilerplate template for building SaaS applications built mainly 
 ### Next.JS Configuration
 
 1. Image Domains
+
+## User Interface
+
+### Layouts
+
+1. Account Page Layout
+2. Authentication Layout
+3. Landing Page Layout

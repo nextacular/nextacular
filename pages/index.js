@@ -1,5 +1,26 @@
-const Landing = () => {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+import { LandingLayout } from '../layouts';
+import {
+  CallToAction,
+  Features,
+  Footer,
+  Guides,
+  Hero,
+  Pricing,
+  Testimonial,
+} from '../sections';
+
+const Home = () => {
+  return (
+    <LandingLayout>
+      <Hero />
+      <Features />
+      <Pricing />
+      <Guides />
+      <Testimonial />
+      <CallToAction />
+      <Footer />
+    </LandingLayout>
+  );
 };
 
-export default Landing;
+export default Home;
