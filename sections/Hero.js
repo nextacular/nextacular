@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const Hero = () => {
   return (
     <div className="w-full py-5">
@@ -20,9 +22,11 @@ const Hero = () => {
             </a>
           </nav>
           <div className="flex flex-row space-x-3">
-            <button className="px-5 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-500">
-              Login
-            </button>
+            <Link href="/auth/login">
+              <a className="px-5 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-500">
+                Login
+              </a>
+            </Link>
           </div>
         </header>
         <div className="flex flex-col items-center justify-center w-3/5 pt-10 pb-5 mx-auto">
