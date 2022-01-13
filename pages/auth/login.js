@@ -1,9 +1,15 @@
+import Head from 'next/head';
 import Link from 'next/link';
+import { Meta } from '../../components/SEO';
 import { AuthLayout } from '../../layouts';
 
 const Login = () => {
   return (
     <AuthLayout>
+      <Meta
+        title="NextJS SaaS Boilerplate | Login"
+        description="A boilerplate for your NextJS SaaS projects."
+      />
       <div className="flex flex-col items-center justify-center w-1/3 p-10 m-auto space-y-5 border rounded shadow-lg">
         <div>
           <Link href="/">

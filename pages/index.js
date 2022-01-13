@@ -1,3 +1,4 @@
+import { Meta } from '../components/SEO';
 import { LandingLayout } from '../layouts';
 import {
   CallToAction,
@@ -12,6 +13,10 @@ import {
 const Home = () => {
   return (
     <LandingLayout>
+      <Meta
+        title="NextJS SaaS Boilerplate"
+        description="A boilerplate for your NextJS SaaS projects."
+      />
       <Hero />
       <Features />
       <Pricing />
