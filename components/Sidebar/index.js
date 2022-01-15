@@ -1,7 +1,15 @@
+import { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import { PlusIcon, SelectorIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
+
+import Modal from '../Modal';
 
 const Sidebar = () => {
+  const [showModal, setModalState] = useState(false);
+
+  const toggleModal = () => setModalState(!showModal);
+
   return (
     <aside className="sticky flex flex-col w-1/4 h-screen space-y-5 overflow-y-auto text-white bg-gray-800 overscroll-contain">
       <div className="p-5 text-center border-b border-b-gray-900">
@@ -10,10 +18,36 @@ const Sidebar = () => {
         </a>
       </div>
       <div className="flex flex-col items-center justify-center px-5 space-y-3">
-        <button className="flex flex-row items-center justify-center w-full p-2 space-x-3 bg-blue-600 rounded hover:bg-blue-500">
+        <button
+          className="flex flex-row items-center justify-center w-full p-2 space-x-3 bg-blue-600 rounded hover:bg-blue-500"
+          onClick={toggleModal}
+        >
           <PlusIcon className="w-5 h-5 text-white" aria-hidden="true" />
           <span>Create Workspace</span>
         </button>
+        <Modal show={showModal} title="Create a Workspace" toggle={toggleModal}>
+          <div className="space-y-0 text-sm text-gray-600">
+            <p>
+              Create a workspace to keep your team&apos;s content in one place.
+            </p>
+            <p>You&apos;ll be able to invite everyone later!</p>
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-xl font-bold">Workspace Name</h3>
+            <p className="text-sm text-gray-400">
+              Name your workspace. Keep it simple.
+            </p>
+            <input className="w-full px-3 py-2 border rounded" type="text" />
+          </div>
+          <div>
+            <button
+              className="flex flex-row items-center justify-center w-full p-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500"
+              onClick={toggleModal}
+            >
+              <span>Create Workspace</span>
+            </button>
+          </div>
+        </Modal>
         <Listbox className="w-full" value={null} onChange={null}>
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-sm">
@@ -32,25 +66,72 @@ const Sidebar = () => {
         <div className="space-y-2">
           <h5 className="text-sm font-bold text-gray-400">Documentation</h5>
           <ul className="ml-5 leading-10">
-            <li>Quick Start</li>
-            <li>Design System</li>
-            <li>Features</li>
+            <li>
+              <Link href="/account">
+                <a className="text-gray-300 hover:text-white">Overview</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/account/quick-start">
+                <a className="text-gray-300 hover:text-white">Quick Start</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/account/design-system">
+                <a className="text-gray-300 hover:text-white">Design System</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/account/features">
+                <a className="text-gray-300 hover:text-white">Features</a>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="space-y-2">
           <h5 className="text-sm font-bold text-gray-400">Workspace</h5>
           <ul className="ml-5 leading-10">
-            <li>Dashboard</li>
-            <li>Integrations</li>
+            <li>
+              <Link href="#!">
+                <a className="text-gray-300 hover:text-white">Dashboard</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="#!">
+                <a className="text-gray-300 hover:text-white">Integrations</a>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="space-y-2">
           <h5 className="text-sm font-bold text-gray-400">Settings</h5>
           <ul className="ml-5 leading-10">
-            <li>Project Information</li>
-            <li>Domain Configuration</li>
-            <li>Team Management</li>
-            <li>Advanced</li>
+            <li>
+              <Link href="#!">
+                <a className="text-gray-300 hover:text-white">
+                  Project Information
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="#!">
+                <a className="text-gray-300 hover:text-white">
+                  Domain Configurations
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="#!">
+                <a className="text-gray-300 hover:text-white">
+                  Team Management
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="#!">
+                <a className="text-gray-300 hover:text-white">Advanced</a>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
