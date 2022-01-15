@@ -1,6 +1,5 @@
-import Head from 'next/head';
 import Link from 'next/link';
-import { Meta } from '../../components/SEO';
+import Meta from '../../components/Meta';
 import { AuthLayout } from '../../layouts';
 
 const Login = () => {
@@ -13,7 +12,7 @@ const Login = () => {
       <div className="flex flex-col items-center justify-center w-1/3 p-10 m-auto space-y-5 border rounded shadow-lg">
         <div>
           <Link href="/">
-            <a className="text-4xl font-bold">MySaaS</a>
+            <a className="text-4xl font-bold">Nextacular</a>
           </Link>
         </div>
         <div className="text-center">

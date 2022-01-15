@@ -24,7 +24,7 @@ const Footer = () => {
         </footer>
         <hr />
         <p className="text-center text-gray-400">
-          &copy; MySaaS. All rights reserved {new Date().getFullYear()}.
+          &copy; Nextacular. All rights reserved {new Date().getFullYear()}.
         </p>
       </div>
     </div>

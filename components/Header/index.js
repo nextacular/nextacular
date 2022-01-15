@@ -1,0 +1,90 @@
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import {
+  CogIcon,
+  CreditCardIcon,
+  DesktopComputerIcon,
+  LogoutIcon,
+  MoonIcon,
+  UserCircleIcon,
+} from '@heroicons/react/outline';
+import Link from 'next/link';
+
+const Header = () => {
+  return (
+    <div className="flex flex-row items-center justify-between">
+      <div>
+        <h5 className="font-bold text-gray-800">
+          <span>Administrator Account</span>
+        </h5>
+      </div>
+      <Menu as="div" className="relative inline-block text-left">
+        <div>
+          <Menu.Button className="flex items-center justify-center px-5 py-2 space-x-3 border rounded hover:bg-gray-100">
+            <CogIcon aria-hidden="true" className="w-5 h-5" />
+            <span>Settings</span>
+          </Menu.Button>
+        </div>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="absolute right-0 w-40 mt-2 origin-top-right bg-white border divide-y divide-gray-100 rounded">
+            <div className="p-2">
+              <Menu.Item>
+                <Link href="/account/settings">
+                  <a className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                    <UserCircleIcon aria-hidden="true" className="w-5 h-5" />
+                    <span>Account</span>
+                  </a>
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <Link href="/account/billing">
+                  <a className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                    <CreditCardIcon aria-hidden="true" className="w-5 h-5" />
+                    <span>Billing</span>
+                  </a>
+                </Link>
+              </Menu.Item>
+            </div>
+            <div className="p-2">
+              <Menu.Item>
+                <Link href="/">
+                  <a className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                    <DesktopComputerIcon
+                      aria-hidden="true"
+                      className="w-5 h-5"
+                    />
+                    <span>Landing Page</span>
+                  </a>
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                  <MoonIcon aria-hidden="true" className="w-5 h-5" />
+                  <span>Dark Mode</span>
+                </button>
+              </Menu.Item>
+            </div>
+            <div className="p-2">
+              <Menu.Item>
+                <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                  <LogoutIcon aria-hidden="true" className="w-5 h-5" />
+                  <span>Logout</span>
+                </button>
+              </Menu.Item>
+            </div>
+          </Menu.Items>
+        </Transition>
+      </Menu>
+    </div>
+  );
+};
+
+export default Header;

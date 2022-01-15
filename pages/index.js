@@ -1,4 +1,4 @@
-import { Meta } from '../components/SEO';
+import Meta from '../components/Meta';
 import { LandingLayout } from '../layouts';
 import {
   CallToAction,

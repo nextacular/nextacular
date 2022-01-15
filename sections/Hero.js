@@ -7,7 +7,7 @@ const Hero = () => {
         <header className="flex flex-row items-center justify-between space-x-3">
           <div>
             <a className="text-2xl font-bold" href="#!">
-              MySaaS
+              Nextacular
             </a>
           </div>
           <nav className="flex flex-row space-x-3">
