@@ -72,17 +72,17 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/account/quick-start">
+              <Link href="/account/docs/quick-start">
                 <a className="text-gray-300 hover:text-white">Quick Start</a>
               </Link>
             </li>
             <li>
-              <Link href="/account/design-system">
+              <Link href="/account/docs/design-system">
                 <a className="text-gray-300 hover:text-white">Design System</a>
               </Link>
             </li>
             <li>
-              <Link href="/account/features">
+              <Link href="/account/docs/features">
                 <a className="text-gray-300 hover:text-white">Features</a>
               </Link>
             </li>
