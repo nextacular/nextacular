@@ -1,8 +1,13 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Meta from '../../components/Meta';
 import { AuthLayout } from '../../layouts';
 
 const Login = () => {
+  const router = useRouter();
+
+  const navigate = () => router.push('/account');
+
   return (
     <AuthLayout>
       <Meta
@@ -28,7 +33,10 @@ const Login = () => {
             placeholder="name@email.com"
             type="text"
           />
-          <button className="py-2 text-white bg-blue-600 rounded hover:bg-blue-500">
+          <button
+            className="py-2 text-white bg-blue-600 rounded hover:bg-blue-500"
+            onClick={navigate}
+          >
             Continue
           </button>
         </div>
