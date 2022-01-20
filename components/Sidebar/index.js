@@ -107,28 +107,28 @@ const Sidebar = () => {
           <h5 className="text-sm font-bold text-gray-400">Settings</h5>
           <ul className="ml-5 leading-10">
             <li>
-              <Link href="#!">
+              <Link href="/account/workspace/settings/general">
                 <a className="text-gray-300 hover:text-white">
-                  Project Information
+                  Workspace Information
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="#!">
+              <Link href="/account/workspace/settings/domains">
                 <a className="text-gray-300 hover:text-white">
                   Domain Configurations
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="#!">
+              <Link href="/account/workspace/settings/team">
                 <a className="text-gray-300 hover:text-white">
                   Team Management
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="#!">
+              <Link href="/account/workspace/settings/advanced">
                 <a className="text-gray-300 hover:text-white">Advanced</a>
               </Link>
             </li>

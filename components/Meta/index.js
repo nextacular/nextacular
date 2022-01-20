@@ -4,10 +4,10 @@ const Meta = ({ author, description, keyword, title }) => {
   return (
     <Head>
       <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="description" content={description} />
       <meta name="keywords" content={keyword} />
       <meta name="author" content={author} />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>{title}</title>
     </Head>
   );

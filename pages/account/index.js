@@ -1,16 +1,15 @@
+import Content from '../../components/Content';
 import { AccountLayout } from '../../layouts';
 
-const Dashboard = () => {
+const Welcome = () => {
   return (
     <AccountLayout>
-      <div>
-        <h1 className="text-4xl font-bold">Welcome to Nextacular!</h1>
-        <h3 className="text-gray-400">
-          Start building SaaS platforms within a day
-        </h3>
-      </div>
+      <Content.Title
+        title="Welcome to Nextacular!"
+        subtitle="Start building SaaS platforms within a day"
+      />
     </AccountLayout>
   );
 };
 
-export default Dashboard;
+export default Welcome;
