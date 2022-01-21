@@ -1,3 +1,5 @@
+import { CheckIcon } from '@heroicons/react/outline';
+
 const Pricing = () => {
   return (
     <div className="w-full py-10">
@@ -36,11 +38,23 @@ const Pricing = () => {
               </a>
               <div className="space-y-5">
                 <h6 className="uppercase">What&apos;s Included</h6>
-                <ul className="leading-10 list-disc list-inside">
-                  <li>Fast Page Loading</li>
-                  <li>Automatic Friendly URLs</li>
-                  <li>Custom Themes</li>
-                  <li>SEO</li>
+                <ul className="leading-10 list-none list-inside">
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Fast Page Loading</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Automatic Friendly URLs</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Custom Themes</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>SEO</span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -65,13 +79,34 @@ const Pricing = () => {
               <div className="space-y-5">
                 <h6 className="uppercase">What&apos;s Included</h6>
                 <ul className="leading-10 list-disc list-inside">
-                  <li>Everything in Hobby</li>
-                  <li>Custom Domain Name</li>
-                  <li>Analytics</li>
-                  <li>Publishing Status</li>
-                  <li>Custom Favicon</li>
-                  <li>Custom Meta Tags</li>
-                  <li>Live Site Preview</li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Everything in Hobby</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Custom Domain Name</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Analytics</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Publishing Status</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Custom Favicon</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Custom Meta Tags</span>
+                  </li>
+                  <li className="flex items-center space-x-5">
+                    <CheckIcon className="w-5 h-5 text-green-600" />
+                    <span>Live Site Preview</span>
+                  </li>
                 </ul>
               </div>
             </div>
