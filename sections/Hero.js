@@ -1,6 +1,9 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const Hero = () => {
+  const { status: sessionStatus } = useSession();
+
   return (
     <div className="w-full py-5">
       <div className="relative flex flex-col w-3/4 mx-auto space-y-5">
@@ -22,9 +25,15 @@ const Hero = () => {
             </a>
           </nav>
           <div className="flex flex-row space-x-3">
-            <Link href="/auth/login">
+            <Link
+              href={
+                sessionStatus === 'authenticated' ? '/account' : '/auth/login'
+              }
+            >
               <a className="px-5 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-500">
-                Login
+                {sessionStatus === 'authenticated'
+                  ? 'Go to Dashboard'
+                  : 'Login'}
               </a>
             </Link>
           </div>
