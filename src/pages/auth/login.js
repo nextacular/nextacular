@@ -68,7 +68,7 @@ const Login = () => {
             address and sign you in.
           </h2>
         </div>
-        <div className="flex flex-col w-full space-y-3">
+        <form className="flex flex-col w-full space-y-3">
           <input
             className="px-3 py-2 border rounded"
             onChange={handleEmailChange}
@@ -85,7 +85,7 @@ const Login = () => {
               ? 'Sending the link...'
               : 'Send the Magic Link'}
           </button>
-        </div>
+        </form>
         {socialProviders.length > 0 && (
           <>
             <span className="text-sm text-gray-400">or sign in with</span>
