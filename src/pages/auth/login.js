@@ -81,7 +81,9 @@ const Login = () => {
             disabled={status === 'loading' || !validate || isSubmitting}
             onClick={signInWithEmail}
           >
-            {status === 'loading' || isSubmitting
+            {status === 'loading'
+              ? 'Checking session...'
+              : isSubmitting
               ? 'Sending the link...'
               : 'Send the Magic Link'}
           </button>

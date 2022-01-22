@@ -1,14 +1,14 @@
-import Content from '../../../components/Content';
-import { AccountLayout } from '../../../layouts';
+import Content from '../../components/Content';
+import { DocumentationLayout } from '../../layouts';
 
 const DesignSystem = () => {
   return (
-    <AccountLayout>
+    <DocumentationLayout>
       <Content.Title
         title="Design System"
         subtitle="Start building SaaS platforms within a day"
       />
-    </AccountLayout>
+    </DocumentationLayout>
   );
 };
 

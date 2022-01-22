@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
+  BookOpenIcon,
   CogIcon,
   CreditCardIcon,
   DesktopComputerIcon,
@@ -72,6 +73,14 @@ const Header = () => {
                       className="w-5 h-5"
                     />
                     <span>Landing Page</span>
+                  </a>
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <Link href="/docs">
+                  <a className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                    <BookOpenIcon aria-hidden="true" className="w-5 h-5" />
+                    <span>Documentation</span>
                   </a>
                 </Link>
               </Menu.Item>

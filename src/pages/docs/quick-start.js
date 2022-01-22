@@ -1,14 +1,14 @@
-import Content from '../../../components/Content';
-import { AccountLayout } from '../../../layouts';
+import Content from '../../components/Content';
+import { DocumentationLayout } from '../../layouts';
 
 const QuickStart = () => {
   return (
-    <AccountLayout>
+    <DocumentationLayout>
       <Content.Title
         title="Quick Start"
         subtitle="Start building SaaS platforms within a day"
       />
-    </AccountLayout>
+    </DocumentationLayout>
   );
 };
 
