@@ -41,16 +41,41 @@ model Session {
   @@map("sessions")
 }
 
+model Member {
+  id          String    @id @default(cuid())
+  workspaceId String
+  email       String    @unique
+  userId      String?
+  joinedAt    DateTime? @default(now())
+  deletedAt   DateTime?
+  updatedAt   DateTime? @updatedAt
+
+  status    InvitationStatus @default(PENDING)
+  teamRole  TeamRole         @default(MEMBER)
+  member    User?            @relation(fields: [userId], references: [id])
+  workspace Workspace        @relation(fields: [workspaceId], references: [id])
+
+  @@unique([workspaceId, userId])
+  @@map("members")
+}
+
 model User {
   id            String    @id @default(cuid())
+  userCode      String    @unique @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  createdAt     DateTime? @default(now())
+  deletedAt     DateTime?
+  updatedAt     DateTime? @updatedAt
 
-  accounts Account[]
-  sessions Session[]
+  accounts         Account[]
+  sessions         Session[]
+  membership       Member[]
+  createdWorkspace Workspace[]
 
+  @@unique([userCode, email])
   @@map("users")
 }
 
@@ -61,4 +86,32 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationTokens")
+}
+
+model Workspace {
+  id            String    @id @default(cuid())
+  workspaceCode String    @unique @default(cuid())
+  inviteCode    String    @unique @default(cuid())
+  creatorId     String
+  name          String
+  slug          String
+  createdAt     DateTime? @default(now())
+  deletedAt     DateTime?
+  updatedAt     DateTime? @updatedAt
+
+  creator User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  members Member[]
+
+  @@unique([workspaceCode, inviteCode])
+  @@map("workspaces")
+}
+
+enum InvitationStatus {
+  ACCEPTED
+  PENDING
+}
+
+enum TeamRole {
+  MEMBER
+  OWNER
 }
