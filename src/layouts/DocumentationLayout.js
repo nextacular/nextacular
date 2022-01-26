@@ -1,7 +1,7 @@
 import Content from '../components/Content';
 import Sidebar from '../components/Sidebar';
 
-import documentationMenu from '../config/documentation-menu.json';
+import documentationMenu from '../config/documentation-menu';
 
 const AccountLayout = ({ children }) => {
   return (

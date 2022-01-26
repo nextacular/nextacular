@@ -3,6 +3,7 @@ import { Listbox } from '@headlessui/react';
 import { PlusIcon, SelectorIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 
+import Button from '../Button';
 import Modal from '../Modal';
 
 const Sidebar = ({ menu, hideActions }) => {
@@ -18,14 +19,14 @@ const Sidebar = ({ menu, hideActions }) => {
         </Link>
       </div>
       {!hideActions && (
-        <div className="flex flex-col items-center justify-center px-5 space-y-3">
-          <button
-            className="flex flex-row items-center justify-center w-full p-2 space-x-3 bg-blue-600 rounded hover:bg-blue-500"
+        <div className="flex flex-col items-stretch justify-center px-5 space-y-3">
+          <Button
+            className="text-white bg-blue-600 hover:bg-blue-500"
             onClick={toggleModal}
           >
             <PlusIcon className="w-5 h-5 text-white" aria-hidden="true" />
             <span>Create Workspace</span>
-          </button>
+          </Button>
           <Modal
             show={showModal}
             title="Create a Workspace"
@@ -45,16 +46,16 @@ const Sidebar = ({ menu, hideActions }) => {
               </p>
               <input className="w-full px-3 py-2 border rounded" type="text" />
             </div>
-            <div>
-              <button
-                className="flex flex-row items-center justify-center w-full p-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500"
+            <div className="flex flex-col items-stretch">
+              <Button
+                className="text-white bg-blue-600 hover:bg-blue-500"
                 onClick={toggleModal}
               >
                 <span>Create Workspace</span>
-              </button>
+              </Button>
             </div>
           </Modal>
-          <Listbox className="w-full" value={null} onChange={null}>
+          <Listbox className="" value={null} onChange={null}>
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-sm">
                 <span className="block truncate">Select</span>
@@ -76,6 +77,11 @@ const Sidebar = ({ menu, hideActions }) => {
             <li>
               <Link href="/account">
                 <a className="text-gray-300 hover:text-white">Dashboard</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/account/billing">
+                <a className="text-gray-300 hover:text-white">Billing</a>
               </Link>
             </li>
             <li>

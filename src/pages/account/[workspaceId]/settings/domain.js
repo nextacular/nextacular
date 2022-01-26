@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 
+import Button from '../../../../components/Button';
+import Card from '../../../../components/Card';
 import Content from '../../../../components/Content';
 import { AccountLayout } from '../../../../layouts';
-import Card from '../../../../components/Card';
 
 const Domains = () => {
   const [domain, setDomain] = useState('');
@@ -33,10 +34,10 @@ const Domains = () => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <p className="text-sm">Please use 16 characters at maximum</p>
-            <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500">
+            <small>Please use 16 characters at maximum</small>
+            <Button className="text-white bg-blue-600 hover:bg-blue-500">
               Save
-            </button>
+            </Button>
           </Card.Footer>
         </Card>
       </Content.Container>
@@ -62,12 +63,12 @@ const Domains = () => {
           </Card.Body>
           <Card.Footer>
             <span />
-            <button
-              className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500"
+            <Button
+              className="text-white bg-blue-600 hover:bg-blue-500"
               onClick={addDomain}
             >
               Add
-            </button>
+            </Button>
           </Card.Footer>
         </Card>
         {domainVerification ? (
@@ -116,12 +117,12 @@ const Domains = () => {
             <Card.Footer>
               <span />
               <div className="flex flex-row space-x-3">
-                <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-gray-400 border border-gray-400 rounded hover:border-gray-600 hover:text-gray-600">
+                <Button className="text-gray-400 border border-gray-400 hover:border-gray-600 hover:text-gray-600">
                   Refresh
-                </button>
-                <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-red-600 rounded hover:bg-red-500">
+                </Button>
+                <Button className="text-white bg-red-600 hover:bg-red-500">
                   Remove
-                </button>
+                </Button>
               </div>
             </Card.Footer>
           </Card>

@@ -1,3 +1,4 @@
+import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Content from '../../components/Content';
 import { AccountLayout } from '../../layouts';
@@ -23,12 +24,10 @@ const Billing = () => {
             </p>
           </Card.Body>
           <Card.Footer>
-            <p className="text-sm">
-              You will be redirected to the payment page
-            </p>
-            <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500">
+            <small>You will be redirected to the payment page</small>
+            <Button className="text-white bg-blue-600 hover:bg-blue-500">
               Upgrade
-            </button>
+            </Button>
           </Card.Footer>
         </Card>
       </Content.Container>

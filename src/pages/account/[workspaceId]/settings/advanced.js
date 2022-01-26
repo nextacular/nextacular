@@ -1,3 +1,4 @@
+import Button from '../../../../components/Button';
 import Card from '../../../../components/Card';
 import Content from '../../../../components/Content';
 import { AccountLayout } from '../../../../layouts';
@@ -18,9 +19,9 @@ const Advanced = () => {
           />
           <Card.Footer>
             <span />
-            <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-red-600 rounded hover:bg-red-500">
+            <Button className="text-white bg-red-600 hover:bg-red-500">
               Delete
-            </button>
+            </Button>
           </Card.Footer>
         </Card>
       </Content.Container>

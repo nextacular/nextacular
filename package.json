@@ -14,7 +14,8 @@
     "@heroicons/react": "^1.0.5",
     "@next-auth/prisma-adapter": "^1.0.1",
     "@prisma/client": "^3.8.1",
-    "next": "12.0.7",
+    "express-validator": "^6.14.0",
+    "next": "^12.0.8",
     "next-auth": "^4.1.2",
     "nodemailer": "^6.7.2",
     "react": "17.0.2",
@@ -25,7 +26,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.1",
     "eslint": "8.6.0",
-    "eslint-config-next": "12.0.7",
+    "eslint-config-next": "^0.2.4",
     "postcss": "^8.4.5",
     "prisma": "^3.8.1",
     "tailwindcss": "^3.0.11"

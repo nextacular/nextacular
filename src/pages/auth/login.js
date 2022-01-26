@@ -27,7 +27,8 @@ const Login = () => {
 
   const handleEmailChange = (event) => setEmail(event.target.value);
 
-  const signInWithEmail = async () => {
+  const signInWithEmail = async (event) => {
+    event.preventDefault();
     setSubmittingState(true);
     const response = await signIn('email', { email, redirect: false });
 

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 
 import Content from '../components/Content';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-
 import menu from '../config/menu';
 
 const AccountLayout = ({ children }) => {
@@ -20,8 +20,9 @@ const AccountLayout = ({ children }) => {
 
   return (
     <main className="relative flex flex-row w-screen h-screen space-x-5 text-gray-800 bg-gray-50">
-      <Sidebar menu={menu('alsjdniuan12jhe12oem12ne')} />
+      <Sidebar menu={menu(`${parseInt(Math.random() * 1000)}`)} />
       <Content>
+        <Toaster position="bottom-left" toastOptions={{ duration: 10000 }} />
         <Header />
         {children}
       </Content>

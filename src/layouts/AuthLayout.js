@@ -15,7 +15,7 @@ const AuthLayout = ({ children }) => {
 
   return (
     <main className="relative flex flex-col items-center justify-center h-screen space-y-10">
-      <Toaster position="bottom-center" />
+      <Toaster position="bottom-center" toastOptions={{ duration: 10000 }} />
       {children}
     </main>
   );

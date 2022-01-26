@@ -1,5 +1,6 @@
 import { DocumentDuplicateIcon } from '@heroicons/react/outline';
 
+import Button from '../../../../components/Button';
 import Card from '../../../../components/Card';
 import Content from '../../../../components/Content';
 import { AccountLayout } from '../../../../layouts';
@@ -21,10 +22,10 @@ const General = () => {
             <input className="w-1/2 px-3 py-2 border rounded" type="text" />
           </Card.Body>
           <Card.Footer>
-            <p className="text-sm">Please use 32 characters at maximum</p>
-            <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500">
+            <small>Please use 32 characters at maximum</small>
+            <Button className="text-white bg-blue-600 hover:bg-blue-500">
               Save
-            </button>
+            </Button>
           </Card.Footer>
         </Card>
         <Card>

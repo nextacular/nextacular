@@ -10,11 +10,12 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/outline';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 const Header = () => {
-  const logOut = (e) => {
-    e.preventDefault();
+  const { data } = useSession();
+
+  const logOut = () => {
     const result = confirm('Are you sure you want to logout?');
 
     if (result) {
@@ -26,7 +27,9 @@ const Header = () => {
     <div className="flex flex-row items-center justify-between">
       <div>
         <h5 className="font-bold text-gray-800">
-          <span>Administrator Account</span>
+          {data && data.user && (
+            <span>{data.user.name || data.user.email}</span>
+          )}
         </h5>
       </div>
       <Menu as="div" className="relative inline-block text-left">

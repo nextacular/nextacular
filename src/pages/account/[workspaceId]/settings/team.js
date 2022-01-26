@@ -6,9 +6,10 @@ import {
   PlusCircleIcon,
 } from '@heroicons/react/outline';
 
+import Button from '../../../../components/Button';
+import Card from '../../../../components/Card';
 import Content from '../../../../components/Content';
 import { AccountLayout } from '../../../../layouts';
-import Card from '../../../../components/Card';
 
 const Team = () => {
   const [emails, setEmails] = useState(['']);
@@ -77,23 +78,23 @@ const Team = () => {
                 </div>
               ))}
               <div>
-                <button
-                  className="flex flex-row px-5 py-2 space-x-3 text-sm border rounded hover:border-black"
+                <Button
+                  className="text-sm border hover:border-black"
                   onClick={addEmail}
                 >
                   <PlusCircleIcon className="w-5 h-5" />
                   <span>Add more</span>
-                </button>
+                </Button>
               </div>
             </div>
           </Card.Body>
           <Card.Footer>
-            <p className="text-sm">
+            <small>
               All invited team members will be set to <strong>Pending</strong>
-            </p>
-            <button className="flex flex-row items-center justify-center px-5 py-2 space-x-3 text-white bg-blue-600 rounded hover:bg-blue-500">
+            </small>
+            <Button className="text-white bg-blue-600 hover:bg-blue-500">
               Invite
-            </button>
+            </Button>
           </Card.Footer>
         </Card>
       </Content.Container>
