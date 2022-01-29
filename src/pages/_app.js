@@ -11,7 +11,7 @@ const App = ({ Component, pageProps }) => {
 
   Router.events.on('routeChangeStart', () => setProgress(true));
   Router.events.on('routeChangeComplete', () => setProgress(false));
-  TopBarProgress.config(progressBarConfig);
+  TopBarProgress.config(progressBarConfig());
 
   return (
     <SessionProvider session={pageProps.session}>

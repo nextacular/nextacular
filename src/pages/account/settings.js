@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DocumentDuplicateIcon } from '@heroicons/react/outline';
 import { getSession } from 'next-auth/react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import isEmail from 'validator/lib/isEmail';
 
@@ -19,9 +20,7 @@ const Settings = ({ user }) => {
   const validName = name.length > 0 && name.length <= 35;
   const validEmail = isEmail(email);
 
-  const handleEmailChange = (event) => setEmail(event.target.value);
-
-  const handleNameChange = (event) => setName(event.target.value);
+  const copyToClipboard = () => toast.success('Copied to clipboard!');
 
   const changeName = async (event) => {
     event.preventDefault();
@@ -41,6 +40,10 @@ const Settings = ({ user }) => {
       }
     });
   };
+
+  const handleEmailChange = (event) => setEmail(event.target.value);
+
+  const handleNameChange = (event) => setName(event.target.value);
 
   return (
     <AccountLayout>
@@ -109,7 +112,9 @@ const Settings = ({ user }) => {
           >
             <div className="flex items-center justify-between w-1/2 px-3 py-2 space-x-5 font-mono text-sm border rounded">
               <span className="overflow-x-auto">{userCode}</span>
-              <DocumentDuplicateIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+              <CopyToClipboard onCopy={copyToClipboard} text={userCode}>
+                <DocumentDuplicateIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+              </CopyToClipboard>
             </div>
           </Card.Body>
         </Card>
