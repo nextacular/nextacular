@@ -8,6 +8,7 @@ import isEmail from 'validator/lib/isEmail';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Content from '../../components/Content';
+import Modal from '../../components/Modal';
 import { AccountLayout } from '../../layouts';
 import api from '../../lib/client/api';
 import prisma from '../../../prisma';
@@ -16,9 +17,12 @@ const Settings = ({ user }) => {
   const [email, setEmail] = useState(user.email || '');
   const [isSubmitting, setSubmittingState] = useState(false);
   const [name, setName] = useState(user.name || '');
+  const [showModal, setModalState] = useState(false);
   const [userCode] = useState(user.userCode);
-  const validName = name.length > 0 && name.length <= 35;
+  const [verifyEmail, setVerifyEmail] = useState('');
+  const validName = name.length > 0 && name.length <= 32;
   const validEmail = isEmail(email);
+  const verifiedEmail = verifyEmail === email;
 
   const copyToClipboard = () => toast.success('Copied to clipboard!');
 
@@ -41,9 +45,35 @@ const Settings = ({ user }) => {
     });
   };
 
+  const deactivateAccount = (event) => {
+    event.preventDefault();
+    setSubmittingState(true);
+    api('/api/user', {
+      method: 'DELETE',
+    }).then((response) => {
+      setSubmittingState(false);
+      toggleModal();
+
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toast.success('Account has been deactivated!');
+      }
+    });
+  };
+
   const handleEmailChange = (event) => setEmail(event.target.value);
 
   const handleNameChange = (event) => setName(event.target.value);
+
+  const handleVerifyEmailChange = (event) => setVerifyEmail(event.target.value);
+
+  const toggleModal = () => {
+    setVerifyEmail('');
+    setModalState(!showModal);
+  };
 
   return (
     <AccountLayout>
@@ -128,10 +158,48 @@ const Settings = ({ user }) => {
             <small>
               This action is not reversible, so please continue with caution
             </small>
-            <Button className="text-white bg-red-600 hover:bg-red-500">
-              Delete Personal Account
+            <Button
+              className="text-white bg-red-600 hover:bg-red-500"
+              onClick={toggleModal}
+            >
+              Deactivate Personal Account
             </Button>
           </Card.Footer>
+          <Modal
+            show={showModal}
+            title="Deactivate Personal Account"
+            toggle={toggleModal}
+          >
+            <p>
+              Your account will be deleted, along with all of its Workspace
+              contents.
+            </p>
+            <p className="px-3 py-2 text-red-600 border border-red-600 rounded">
+              <strong>Warning:</strong> This action is not reversible. Please be
+              certain.
+            </p>
+            <div className="flex flex-col">
+              <label className="text-sm text-gray-400">
+                Enter <strong>user@email.com</strong> to continue:
+              </label>
+              <input
+                className="px-3 py-2 border rounded"
+                disabled={isSubmitting}
+                onChange={handleVerifyEmailChange}
+                type="email"
+                value={verifyEmail}
+              />
+            </div>
+            <div className="flex flex-col items-stretch">
+              <Button
+                className="text-white bg-red-600 hover:bg-red-500"
+                disabled={!verifiedEmail || isSubmitting}
+                onClick={deactivateAccount}
+              >
+                <span>Deactivate Personal Account</span>
+              </Button>
+            </div>
+          </Modal>
         </Card>
       </Content.Container>
     </AccountLayout>
