@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, PlusIcon, SelectorIcon } from '@heroicons/react/solid';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
 import Button from '../Button';
@@ -8,7 +9,6 @@ import Modal from '../Modal';
 import { useWorkspaces } from '../../hooks/data';
 import api from '../../lib/client/api';
 import { useWorkspace } from '../../providers/Workspace';
-import { useRouter } from 'next/router';
 
 const Actions = () => {
   const { data, isLoading } = useWorkspaces();
