@@ -16,7 +16,7 @@ const handler = async (req, res) => {
     if (session) {
       await validateCreateWorkspace(req, res);
       const { name } = req.body;
-      let slug = slugify(name);
+      let slug = slugify(name.toLowerCase());
       const count = await prisma.workspace.count({
         where: {
           slug,
@@ -30,6 +30,12 @@ const handler = async (req, res) => {
       await prisma.workspace.create({
         data: {
           creatorId: session.user.userId,
+          members: {
+            create: {
+              email: session.user.email,
+              userId: session.user.userId,
+            },
+          },
           name,
           slug,
         },
