@@ -1,4 +1,5 @@
+import validateCreateWorkspace from './create-workspace';
 import validateUpdateEmail from './update-email';
 import validateUpdateName from './update-name';
 
-export { validateUpdateName, validateUpdateEmail };
+export { validateCreateWorkspace, validateUpdateName, validateUpdateEmail };

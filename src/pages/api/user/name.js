@@ -13,8 +13,12 @@ const handler = async (req, res) => {
       await validateUpdateName(req, res);
       const { name } = req.body;
       await prisma.user.update({
-        data: { name },
-        where: { id: session.user.userId },
+        data: {
+          name,
+        },
+        where: {
+          id: session.user.userId,
+        },
       });
       res.status(200).json({ data: { name } });
     } else {

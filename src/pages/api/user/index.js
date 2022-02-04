@@ -13,8 +13,12 @@ const handler = async (req, res) => {
     if (session) {
       if (allowDeactivation) {
         await prisma.user.update({
-          data: { deletedAt: new Date() },
-          where: { id: session.user.userId },
+          data: {
+            deletedAt: new Date(),
+          },
+          where: {
+            id: session.user.userId,
+          },
         });
       }
       res.status(200).json({ data: { email: session.user.email } });

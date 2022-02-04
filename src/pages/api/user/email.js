@@ -16,8 +16,13 @@ const handler = async (req, res) => {
       await validateUpdateEmail(req, res);
       const { email } = req.body;
       await prisma.user.update({
-        data: { email, emailVerified: null },
-        where: { id: session.user.userId },
+        data: {
+          email,
+          emailVerified: null,
+        },
+        where: {
+          id: session.user.userId,
+        },
       });
       res.status(200).json({ data: { email } });
     } else {

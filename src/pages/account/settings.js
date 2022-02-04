@@ -26,7 +26,7 @@ const Settings = ({ user }) => {
 
   const copyToClipboard = () => toast.success('Copied to clipboard!');
 
-  const changeName = async (event) => {
+  const changeName = (event) => {
     event.preventDefault();
     setSubmittingState(true);
     api('/api/user/name', {

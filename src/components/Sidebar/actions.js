@@ -1,15 +1,43 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, PlusIcon, SelectorIcon } from '@heroicons/react/solid';
+import toast from 'react-hot-toast';
 
 import Button from '../Button';
 import Modal from '../Modal';
 import { useWorkspaces } from '../../hooks/data';
+import api from '../../lib/client/api';
 
 const Actions = () => {
   const { data, isLoading } = useWorkspaces();
   const [currentWorkspace, setCurrentWorkspace] = useState(null);
+  const [isSubmitting, setSubmittingState] = useState(false);
+  const [name, setName] = useState('');
   const [showModal, setModalState] = useState(false);
+  const validName = name.length > 0 && name.length <= 16;
+
+  const createWorkspace = (event) => {
+    event.preventDefault();
+    setSubmittingState(true);
+    api('/api/workspace', {
+      body: { name },
+      method: 'POST',
+    }).then((response) => {
+      setSubmittingState(false);
+
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toggleModal();
+        setName('');
+        toast.success('Workspace successfully created!');
+      }
+    });
+  };
+
+  const handleNameChange = (event) => setName(event.target.value);
 
   const toggleModal = () => setModalState(!showModal);
 
@@ -34,12 +62,19 @@ const Actions = () => {
           <p className="text-sm text-gray-400">
             Name your workspace. Keep it simple.
           </p>
-          <input className="w-full px-3 py-2 border rounded" type="text" />
+          <input
+            className="w-full px-3 py-2 border rounded"
+            disabled={isSubmitting}
+            onChange={handleNameChange}
+            type="text"
+            value={name}
+          />
         </div>
         <div className="flex flex-col items-stretch">
           <Button
             className="text-white bg-blue-600 hover:bg-blue-500"
-            onClick={toggleModal}
+            disabled={!validName || isSubmitting}
+            onClick={createWorkspace}
           >
             <span>Create Workspace</span>
           </Button>
