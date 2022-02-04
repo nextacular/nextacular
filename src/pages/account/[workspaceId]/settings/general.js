@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DocumentDuplicateIcon } from '@heroicons/react/outline';
 import { getSession } from 'next-auth/react';
 
@@ -16,6 +16,10 @@ const General = ({ workspace }) => {
   const [name, setName] = useState(workspace.name || '');
 
   const handleNameChange = (event) => setName(event.target.value);
+
+  useEffect(() => {
+    setName(workspace.name);
+  }, [workspace]);
 
   return (
     <AccountLayout>
