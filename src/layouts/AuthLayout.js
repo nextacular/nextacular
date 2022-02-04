@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useTheme } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
 
 const AuthLayout = ({ children }) => {
-  const { data } = useSession();
   const router = useRouter();
+  const { data } = useSession();
+  const { setTheme } = useTheme();
 
   useEffect(() => {
+    setTheme('light');
+
     if (data) {
       router.push('/account');
     }

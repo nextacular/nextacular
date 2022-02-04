@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Router from 'next/router';
 import { SessionProvider } from 'next-auth/react';
+import { ThemeProvider } from 'next-themes';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { SWRConfig } from 'swr';
 
@@ -20,8 +21,10 @@ const App = ({ Component, pageProps }) => {
   return (
     <SessionProvider session={pageProps.session}>
       <SWRConfig value={swrOptions}>
-        {progress && <TopBarProgress />}
-        <Component {...pageProps} />
+        <ThemeProvider attribute="class">
+          {progress && <TopBarProgress />}
+          <Component {...pageProps} />
+        </ThemeProvider>
       </SWRConfig>
     </SessionProvider>
   );

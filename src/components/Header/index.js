@@ -6,13 +6,16 @@ import {
   DesktopComputerIcon,
   LogoutIcon,
   MoonIcon,
+  SunIcon,
   UserCircleIcon,
 } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
+import { useTheme } from 'next-themes';
 
 const Header = () => {
   const { data } = useSession();
+  const { theme, setTheme } = useTheme();
 
   const logOut = () => {
     const result = confirm('Are you sure you want to logout?');
@@ -20,6 +23,11 @@ const Header = () => {
     if (result) {
       signOut({ callbackUrl: '/' });
     }
+  };
+
+  const toggleTheme = (event) => {
+    event.preventDefault();
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return (
@@ -79,9 +87,21 @@ const Header = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item>
-                <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
-                  <MoonIcon aria-hidden="true" className="w-5 h-5" />
-                  <span>Dark Mode</span>
+                <button
+                  className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group"
+                  onClick={toggleTheme}
+                >
+                  {theme === 'dark' ? (
+                    <>
+                      <SunIcon className="w-5 h-5" />
+                      <span>Light Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <MoonIcon className="w-5 h-5" />
+                      <span>Dark Mode</span>
+                    </>
+                  )}
                 </button>
               </Menu.Item>
             </div>
