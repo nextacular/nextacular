@@ -48,4 +48,11 @@ const Modal = ({ children, show, subtitle, title, toggle }) => {
   );
 };
 
+Modal.defaultProps = {
+  show: false,
+  subtitle: '',
+  title: '',
+  toggle: null,
+};
+
 export default Modal;

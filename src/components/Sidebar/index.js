@@ -8,7 +8,7 @@ import { useWorkspaces } from '../../hooks/data';
 const staticMenu = sidebarMenu();
 
 const Sidebar = ({ menu }) => {
-  const { data: workspaces, isLoading } = useWorkspaces();
+  const { data, isLoading } = useWorkspaces();
 
   const renderMenu = () => {
     return menu.map((item, index) => (
@@ -16,7 +16,7 @@ const Sidebar = ({ menu }) => {
         key={index}
         data={item}
         isLoading={isLoading}
-        showMenu={workspaces?.length > 0 || isLoading}
+        showMenu={data?.workspaces.length > 0 || isLoading}
       />
     ));
   };
@@ -34,7 +34,7 @@ const Sidebar = ({ menu }) => {
           <a className="flex-grow text-2xl font-bold">Nextacular</a>
         </Link>
       </div>
-      <Actions workspaces={workspaces} />
+      <Actions />
       <div className="flex flex-col p-5 space-y-10">
         {renderStaticMenu()}
         {renderMenu()}
