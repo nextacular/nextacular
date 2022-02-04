@@ -49,12 +49,6 @@ const Actions = () => {
 
   const toggleModal = () => setModalState(!showModal);
 
-  useEffect(() => {
-    if (data?.workspaces.length > 0) {
-      handleWorkspaceChange(data?.workspaces[0]);
-    }
-  }, [data?.workspaces]);
-
   return (
     <div className="flex flex-col items-stretch justify-center px-5 space-y-3">
       <Button
