@@ -8,7 +8,7 @@ import Button from '../Button';
 import Modal from '../Modal';
 import { useWorkspaces } from '../../hooks/data';
 import api from '../../lib/client/api';
-import { useWorkspace } from '../../providers/Workspace';
+import { useWorkspace } from '../../providers/workspace';
 
 const Actions = () => {
   const { data, isLoading } = useWorkspaces();

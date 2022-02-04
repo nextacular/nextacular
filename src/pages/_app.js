@@ -7,7 +7,7 @@ import { SWRConfig } from 'swr';
 
 import progressBarConfig from '../config/progress-bar';
 import swrConfig from '../config/swr';
-import WorkspaceProvider from '../providers/Workspace';
+import WorkspaceProvider from '../providers/workspace';
 
 import '../styles/globals.css';
 

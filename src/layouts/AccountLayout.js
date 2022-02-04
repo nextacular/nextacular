@@ -7,7 +7,7 @@ import Content from '../components/Content';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import menu from '../config/menu';
-import { useWorkspace } from '../providers/Workspace';
+import { useWorkspace } from '../providers/workspace';
 
 const AccountLayout = ({ children }) => {
   const { data } = useSession();
