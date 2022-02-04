@@ -20,7 +20,7 @@ const AccountLayout = ({ children }) => {
 
   return (
     <main className="relative flex flex-row w-screen h-screen space-x-5 text-gray-800 bg-gray-50">
-      <Sidebar menu={menu(`${parseInt(Math.random() * 1000)}`)} />
+      <Sidebar menu={menu(`1`)} />
       <Content>
         <Toaster position="bottom-left" toastOptions={{ duration: 10000 }} />
         <Header />

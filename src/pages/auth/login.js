@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getProviders, signIn, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
@@ -13,17 +13,6 @@ const Login = () => {
   const [isSubmitting, setSubmittingState] = useState(false);
   const [socialProviders, setSocialProviders] = useState([]);
   const validate = isEmail(email);
-
-  const fetchProviders = useCallback(async () => {
-    const socialProviders = [];
-    const { email, ...providers } = await getProviders();
-
-    for (const provider in providers) {
-      socialProviders.push(providers[provider]);
-    }
-
-    setSocialProviders([...socialProviders]);
-  }, []);
 
   const handleEmailChange = (event) => setEmail(event.target.value);
 
@@ -46,9 +35,16 @@ const Login = () => {
     signIn(socialId);
   };
 
-  useEffect(() => {
-    fetchProviders();
-  }, [fetchProviders]);
+  useEffect(async () => {
+    const socialProviders = [];
+    const { email, ...providers } = await getProviders();
+
+    for (const provider in providers) {
+      socialProviders.push(providers[provider]);
+    }
+
+    setSocialProviders([...socialProviders]);
+  }, []);
 
   return (
     <AuthLayout>

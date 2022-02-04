@@ -44,7 +44,7 @@ model Session {
 model Member {
   id          String    @id @default(cuid())
   workspaceId String
-  email       String    @unique
+  email       String
   userId      String?
   joinedAt    DateTime? @default(now())
   deletedAt   DateTime?
@@ -55,7 +55,7 @@ model Member {
   member    User?            @relation(fields: [userId], references: [id])
   workspace Workspace        @relation(fields: [workspaceId], references: [id])
 
-  @@unique([workspaceId, userId])
+  @@unique([workspaceId, email])
   @@map("members")
 }
 

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import Router from 'next/router';
 import { SessionProvider } from 'next-auth/react';
 import TopBarProgress from 'react-topbar-progress-indicator';
+import { SWRConfig } from 'swr';
 
 import progressBarConfig from '../config/progress-bar';
+import swrConfig from '../config/swr';
 import '../styles/globals.css';
 
 const App = ({ Component, pageProps }) => {
@@ -13,10 +15,14 @@ const App = ({ Component, pageProps }) => {
   Router.events.on('routeChangeComplete', () => setProgress(false));
   TopBarProgress.config(progressBarConfig());
 
+  const swrOptions = swrConfig();
+
   return (
     <SessionProvider session={pageProps.session}>
-      {progress && <TopBarProgress />}
-      <Component {...pageProps} />
+      <SWRConfig value={swrOptions}>
+        {progress && <TopBarProgress />}
+        <Component {...pageProps} />
+      </SWRConfig>
     </SessionProvider>
   );
 };

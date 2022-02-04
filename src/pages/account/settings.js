@@ -208,7 +208,6 @@ const Settings = ({ user }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  console.log(session);
   const user = await prisma.user.findUnique({
     where: {
       id: session.user?.userId,

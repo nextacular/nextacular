@@ -1,13 +1,13 @@
-const api = async (url, opts) => {
-  if (opts) {
-    const { body, ...options } = opts;
+const api = async (url, options) => {
+  if (options) {
+    const { body, ...opts } = options;
     const requestBody = JSON.stringify(body);
     const response = await fetch(url, {
       body: requestBody,
       headers: {
         'Content-Type': 'application/json',
       },
-      ...options,
+      ...opts,
     });
     const result = await response.json();
     return { status: response.status, ...result, url };
