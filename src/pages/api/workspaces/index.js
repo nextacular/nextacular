@@ -15,9 +15,27 @@ const handler = async (req, res) => {
       const workspaces = await prisma.workspace.findMany({
         select: {
           createdAt: true,
-          creator: true,
+          creator: {
+            select: {
+              email: true,
+              name: true,
+            },
+          },
           inviteCode: true,
-          members: true,
+          members: {
+            select: {
+              member: {
+                select: {
+                  email: true,
+                  image: true,
+                  name: true,
+                },
+              },
+              joinedAt: true,
+              status: true,
+              teamRole: true,
+            },
+          },
           name: true,
           slug: true,
           workspaceCode: true,

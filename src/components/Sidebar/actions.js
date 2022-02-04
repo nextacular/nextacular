@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, PlusIcon, SelectorIcon } from '@heroicons/react/solid';
 import toast from 'react-hot-toast';
@@ -7,10 +7,13 @@ import Button from '../Button';
 import Modal from '../Modal';
 import { useWorkspaces } from '../../hooks/data';
 import api from '../../lib/client/api';
+import { useWorkspace } from '../../providers/Workspace';
+import { useRouter } from 'next/router';
 
 const Actions = () => {
   const { data, isLoading } = useWorkspaces();
-  const [currentWorkspace, setCurrentWorkspace] = useState(null);
+  const { workspace, setWorkspace } = useWorkspace();
+  const router = useRouter();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [name, setName] = useState('');
   const [showModal, setModalState] = useState(false);
@@ -39,7 +42,18 @@ const Actions = () => {
 
   const handleNameChange = (event) => setName(event.target.value);
 
+  const handleWorkspaceChange = (workspace) => {
+    setWorkspace(workspace);
+    router.replace(`/account/${workspace?.slug}/settings/general`);
+  };
+
   const toggleModal = () => setModalState(!showModal);
+
+  useEffect(() => {
+    if (data?.workspaces.length > 0) {
+      handleWorkspaceChange(data?.workspaces[0]);
+    }
+  }, [data?.workspaces]);
 
   return (
     <div className="flex flex-col items-stretch justify-center px-5 space-y-3">
@@ -80,7 +94,7 @@ const Actions = () => {
           </Button>
         </div>
       </Modal>
-      <Listbox value={currentWorkspace} onChange={setCurrentWorkspace}>
+      <Listbox value={workspace} onChange={handleWorkspaceChange}>
         <div className="relative">
           <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default">
             <span className="block text-gray-600 truncate">
@@ -88,9 +102,9 @@ const Actions = () => {
                 ? 'Fetching workspaces...'
                 : data?.workspaces.length === 0
                 ? 'No workspaces found'
-                : currentWorkspace === null
+                : workspace === null
                 ? 'Select a workspace...'
-                : currentWorkspace.name}
+                : workspace.name}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <SelectorIcon
@@ -120,7 +134,7 @@ const Actions = () => {
                       <>
                         <span
                           className={`${
-                            selected ? 'font-medium' : 'font-normal'
+                            selected ? 'font-bold' : 'font-normal'
                           } block truncate`}
                         >
                           {workspace.name}

@@ -4,21 +4,26 @@ import Actions from './actions';
 import Menu from './menu';
 import sidebarMenu from '../../config/menu/sidebar-static';
 import { useWorkspaces } from '../../hooks/data';
+import { useWorkspace } from '../../providers/Workspace';
 
 const staticMenu = sidebarMenu();
 
 const Sidebar = ({ menu }) => {
   const { data, isLoading } = useWorkspaces();
+  const { workspace } = useWorkspace();
 
   const renderMenu = () => {
-    return menu.map((item, index) => (
-      <Menu
-        key={index}
-        data={item}
-        isLoading={isLoading}
-        showMenu={data?.workspaces.length > 0 || isLoading}
-      />
-    ));
+    return (
+      workspace &&
+      menu.map((item, index) => (
+        <Menu
+          key={index}
+          data={item}
+          isLoading={isLoading}
+          showMenu={data?.workspaces.length > 0 || isLoading}
+        />
+      ))
+    );
   };
 
   const renderStaticMenu = () => {
