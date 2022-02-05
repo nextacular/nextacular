@@ -11,9 +11,23 @@ const Card = ({ children, danger }) => {
 Card.Body = ({ children, subtitle, title }) => {
   return (
     <div className="flex flex-col p-5 space-y-3">
-      {title && <h2 className="text-2xl font-bold">{title}</h2>}
+      {title ? (
+        <h2 className="text-2xl font-bold">{title}</h2>
+      ) : (
+        <div className="w-full h-8 bg-gray-400 rounded animate-pulse" />
+      )}
       {subtitle && <h3 className="text-gray-400">{subtitle}</h3>}
       <div className="flex flex-col">{children}</div>
+    </div>
+  );
+};
+
+Card.Empty = ({ children }) => {
+  return (
+    <div>
+      <div className="flex items-center justify-center p-5 bg-gray-100 border-4 border-dashed rounded">
+        <p>{children}</p>
+      </div>
     </div>
   );
 };
@@ -27,6 +41,7 @@ Card.Footer = ({ children }) => {
 };
 
 Card.Body.displayName = 'Body';
+Card.Empty.displayName = 'Empty';
 Card.Footer.displayName = 'Footer';
 
 export default Card;
