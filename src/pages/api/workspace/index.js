@@ -1,11 +1,12 @@
+import { InvitationStatus, TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 import slugify from 'slugify';
 
 import { validateCreateWorkspace } from '../../../config/api-validation';
-import prisma from '../../../../prisma';
+// import prisma from '../../../../prisma';
 
-// import { PrismaClient } from '@prisma/client';
-// const prisma = new PrismaClient();
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -33,6 +34,8 @@ const handler = async (req, res) => {
           members: {
             create: {
               email: session.user.email,
+              status: InvitationStatus.ACCEPTED,
+              teamRole: TeamRole.OWNER,
               userId: session.user.userId,
             },
           },

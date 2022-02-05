@@ -1,10 +1,12 @@
 const Card = ({ children, danger }) => {
   return danger ? (
-    <div className="flex flex-col border-2 border-red-600 rounded">
+    <div className="flex flex-col justify-between border-2 border-red-600 rounded">
       {children}
     </div>
   ) : (
-    <div className="flex flex-col border rounded">{children}</div>
+    <div className="flex flex-col justify-between border rounded">
+      {children}
+    </div>
   );
 };
 

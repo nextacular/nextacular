@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { DocumentDuplicateIcon } from '@heroicons/react/outline';
 import { getSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
 import Button from '../../../../components/Button';
 import Card from '../../../../components/Card';
 import Content from '../../../../components/Content';
 import { AccountLayout } from '../../../../layouts';
+import api from '../../../../lib/client/api';
 import prisma from '../../../../../prisma';
 
 // import PrismaClient from '@prisma/client';
@@ -14,6 +16,26 @@ import prisma from '../../../../../prisma';
 const General = ({ workspace }) => {
   const [isSubmitting, setSubmittingState] = useState(false);
   const [name, setName] = useState(workspace.name || '');
+  const validName = name.length > 0 && name.length <= 16;
+
+  const changeName = (event) => {
+    event.preventDefault();
+    setSubmittingState(true);
+    api(`/api/workspace/${workspace.slug}/name`, {
+      body: { name },
+      method: 'PUT',
+    }).then((response) => {
+      setSubmittingState(false);
+
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toast.success('Workspace name successfully updated!');
+      }
+    });
+  };
 
   const handleNameChange = (event) => setName(event.target.value);
 
@@ -44,7 +66,11 @@ const General = ({ workspace }) => {
           </Card.Body>
           <Card.Footer>
             <small>Please use 16 characters at maximum</small>
-            <Button className="text-white bg-blue-600 hover:bg-blue-500">
+            <Button
+              className="text-white bg-blue-600 hover:bg-blue-500"
+              disabled={!validName || isSubmitting}
+              onClick={changeName}
+            >
               Save
             </Button>
           </Card.Footer>
@@ -70,7 +96,7 @@ export const getServerSideProps = async (context) => {
   let workspace = null;
 
   if (session) {
-    const slug = context.params.workspaceId;
+    const slug = context.params.workspaceSlug;
     workspace = await prisma.workspace.findFirst({
       select: {
         name: true,
@@ -78,7 +104,23 @@ export const getServerSideProps = async (context) => {
         workspaceCode: true,
       },
       where: {
-        slug,
+        OR: [
+          {
+            id: session.user.userId,
+          },
+          {
+            members: {
+              every: {
+                userId: session.user.userId,
+                deletedAt: null,
+              },
+            },
+          },
+        ],
+        AND: {
+          deletedAt: null,
+          slug,
+        },
       },
     });
   }
