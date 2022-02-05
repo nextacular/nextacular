@@ -3,10 +3,10 @@ import { getSession } from 'next-auth/react';
 import slugify from 'slugify';
 
 import { validateCreateWorkspace } from '../../../config/api-validation';
-// import prisma from '../../../../prisma';
+import prisma from '../../../../prisma';
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+// import { PrismaClient } from '@prisma/client';
+// const prisma = new PrismaClient();
 
 const handler = async (req, res) => {
   const { method } = req;

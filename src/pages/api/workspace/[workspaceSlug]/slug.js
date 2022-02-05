@@ -1,7 +1,8 @@
 import { TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
+import slugify from 'slugify';
 
-import { validateUpdateWorkspaceName } from '../../../../config/api-validation';
+import { validateUpdateWorkspaceSlug } from '../../../../config/api-validation';
 import prisma from '../../../../../prisma';
 
 // import { PrismaClient } from '@prisma/client';
@@ -14,9 +15,19 @@ const handler = async (req, res) => {
     const session = await getSession({ req });
 
     if (session) {
-      await validateUpdateWorkspaceName(req, res);
-      const { name } = req.body;
-      const slug = req.query.workspaceSlug;
+      await validateUpdateWorkspaceSlug(req, res);
+      let { slug } = req.body;
+      const pathSlug = req.query.workspaceSlug;
+      slug = slugify(slug.toLowerCase());
+      const count = await prisma.workspace.count({
+        where: {
+          slug,
+        },
+      });
+
+      if (count > 0) {
+        slug = `${slug}-${count}`;
+      }
 
       const workspace = await prisma.workspace.findFirst({
         select: {
@@ -39,7 +50,7 @@ const handler = async (req, res) => {
           ],
           AND: {
             deletedAt: null,
-            slug,
+            slug: pathSlug,
           },
         },
       });
@@ -47,13 +58,13 @@ const handler = async (req, res) => {
       if (workspace) {
         await prisma.workspace.update({
           data: {
-            name,
+            slug,
           },
           where: {
             id: workspace.id,
           },
         });
-        res.status(200).json({ data: { name } });
+        res.status(200).json({ data: { slug } });
       } else {
         res.status(401).json({ error: 'Unauthorized access' });
       }
