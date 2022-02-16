@@ -30,6 +30,17 @@ model Account {
   @@map("accounts")
 }
 
+model CustomerPayment {
+  id         String  @id @default(cuid())
+  paymentId  String  @unique
+  customerId String  @unique
+  email      String? @unique
+
+  customer User @relation(fields: [customerId], references: [id])
+
+  @@map("customerPayments")
+}
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -74,6 +85,7 @@ model User {
   sessions         Session[]
   membership       Member[]
   createdWorkspace Workspace[]
+  customerPayment  CustomerPayment?
 
   @@unique([userCode, email])
   @@map("users")

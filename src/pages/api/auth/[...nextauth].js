@@ -3,6 +3,7 @@ import NextAuth from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 
 import prisma from '../../../../prisma';
+import { createCustomer } from '../../../../payments/stripe';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -16,6 +17,20 @@ export default NextAuth({
     },
   },
   debug: process.env.NEXTAUTH_DEBUG,
+  events: {
+    signIn: async ({ user, isNewUser }) => {
+      if (isNewUser) {
+        const customer = await createCustomer(user.email);
+        await prisma.customerPayment.create({
+          data: {
+            customerId: user.id,
+            email: user.email,
+            paymentId: customer.id,
+          },
+        });
+      }
+    },
+  },
   providers: [
     EmailProvider({
       from: process.env.EMAIL_FROM,

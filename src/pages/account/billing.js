@@ -1,9 +1,17 @@
+import { useState } from 'react';
+
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Content from '../../components/Content';
 import { AccountLayout } from '../../layouts';
+import { getProducts } from '../../../payments/stripe';
+import Modal from '../../components/Modal';
 
-const Billing = () => {
+const Billing = ({ products }) => {
+  const [showModal, setModalVisibility] = useState(false);
+
+  const toggleModal = () => setModalVisibility(!showModal);
+
   return (
     <AccountLayout>
       <Content.Title
@@ -25,11 +33,23 @@ const Billing = () => {
           </Card.Body>
           <Card.Footer>
             <small>You will be redirected to the payment page</small>
-            <Button className="text-white bg-blue-600 hover:bg-blue-500">
+            <Button
+              className="text-white bg-blue-600 hover:bg-blue-500"
+              onClick={toggleModal}
+            >
               Upgrade
             </Button>
           </Card.Footer>
         </Card>
+        <Modal
+          show={showModal}
+          title="Upgrade Subscription"
+          toggle={toggleModal}
+        >
+          <div className="space-y-0 text-sm text-gray-600">
+            <p>You are currently under the FREE plan</p>
+          </div>
+        </Modal>
       </Content.Container>
       <Content.Divider thick />
       <Content.Title
@@ -43,6 +63,16 @@ const Billing = () => {
       </Content.Empty>
     </AccountLayout>
   );
+};
+
+export const getServerSideProps = async () => {
+  const products = await getProducts();
+
+  return {
+    props: {
+      products,
+    },
+  };
 };
 
 export default Billing;
