@@ -45,7 +45,7 @@ const Welcome = () => {
               </Card>
             ))
           ) : (
-            <Card.Empty />
+            <Card.Empty>Start creating a workspace now</Card.Empty>
           )}
         </div>
       </Content.Container>
