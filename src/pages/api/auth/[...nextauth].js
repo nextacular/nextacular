@@ -19,7 +19,11 @@ export default NextAuth({
   debug: process.env.NEXTAUTH_DEBUG,
   events: {
     signIn: async ({ user, isNewUser }) => {
-      if (isNewUser) {
+      const customerPayment = await prisma.customerPayment.findUnique({
+        where: { email: user.email },
+      });
+
+      if (isNewUser || customerPayment === null) {
         const paymentAccount = await createCustomer(user.email);
         await prisma.customerPayment.create({
           data: {

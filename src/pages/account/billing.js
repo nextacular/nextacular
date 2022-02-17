@@ -165,7 +165,7 @@ export const getServerSideProps = async (context) => {
       email: session.user?.email,
     },
   });
-  const invoices = await getInvoices(customerPayment.paymentId);
+  const invoices = await getInvoices(customerPayment?.paymentId);
   const products = await getProducts();
 
   return {
