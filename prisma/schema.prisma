@@ -31,25 +31,18 @@ model Account {
 }
 
 model CustomerPayment {
-  id         String  @id @default(cuid())
-  paymentId  String  @unique
-  customerId String  @unique
-  email      String? @unique
+  id               String           @id @default(cuid())
+  paymentId        String           @unique
+  customerId       String           @unique
+  email            String?          @unique
+  subscriptionType SubscriptionType @default(FREE)
+  createdAt        DateTime?        @default(now())
+  deletedAt        DateTime?
+  updatedAt        DateTime?        @updatedAt
 
   customer User @relation(fields: [customerId], references: [id])
 
   @@map("customerPayments")
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
 }
 
 model Member {
@@ -68,6 +61,17 @@ model Member {
 
   @@unique([workspaceId, email])
   @@map("members")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model User {
@@ -121,6 +125,12 @@ model Workspace {
 enum InvitationStatus {
   ACCEPTED
   PENDING
+}
+
+enum SubscriptionType {
+  FREE
+  STANDARD
+  PREMIUM
 }
 
 enum TeamRole {

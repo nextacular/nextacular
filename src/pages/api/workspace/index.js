@@ -45,10 +45,14 @@ const handler = async (req, res) => {
       });
       res.status(200).json({ data: { name, slug } });
     } else {
-      res.status(401).json({ error: 'Unauthorized access' });
+      res
+        .status(401)
+        .json({ errors: { error: { msg: 'Unauthorized access' } } });
     }
   } else {
-    res.status(405).json({ error: `${method} method unsupported` });
+    res
+      .status(405)
+      .json({ errors: { error: { msg: `${method} method unsupported` } } });
   }
 };
 

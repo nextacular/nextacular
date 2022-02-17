@@ -20,12 +20,12 @@ export default NextAuth({
   events: {
     signIn: async ({ user, isNewUser }) => {
       if (isNewUser) {
-        const customer = await createCustomer(user.email);
+        const paymentAccount = await createCustomer(user.email);
         await prisma.customerPayment.create({
           data: {
             customerId: user.id,
             email: user.email,
-            paymentId: customer.id,
+            paymentId: paymentAccount.id,
           },
         });
       }
