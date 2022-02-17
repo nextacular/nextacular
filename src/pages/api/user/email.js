@@ -3,9 +3,6 @@ import { getSession } from 'next-auth/react';
 import { validateUpdateEmail } from '../../../config/api-validation';
 import prisma from '../../../../prisma';
 
-// import { PrismaClient } from '@prisma/client';
-// const prisma = new PrismaClient();
-
 const handler = async (req, res) => {
   const { method } = req;
 

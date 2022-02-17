@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { DocumentDuplicateIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
-import isSlug from 'validator/lib/isSlug';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
+import isSlug from 'validator/lib/isSlug';
 
 import Button from '../../../../components/Button';
 import Card from '../../../../components/Card';
@@ -13,9 +14,6 @@ import { AccountLayout } from '../../../../layouts';
 import api from '../../../../lib/client/api';
 import prisma from '../../../../../prisma';
 import { useWorkspace } from '../../../../providers/workspace';
-
-// import PrismaClient from '@prisma/client';
-// const prisma = new PrismaClient();
 
 const General = ({ workspace }) => {
   const router = useRouter();
@@ -71,6 +69,8 @@ const General = ({ workspace }) => {
       }
     });
   };
+
+  const copyToClipboard = () => toast.success('Copied to clipboard!');
 
   const handleNameChange = (event) => setName(event.target.value);
 
@@ -153,7 +153,12 @@ const General = ({ workspace }) => {
           >
             <div className="flex items-center justify-between w-1/2 px-3 py-2 space-x-5 font-mono text-sm border rounded">
               <span className="overflow-x-auto">{workspace.workspaceCode}</span>
-              <DocumentDuplicateIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+              <CopyToClipboard
+                onCopy={copyToClipboard}
+                text={workspace.workspaceCode}
+              >
+                <DocumentDuplicateIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+              </CopyToClipboard>
             </div>
           </Card.Body>
         </Card>
