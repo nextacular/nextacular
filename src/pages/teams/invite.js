@@ -1,13 +1,9 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { AuthLayout } from '../../layouts';
 
-import PublicLayout from '../../layouts/PublicLayout';
-
-const Payment = () => {
-  const { query } = useRouter();
-
+const Invite = () => {
   return (
-    <PublicLayout>
+    <AuthLayout>
       <div className="w-full py-5">
         <div className="relative flex flex-col mx-auto space-y-5">
           <div className="flex flex-col items-center justify-center pt-10 pb-5 mx-auto">
@@ -36,8 +32,47 @@ const Payment = () => {
           </div>
         </div>
       </div>
-    </PublicLayout>
+    </AuthLayout>
   );
 };
 
-export default Payment;
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+  let workspace = null;
+
+  if (session) {
+    const slug = context.params.workspaceSlug;
+    workspace = await prisma.workspace.findFirst({
+      select: {
+        inviteCode: true,
+      },
+      where: {
+        OR: [
+          {
+            id: session.user.userId,
+          },
+          {
+            members: {
+              some: {
+                email: session.user.email,
+                deletedAt: null,
+              },
+            },
+          },
+        ],
+        AND: {
+          deletedAt: null,
+          slug,
+        },
+      },
+    });
+  }
+
+  return {
+    props: {
+      workspace,
+    },
+  };
+};
+
+export default Invite;

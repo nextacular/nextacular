@@ -1,20 +1,19 @@
 import { TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
-import { validateUpdateWorkspaceName } from '../../../../config/api-validation';
+import { validateWorkspaceInvite } from '../../../../config/api-validation';
 import prisma from '../../../../../prisma';
 
 const handler = async (req, res) => {
   const { method } = req;
 
-  if (method === 'PUT') {
+  if (method === 'POST') {
     const session = await getSession({ req });
 
     if (session) {
-      await validateUpdateWorkspaceName(req, res);
-      const { name } = req.body;
+      await validateWorkspaceInvite(req, res);
+      const { members } = req.body;
       const slug = req.query.workspaceSlug;
-
       const workspace = await prisma.workspace.findFirst({
         select: {
           id: true,
@@ -42,15 +41,32 @@ const handler = async (req, res) => {
       });
 
       if (workspace) {
+        const membersList = members.map(({ email, role }) => ({
+          email,
+          teamRole: role,
+        }));
+        const userData = members.map(({ email }) => ({
+          createdAt: null,
+          email,
+        }));
+        await prisma.user.createMany({
+          data: userData,
+          skipDuplicates: true,
+        });
         await prisma.workspace.update({
           data: {
-            name,
+            members: {
+              createMany: {
+                data: membersList,
+                skipDuplicates: true,
+              },
+            },
           },
           where: {
             id: workspace.id,
           },
         });
-        res.status(200).json({ data: { name } });
+        res.status(200).json({ data: { membersList } });
       } else {
         res
           .status(401)

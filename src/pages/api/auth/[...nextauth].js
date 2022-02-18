@@ -23,7 +23,7 @@ export default NextAuth({
         where: { email: user.email },
       });
 
-      if (isNewUser || customerPayment === null) {
+      if (isNewUser || customerPayment === null || user.createdAt === null) {
         const paymentAccount = await createCustomer(user.email);
         await prisma.customerPayment.create({
           data: {

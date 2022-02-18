@@ -44,8 +44,8 @@ const handler = async (req, res) => {
             },
             {
               members: {
-                every: {
-                  userId: session.user.userId,
+                some: {
+                  email: session.user.email,
                   deletedAt: null,
                 },
               },

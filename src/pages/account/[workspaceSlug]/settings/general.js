@@ -186,8 +186,8 @@ export const getServerSideProps = async (context) => {
           },
           {
             members: {
-              every: {
-                userId: session.user.userId,
+              some: {
+                email: session.user.email,
                 deletedAt: null,
               },
             },

@@ -49,14 +49,14 @@ model Member {
   id          String    @id @default(cuid())
   workspaceId String
   email       String
-  userId      String?
-  joinedAt    DateTime? @default(now())
+  invitedAt   DateTime? @default(now())
+  joinedAt    DateTime?
   deletedAt   DateTime?
   updatedAt   DateTime? @updatedAt
 
   status    InvitationStatus @default(PENDING)
   teamRole  TeamRole         @default(MEMBER)
-  member    User?            @relation(fields: [userId], references: [id])
+  member    User?            @relation(fields: [email], references: [email])
   workspace Workspace        @relation(fields: [workspaceId], references: [id])
 
   @@unique([workspaceId, email])
@@ -125,6 +125,7 @@ model Workspace {
 enum InvitationStatus {
   ACCEPTED
   PENDING
+  DECLINED
 }
 
 enum SubscriptionType {

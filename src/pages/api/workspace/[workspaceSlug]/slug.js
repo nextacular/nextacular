@@ -37,10 +37,10 @@ const handler = async (req, res) => {
             },
             {
               members: {
-                every: {
+                some: {
                   deletedAt: null,
                   teamRole: TeamRole.OWNER,
-                  userId: session.user.userId,
+                  email: session.user.email,
                 },
               },
             },
