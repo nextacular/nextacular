@@ -44,7 +44,7 @@ const Actions = () => {
 
   const handleWorkspaceChange = (workspace) => {
     setWorkspace(workspace);
-    router.replace(`/account/${workspace?.slug}/settings/general`);
+    router.replace(`/account/${workspace?.slug}`);
   };
 
   const toggleModal = () => setModalState(!showModal);

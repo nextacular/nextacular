@@ -180,7 +180,7 @@ const Settings = ({ user }) => {
             </p>
             <div className="flex flex-col">
               <label className="text-sm text-gray-400">
-                Enter <strong>user@email.com</strong> to continue:
+                Enter <strong>{user.email}</strong> to continue:
               </label>
               <input
                 className="px-3 py-2 border rounded"
