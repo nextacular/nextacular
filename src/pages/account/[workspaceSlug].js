@@ -6,14 +6,16 @@ const Workspace = () => {
   const { workspace } = useWorkspace();
 
   return (
-    <AccountLayout>
-      <Content.Title
-        title={workspace.name}
-        subtitle="This is your project's workspace"
-      />
-      <Content.Divider />
-      <Content.Container />
-    </AccountLayout>
+    workspace && (
+      <AccountLayout>
+        <Content.Title
+          title={workspace.name}
+          subtitle="This is your project's workspace"
+        />
+        <Content.Divider />
+        <Content.Container />
+      </AccountLayout>
+    )
   );
 };
 
