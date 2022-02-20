@@ -1,6 +1,6 @@
-import Content from '../../../components/Content';
-import { AccountLayout } from '../../../layouts';
-import { useWorkspace } from '../../../providers/workspace';
+import Content from '../../components/Content';
+import { AccountLayout } from '../../layouts';
+import { useWorkspace } from '../../providers/workspace';
 
 const Workspace = () => {
   const { workspace } = useWorkspace();
