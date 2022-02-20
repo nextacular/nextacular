@@ -43,6 +43,7 @@ const handler = async (req, res) => {
       if (workspace) {
         const membersList = members.map(({ email, role }) => ({
           email,
+          inviter: session.user.email,
           teamRole: role,
         }));
         const userData = members.map(({ email }) => ({

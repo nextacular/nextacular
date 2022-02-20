@@ -1,3 +1,4 @@
+import useInvitations from './useInvitations';
 import useWorkspaces from './useWorkspaces';
 
-export { useWorkspaces };
+export { useInvitations, useWorkspaces };

@@ -31,9 +31,9 @@ const handler = async (req, res) => {
           members: {
             create: {
               email: session.user.email,
+              inviter: session.user.email,
               status: InvitationStatus.ACCEPTED,
               teamRole: TeamRole.OWNER,
-              userId: session.user.userId,
             },
           },
           name,

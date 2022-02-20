@@ -7,7 +7,7 @@ const Content = ({ children }) => {
 };
 
 Content.Container = ({ children }) => {
-  return <div className="flex flex-col space-y-5">{children}</div>;
+  return <div className="flex flex-col pb-10 space-y-5">{children}</div>;
 };
 
 Content.Divider = ({ thick }) => {

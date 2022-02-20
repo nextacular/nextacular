@@ -1,5 +1,5 @@
-import { InvitationStatus } from '@prisma/client';
 import { getSession } from 'next-auth/react';
+import { InvitationStatus } from '@prisma/client';
 
 import prisma from '../../../../prisma';
 
@@ -39,22 +39,13 @@ const handler = async (req, res) => {
           workspaceCode: true,
         },
         where: {
-          OR: [
-            {
-              id: session.user.userId,
+          deletedAt: null,
+          members: {
+            some: {
+              email: session.user.email,
+              deletedAt: null,
+              status: InvitationStatus.PENDING,
             },
-            {
-              members: {
-                some: {
-                  email: session.user.email,
-                  deletedAt: null,
-                  status: InvitationStatus.ACCEPTED,
-                },
-              },
-            },
-          ],
-          AND: {
-            deletedAt: null,
           },
         },
       });
