@@ -12,7 +12,7 @@ import { AccountLayout } from '../../../../layouts';
 import { useDomains } from '../../../../hooks/data';
 import DomainCard from '../../../../components/Card/domain';
 import api from '@/lib/common/api';
-import prisma from '@/prisma';
+import prisma from '@/prisma/index';
 
 const Domain = ({ workspace }) => {
   const { data, isLoading } = useDomains(workspace.slug);
