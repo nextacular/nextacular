@@ -11,8 +11,6 @@ import api from '../../lib/common/api';
 import { useWorkspace } from '../../providers/workspace';
 
 const Welcome = () => {
-  console.log(process.env.NEXT_PUBLIC_URL);
-  console.log(process.env.NEXT_PUBLIC_ROOT_URL);
   const router = useRouter();
   const { data: invitationsData, isLoading: isFetchingInvitations } =
     useInvitations();
