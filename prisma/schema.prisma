@@ -45,6 +45,21 @@ model CustomerPayment {
   @@map("customerPayments")
 }
 
+model Domain {
+  id          String    @id @default(cuid())
+  workspaceId String
+  addedById   String
+  name        String
+  createdAt   DateTime? @default(now())
+  deletedAt   DateTime?
+  updatedAt   DateTime? @updatedAt
+
+  addedBy   User      @relation(fields: [addedById], references: [id])
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+
+  @@map("domains")
+}
+
 model Member {
   id          String    @id @default(cuid())
   workspaceId String
@@ -93,6 +108,7 @@ model User {
   invitedMembers   Member[]         @relation("inviter")
   createdWorkspace Workspace[]
   customerPayment  CustomerPayment?
+  domains          Domain[]
 
   @@unique([userCode, email])
   @@map("users")
@@ -120,6 +136,7 @@ model Workspace {
 
   creator User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   members Member[]
+  domains Domain[]
 
   @@unique([workspaceCode, inviteCode])
   @@map("workspaces")

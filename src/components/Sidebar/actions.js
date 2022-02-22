@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import Button from '../Button';
 import Modal from '../Modal';
 import { useWorkspaces } from '../../hooks/data';
-import api from '../../lib/client/api';
+import api from '../../lib/common/api';
 import { useWorkspace } from '../../providers/workspace';
 
 const Actions = () => {

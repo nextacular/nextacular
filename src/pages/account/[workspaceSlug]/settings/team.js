@@ -17,7 +17,7 @@ import Card from '../../../../components/Card';
 import Content from '../../../../components/Content';
 import { AccountLayout } from '../../../../layouts';
 import prisma from '../../../../../prisma';
-import api from '../../../../lib/client/api';
+import api from '../../../../lib/common/api';
 
 const MEMBERS_TEMPLATE = { email: '', role: TeamRole.MEMBER };
 
@@ -91,7 +91,6 @@ const Team = ({ isOwnWorkspace, workspace }) => {
                   workspace.inviteCode
                 )}`}
               </span>
-
               <CopyToClipboard
                 onCopy={copyToClipboard}
                 text={`${

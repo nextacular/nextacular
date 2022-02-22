@@ -10,7 +10,7 @@ import Card from '../../components/Card';
 import Content from '../../components/Content';
 import Modal from '../../components/Modal';
 import { AccountLayout } from '../../layouts';
-import api from '../../lib/client/api';
+import api from '../../lib/common/api';
 import prisma from '../../../prisma';
 
 const Settings = ({ user }) => {

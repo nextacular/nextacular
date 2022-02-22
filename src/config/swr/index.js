@@ -1,11 +1,11 @@
-import api from '../../lib/client/api';
+import fetcher from '../../lib/client/fetcher';
 
 const handleOnError = (error) => {
   throw new Error(`Error: ${error}`);
 };
 
 const swrConfig = () => ({
-  fetcher: api,
+  fetcher,
   onError: handleOnError,
   refreshInterval: 1000,
 });

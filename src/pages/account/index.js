@@ -7,7 +7,7 @@ import Card from '../../components/Card';
 import Content from '../../components/Content';
 import { useInvitations, useWorkspaces } from '../../hooks/data';
 import { AccountLayout } from '../../layouts';
-import api from '../../lib/client/api';
+import api from '../../lib/common/api';
 import { useWorkspace } from '../../providers/workspace';
 
 const Welcome = () => {
