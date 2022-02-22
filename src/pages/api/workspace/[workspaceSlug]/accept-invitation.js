@@ -1,8 +1,7 @@
-import { InvitationStatus, Prisma, PrismaClient } from '@prisma/client';
+import { InvitationStatus } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
-// import prisma from '../../../../../prisma';
-const prisma = new PrismaClient();
+import prisma from '../../../../../prisma';
 
 const handler = async (req, res) => {
   const { method } = req;
