@@ -86,7 +86,7 @@ export const getStaticProps = async ({ params }) => {
           ? {
               domains: {
                 some: {
-                  name: customDomain,
+                  name: site,
                   deletedAt: null,
                 },
               },
