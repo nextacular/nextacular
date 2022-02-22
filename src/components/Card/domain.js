@@ -3,12 +3,23 @@ import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 
-import Button from '../Button';
-import Card from './index';
+import Button from '@/components/Button/index';
+import Card from '@/components/Card/index';
+import { useDomain } from '@/hooks/data';
 
 const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
+  const { data, isLoading: isChecking } = useDomain(name);
   const [display, setDisplay] = useState('cname');
-  const isValid = true;
+
+  const onRemove = () => {
+    const result = confirm(
+      `Are you sure you want to delete this domain: ${name}?`
+    );
+
+    if (result) {
+      remove(name);
+    }
+  };
 
   const showApex = () => setDisplay('apex');
 
@@ -31,7 +42,7 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
                   <ExternalLinkIcon className="w-5 h-5" />
                 </a>
               </Link>
-              {!isValid ? (
+              {!data?.valid ? (
                 <h3 className="flex items-center space-x-1 text-red-600">
                   <XCircleIcon className="w-5 h-5" />
                   <span>Invalid Configuration</span>
@@ -94,15 +105,18 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
           <Card.Footer>
             <span />
             <div className="flex flex-row space-x-3">
-              <Button
-                className="text-gray-400 border border-gray-400 hover:border-gray-600 hover:text-gray-600"
-                onClick={refresh}
-              >
-                Refresh
-              </Button>
+              {!data?.valid && (
+                <Button
+                  className="text-gray-600 border border-gray-600 hover:border-gray-600 hover:text-gray-600"
+                  disabled={isChecking}
+                  onClick={() => refresh(name)}
+                >
+                  {isChecking ? 'Checking...' : 'Refresh'}
+                </Button>
+              )}
               <Button
                 className="text-white bg-red-600 hover:bg-red-500"
-                onClick={remove}
+                onClick={onRemove}
               >
                 Remove
               </Button>
@@ -121,6 +135,7 @@ DomainCard.defaultProps = {
   name: '',
   refresh: () => {},
   remove: () => {},
+  slug: '',
 };
 
 export default DomainCard;

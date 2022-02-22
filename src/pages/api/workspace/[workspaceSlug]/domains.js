@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 
-import prisma from '../../../../../../prisma';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;

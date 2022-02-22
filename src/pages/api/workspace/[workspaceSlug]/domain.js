@@ -1,29 +1,21 @@
 import { getSession } from 'next-auth/react';
 
-// import { validateUpdateWorkspaceSlug } from '../../../../../config/api-validation';
-import prisma from '../../../../../../prisma';
+import { validateAddDomain } from '@/config/api-validation';
+import prisma from '@/prisma/index';
 import api from '@/lib/common/api';
 
 const handler = async (req, res) => {
   const { method } = req;
 
-  if (method === 'GET') {
+  if (method === 'POST') {
     const session = await getSession({ req });
 
     if (session) {
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
-  } else if (method === 'POST') {
-    const session = await getSession({ req });
-
-    if (session) {
+      await validateAddDomain(req, res);
       const { domainName } = req.body;
       const teamId = process.env.VERCEL_TEAM_ID;
       const response = await api(
-        `${process.env.VERCEL_URL}/v8/projects/${
+        `${process.env.VERCEL_API_URL}/v8/projects/${
           process.env.VERCEL_PROJECT_ID
         }/domains${teamId ? `?teamId=${teamId}` : ''}`,
         {
@@ -85,6 +77,57 @@ const handler = async (req, res) => {
     const session = await getSession({ req });
 
     if (session) {
+      const { domainName } = req.body;
+      const teamId = process.env.VERCEL_TEAM_ID;
+      const slug = req.query.workspaceSlug;
+      await api(
+        `${process.env.VERCEL_API_URL}/v8/projects/${
+          process.env.VERCEL_PROJECT_ID
+        }/domains/${domainName}${teamId ? `?teamId=${teamId}` : ''}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.VERCEL_AUTH_BEARER_TOKEN}`,
+          },
+          method: 'DELETE',
+        }
+      );
+
+      const workspace = await prisma.workspace.findFirst({
+        select: {
+          id: true,
+        },
+        where: {
+          OR: [
+            {
+              id: session.user.userId,
+            },
+            {
+              members: {
+                some: {
+                  email: session.user.email,
+                  deletedAt: null,
+                },
+              },
+            },
+          ],
+          AND: {
+            deletedAt: null,
+            slug,
+          },
+        },
+      });
+      await prisma.domain.update({
+        data: {
+          deletedAt: new Date(),
+        },
+        where: {
+          workspaceId_name: {
+            workspaceId: workspace.id,
+            name: domainName,
+          },
+        },
+      });
+      res.status(200).json({ data: { domain: domainName } });
     } else {
       res
         .status(401)

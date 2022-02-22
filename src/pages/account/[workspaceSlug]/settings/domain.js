@@ -3,14 +3,15 @@ import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { getSession } from 'next-auth/react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { mutate } from 'swr';
 import isFQDN from 'validator/lib/isFQDN';
 
-import Button from '../../../../components/Button';
-import Card from '../../../../components/Card';
-import Content from '../../../../components/Content';
-import { AccountLayout } from '../../../../layouts';
-import { useDomains } from '../../../../hooks/data';
-import DomainCard from '../../../../components/Card/domain';
+import Button from '@/components/Button/index';
+import DomainCard from '@/components/Card/domain';
+import Card from '@/components/Card/index';
+import Content from '@/components/Content/index';
+import { useDomains } from '@/hooks/data';
+import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import prisma from '@/prisma/index';
 
@@ -44,9 +45,25 @@ const Domain = ({ workspace }) => {
 
   const handleDomainChange = (event) => setDomain(event.target.value);
 
-  const refresh = () => {};
+  const refresh = (domain) =>
+    mutate(`/api/workspace/domain/check?domain=${domain}`);
 
-  const remove = () => {};
+  const remove = (domain) => {
+    api(`/api/workspace/${workspace.slug}/domain`, {
+      body: {
+        domainName: domain,
+      },
+      method: 'DELETE',
+    }).then((response) => {
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toast.success('Domain successfully deleted from workspace!');
+      }
+    });
+  };
 
   return (
     <AccountLayout>

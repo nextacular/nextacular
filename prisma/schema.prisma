@@ -57,6 +57,7 @@ model Domain {
   addedBy   User      @relation(fields: [addedById], references: [id])
   workspace Workspace @relation(fields: [workspaceId], references: [id])
 
+  @@unique([workspaceId, name])
   @@map("domains")
 }
 

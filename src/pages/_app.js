@@ -13,12 +13,11 @@ import '../styles/globals.css';
 
 const App = ({ Component, pageProps }) => {
   const [progress, setProgress] = useState(false);
+  const swrOptions = swrConfig();
 
   Router.events.on('routeChangeStart', () => setProgress(true));
   Router.events.on('routeChangeComplete', () => setProgress(false));
   TopBarProgress.config(progressBarConfig());
-
-  const swrOptions = swrConfig();
 
   return (
     <SessionProvider session={pageProps.session}>
