@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+import { Menu, Transition } from '@headlessui/react';
 import {
   ChevronDownIcon,
   DocumentDuplicateIcon,
@@ -6,22 +7,24 @@ import {
   PlusCircleIcon,
   XIcon,
 } from '@heroicons/react/outline';
-import { TeamRole } from '@prisma/client';
+import { InvitationStatus, TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import isEmail from 'validator/lib/isEmail';
 
-import Button from '../../../../components/Button';
-import Card from '../../../../components/Card';
-import Content from '../../../../components/Content';
-import { AccountLayout } from '../../../../layouts';
-import prisma from '../../../../../prisma';
-import api from '../../../../lib/common/api';
+import Button from '@/components/Button/index';
+import Card from '@/components/Card/index';
+import Content from '@/components/Content/index';
+import { AccountLayout } from '@/layouts/index';
+import prisma from '@/prisma/index';
+import api from '@/lib/common/api';
+import { useMembers } from '@/hooks/data';
 
 const MEMBERS_TEMPLATE = { email: '', role: TeamRole.MEMBER };
 
-const Team = ({ isOwnWorkspace, workspace }) => {
+const Team = ({ workspace }) => {
+  const { data, isLoading } = useMembers(workspace.slug);
   const [isSubmitting, setSubmittingState] = useState(false);
   const [members, setMembers] = useState([{ ...MEMBERS_TEMPLATE }]);
 
@@ -102,7 +105,7 @@ const Team = ({ isOwnWorkspace, workspace }) => {
             </div>
           </Card.Body>
         </Card>
-        {isOwnWorkspace && (
+        {
           <Card>
             <Card.Body
               title="Add New Members"
@@ -180,7 +183,7 @@ const Team = ({ isOwnWorkspace, workspace }) => {
               </Button>
             </Card.Footer>
           </Card>
-        )}
+        }
       </Content.Container>
       <Content.Divider thick />
       <Content.Title
@@ -199,26 +202,87 @@ const Team = ({ isOwnWorkspace, workspace }) => {
                 </tr>
               </thead>
               <tbody className="text-sm">
-                {workspace?.members.map((member, index) => (
-                  <tr key={index}>
-                    <td className="py-5">
-                      <div className="flex flex-row items-center justify-start space-x-3">
-                        <div className="flex flex-col">
-                          <h3>{member.member.name}</h3>
-                          <h4 className="text-gray-400">{member.email}</h4>
+                {!isLoading ? (
+                  data?.members.map((member, index) => (
+                    <tr key={index}>
+                      <td className="py-5">
+                        <div className="flex flex-row items-center justify-start space-x-3">
+                          <div className="flex flex-col">
+                            <h3 className="font-bold">{member.member.name}</h3>
+                            <h4 className="text-gray-400">{member.email}</h4>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-3">
-                      <div className="flex flex-row items-center justify-end space-x-3">
-                        <h4 className="capitalize">
-                          {member.teamRole.toLowerCase()}
-                        </h4>
-                        <DotsVerticalIcon className="w-5 h-5" />
-                      </div>
+                      </td>
+                      <td className="py-3">
+                        <div className="flex flex-row items-center justify-end space-x-3">
+                          <span
+                            className={[
+                              'font-mono text-xs px-2 py-0.5 rounded-full capitalize',
+                              member.status === InvitationStatus.ACCEPTED
+                                ? 'bg-green-200 text-green-600'
+                                : member.status === InvitationStatus.PENDING
+                                ? 'bg-blue-200 text-blue-600'
+                                : 'bg-red-200 text-red-600',
+                            ].join(' ')}
+                          >
+                            {member.status.toLowerCase()}
+                          </span>
+                          <h4 className="capitalize">
+                            {member.teamRole.toLowerCase()}
+                          </h4>
+                          {workspace?.creator.email !== member.email && (
+                            <Menu
+                              as="div"
+                              className="relative inline-block text-left"
+                            >
+                              <div>
+                                <Menu.Button className="flex items-center justify-center p-3 space-x-3 rounded hover:bg-gray-100">
+                                  <DotsVerticalIcon className="w-5 h-5" />
+                                </Menu.Button>
+                              </div>
+                              <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                              >
+                                <Menu.Items className="absolute right-0 z-20 mt-2 origin-top-right bg-white border divide-y divide-gray-100 rounded w-60">
+                                  <div className="p-2">
+                                    <Menu.Item>
+                                      <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                                        <span>
+                                          Change role to "
+                                          {member.teamRole === TeamRole.MEMBER
+                                            ? TeamRole.OWNER
+                                            : TeamRole.MEMBER}
+                                          "
+                                        </span>
+                                      </button>
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                      <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-red-600 rounded hover:bg-red-600 hover:text-white group">
+                                        <span>Remove Team Member</span>
+                                      </button>
+                                    </Menu.Item>
+                                  </div>
+                                </Menu.Items>
+                              </Transition>
+                            </Menu>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={2}>
+                      <div className="w-full h-8 bg-gray-400 rounded animate-pulse" />
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </Card.Body>
@@ -231,7 +295,6 @@ const Team = ({ isOwnWorkspace, workspace }) => {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   let workspace = null;
-  let isOwnWorkspace = false;
 
   if (session) {
     const slug = context.params.workspaceSlug;
@@ -241,20 +304,7 @@ export const getServerSideProps = async (context) => {
         slug: true,
         creator: {
           select: {
-            id: true,
-          },
-        },
-        members: {
-          select: {
             email: true,
-            status: true,
-            teamRole: true,
-            member: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
           },
         },
       },
@@ -278,15 +328,10 @@ export const getServerSideProps = async (context) => {
         },
       },
     });
-
-    if (workspace) {
-      isOwnWorkspace = workspace.creator.id === session.user.userId;
-    }
   }
 
   return {
     props: {
-      isOwnWorkspace,
       workspace,
     },
   };

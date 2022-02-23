@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import Content from '../../components/Content';
-import { useInvitations, useWorkspaces } from '../../hooks/data';
-import { AccountLayout } from '../../layouts';
-import api from '../../lib/common/api';
-import { useWorkspace } from '../../providers/workspace';
+import Button from '@/components/Button/index';
+import Card from '@/components/Card/index';
+import Content from '@/components/Content/index';
+import { useInvitations, useWorkspaces } from '@/hooks/data/index';
+import { AccountLayout } from '@/layouts/index';
+import api from '@/lib/common/api';
+import { useWorkspace } from '@/providers/workspace';
+import { XIcon } from '@heroicons/react/outline';
 
 const Welcome = () => {
   const router = useRouter();
@@ -19,10 +20,11 @@ const Welcome = () => {
   const { setWorkspace } = useWorkspace();
   const [isSubmitting, setSubmittingState] = useState(false);
 
-  const acceptInvitation = (slug) => {
+  const accept = (memberId) => {
     setSubmittingState(true);
-    api(`/api/workspace/${slug}/accept-invitation`, {
-      method: 'POST',
+    api(`/api/workspace/team/accept`, {
+      body: { memberId },
+      method: 'PUT',
     }).then((response) => {
       setSubmittingState(false);
 
@@ -32,6 +34,24 @@ const Welcome = () => {
         );
       } else {
         toast.success('Accepted invitation!');
+      }
+    });
+  };
+
+  const decline = (memberId) => {
+    setSubmittingState(true);
+    api(`/api/workspace/team/decline`, {
+      body: { memberId },
+      method: 'PUT',
+    }).then((response) => {
+      setSubmittingState(false);
+
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toast.success('Declined invitation!');
       }
     });
   };
@@ -87,17 +107,29 @@ const Welcome = () => {
               <Card.Body />
               <Card.Footer />
             </Card>
-          ) : invitationsData?.workspaces.length > 0 ? (
-            invitationsData.workspaces.map((workspace, index) => (
+          ) : invitationsData?.invitations.length > 0 ? (
+            invitationsData.invitations.map((invitation, index) => (
               <Card key={index}>
-                <Card.Body title={workspace.name} />
+                <Card.Body
+                  title={invitation.workspace.name}
+                  subtitle={`You have been invited by ${
+                    invitation.invitedBy.name || invitation.invitedBy.email
+                  }`}
+                />
                 <Card.Footer>
                   <Button
-                    className="w-full text-white bg-blue-600 hover:bg-blue-500"
+                    className="text-white bg-blue-600 hover:bg-blue-500"
                     disabled={isSubmitting}
-                    onClick={() => acceptInvitation(workspace.slug)}
+                    onClick={() => accept(invitation.id)}
                   >
-                    Accept Workspace Invitation
+                    Accept
+                  </Button>
+                  <Button
+                    className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white"
+                    disabled={isSubmitting}
+                    onClick={() => decline(invitation.id)}
+                  >
+                    Decline
                   </Button>
                 </Card.Footer>
               </Card>

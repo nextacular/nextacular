@@ -1,8 +1,8 @@
 import { TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
-import { validateWorkspaceInvite } from '../../../../config/api-validation';
-import prisma from '../../../../../prisma';
+import { validateWorkspaceInvite } from '@/config/api-validation/index';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;

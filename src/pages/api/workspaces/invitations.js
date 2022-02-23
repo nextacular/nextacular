@@ -1,7 +1,7 @@
-import { getSession } from 'next-auth/react';
 import { InvitationStatus } from '@prisma/client';
+import { getSession } from 'next-auth/react';
 
-import prisma from '../../../../prisma';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -10,46 +10,45 @@ const handler = async (req, res) => {
     const session = await getSession({ req });
 
     if (session) {
-      const workspaces = await prisma.workspace.findMany({
+      const invitations = await prisma.member.findMany({
         select: {
-          createdAt: true,
-          creator: {
+          id: true,
+          email: true,
+          joinedAt: true,
+          status: true,
+          teamRole: true,
+          invitedBy: {
             select: {
               email: true,
               name: true,
             },
           },
-          inviteCode: true,
-          members: {
+          workspace: {
             select: {
-              member: {
+              createdAt: true,
+              inviteCode: true,
+              name: true,
+              slug: true,
+              workspaceCode: true,
+              creator: {
                 select: {
                   email: true,
-                  image: true,
                   name: true,
                 },
               },
-              joinedAt: true,
-              status: true,
-              teamRole: true,
             },
           },
-          name: true,
-          slug: true,
-          workspaceCode: true,
         },
         where: {
           deletedAt: null,
-          members: {
-            some: {
-              email: session.user.email,
-              deletedAt: null,
-              status: InvitationStatus.PENDING,
-            },
+          email: session.user.email,
+          status: InvitationStatus.PENDING,
+          workspace: {
+            deletedAt: null,
           },
         },
       });
-      res.status(200).json({ data: { workspaces } });
+      res.status(200).json({ data: { invitations } });
     } else {
       res.status(401).json({ error: 'Unauthorized access' });
     }

@@ -12,9 +12,18 @@ const handler = async (req, res) => {
       const slug = req.query.workspaceSlug;
       const workspace = await prisma.workspace.findFirst({
         select: {
-          domains: {
+          members: {
             select: {
-              name: true,
+              email: true,
+              status: true,
+              teamRole: true,
+              member: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
+              },
             },
           },
         },
@@ -35,20 +44,20 @@ const handler = async (req, res) => {
           AND: {
             deletedAt: null,
             slug,
-            domains: {
-              every: {
-                deletedAt: null,
-              },
-            },
           },
         },
       });
-      res.status(200).json({ data: { domains: workspace?.domains || [] } });
+
+      res.status(200).json({ data: { members: workspace?.members || [] } });
     } else {
-      res.status(401).json({ error: 'Unauthorized access' });
+      res
+        .status(401)
+        .json({ errors: { error: { msg: 'Unauthorized access' } } });
     }
   } else {
-    res.status(405).json({ error: `${method} method unsupported` });
+    res
+      .status(405)
+      .json({ errors: { error: { msg: `${method} method unsupported` } } });
   }
 };
 

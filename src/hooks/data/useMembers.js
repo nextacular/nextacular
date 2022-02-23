@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 
-const useInvitations = () => {
-  const apiRoute = `/api/workspaces/invitations`;
+const useMembers = (slug) => {
+  const apiRoute = `/api/workspace/${slug}/members`;
   const { data, error } = useSWR(`${apiRoute}`);
   return {
     ...data,
@@ -10,4 +10,4 @@ const useInvitations = () => {
   };
 };
 
-export default useInvitations;
+export default useMembers;
