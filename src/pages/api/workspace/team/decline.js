@@ -12,12 +12,8 @@ const handler = async (req, res) => {
     if (session) {
       const { memberId } = req.body;
       await prisma.member.update({
-        data: {
-          status: InvitationStatus.DECLINED,
-        },
-        where: {
-          id: memberId,
-        },
+        data: { status: InvitationStatus.DECLINED },
+        where: { id: memberId },
       });
       res.status(200).json({ data: { updatedAt: new Date() } });
     } else {

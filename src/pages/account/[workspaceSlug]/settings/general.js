@@ -7,13 +7,13 @@ import toast from 'react-hot-toast';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isSlug from 'validator/lib/isSlug';
 
-import Button from '../../../../components/Button';
-import Card from '../../../../components/Card';
-import Content from '../../../../components/Content';
-import { AccountLayout } from '../../../../layouts';
-import api from '../../../../lib/common/api';
-import prisma from '../../../../../prisma';
-import { useWorkspace } from '../../../../providers/workspace';
+import Button from '@/components/Button/index';
+import Card from '@/components/Card/index';
+import Content from '@/components/Content/index';
+import { AccountLayout } from '@/layouts/index';
+import api from '@/lib/common/api';
+import prisma from '@/prisma/index';
+import { useWorkspace } from '@/providers/workspace';
 
 const General = ({ workspace }) => {
   const router = useRouter();
@@ -26,9 +26,7 @@ const General = ({ workspace }) => {
     slug.length > 0 &&
     slug.length <= 16 &&
     isSlug(slug) &&
-    isAlphanumeric(slug, undefined, {
-      ignore: '-',
-    });
+    isAlphanumeric(slug, undefined, { ignore: '-' });
 
   const changeName = (event) => {
     event.preventDefault();
@@ -181,9 +179,7 @@ export const getServerSideProps = async (context) => {
       },
       where: {
         OR: [
-          {
-            id: session.user.userId,
-          },
+          { id: session.user.userId },
           {
             members: {
               some: {
@@ -201,11 +197,7 @@ export const getServerSideProps = async (context) => {
     });
   }
 
-  return {
-    props: {
-      workspace,
-    },
-  };
+  return { props: { workspace } };
 };
 
 export default General;

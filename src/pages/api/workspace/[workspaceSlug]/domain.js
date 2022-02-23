@@ -19,9 +19,7 @@ const handler = async (req, res) => {
           process.env.VERCEL_PROJECT_ID
         }/domains${teamId ? `?teamId=${teamId}` : ''}`,
         {
-          body: {
-            name: domainName,
-          },
+          body: { name: domainName },
           headers: {
             Authorization: `Bearer ${process.env.VERCEL_AUTH_BEARER_TOKEN}`,
           },
@@ -32,14 +30,10 @@ const handler = async (req, res) => {
       if (!response.error) {
         const slug = req.query.workspaceSlug;
         const workspace = await prisma.workspace.findFirst({
-          select: {
-            id: true,
-          },
+          select: { id: true },
           where: {
             OR: [
-              {
-                id: session.user.userId,
-              },
+              { id: session.user.userId },
               {
                 members: {
                   some: {
@@ -91,16 +85,11 @@ const handler = async (req, res) => {
           method: 'DELETE',
         }
       );
-
       const workspace = await prisma.workspace.findFirst({
-        select: {
-          id: true,
-        },
+        select: { id: true },
         where: {
           OR: [
-            {
-              id: session.user.userId,
-            },
+            { id: session.user.userId },
             {
               members: {
                 some: {
@@ -117,9 +106,7 @@ const handler = async (req, res) => {
         },
       });
       const domain = await prisma.domain.findFirst({
-        select: {
-          id: true,
-        },
+        select: { id: true },
         where: {
           deletedAt: null,
           name: domainName,
@@ -127,12 +114,8 @@ const handler = async (req, res) => {
         },
       });
       await prisma.domain.update({
-        data: {
-          deletedAt: new Date(),
-        },
-        where: {
-          id: domain.id,
-        },
+        data: { deletedAt: new Date() },
+        where: { id: domain.id },
       });
       res.status(200).json({ data: { domain: domainName } });
     } else {

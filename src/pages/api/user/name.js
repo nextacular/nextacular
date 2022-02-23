@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 
-import { validateUpdateName } from '../../../config/api-validation';
-import prisma from '../../../../prisma';
+import { validateUpdateName } from '@/config/api-validation/index';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -13,12 +13,8 @@ const handler = async (req, res) => {
       await validateUpdateName(req, res);
       const { name } = req.body;
       await prisma.user.update({
-        data: {
-          name,
-        },
-        where: {
-          id: session.user.userId,
-        },
+        data: { name },
+        where: { id: session.user.userId },
       });
       res.status(200).json({ data: { name } });
     } else {

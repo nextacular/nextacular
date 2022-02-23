@@ -339,17 +339,11 @@ export const getServerSideProps = async (context) => {
       select: {
         inviteCode: true,
         slug: true,
-        creator: {
-          select: {
-            email: true,
-          },
-        },
+        creator: { select: { email: true } },
       },
       where: {
         OR: [
-          {
-            id: session.user.userId,
-          },
+          { id: session.user.userId },
           {
             members: {
               some: {
@@ -367,11 +361,7 @@ export const getServerSideProps = async (context) => {
     });
   }
 
-  return {
-    props: {
-      workspace,
-    },
-  };
+  return { props: { workspace } };
 };
 
 export default Team;

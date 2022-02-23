@@ -1,8 +1,8 @@
 import { TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
-import { validateUpdateWorkspaceName } from '../../../../config/api-validation';
-import prisma from '../../../../../prisma';
+import { validateUpdateWorkspaceName } from '@/config/api-validation/index';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -14,16 +14,11 @@ const handler = async (req, res) => {
       await validateUpdateWorkspaceName(req, res);
       const { name } = req.body;
       const slug = req.query.workspaceSlug;
-
       const workspace = await prisma.workspace.findFirst({
-        select: {
-          id: true,
-        },
+        select: { id: true },
         where: {
           OR: [
-            {
-              id: session.user.userId,
-            },
+            { id: session.user.userId },
             {
               members: {
                 some: {
@@ -43,12 +38,8 @@ const handler = async (req, res) => {
 
       if (workspace) {
         await prisma.workspace.update({
-          data: {
-            name,
-          },
-          where: {
-            id: workspace.id,
-          },
+          data: { name },
+          where: { id: workspace.id },
         });
         res.status(200).json({ data: { name } });
       } else {

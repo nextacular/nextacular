@@ -15,14 +15,10 @@ const handler = async (req, res) => {
       const { members } = req.body;
       const slug = req.query.workspaceSlug;
       const workspace = await prisma.workspace.findFirst({
-        select: {
-          id: true,
-        },
+        select: { id: true },
         where: {
           OR: [
-            {
-              id: session.user.userId,
-            },
+            { id: session.user.userId },
             {
               members: {
                 some: {
@@ -64,9 +60,7 @@ const handler = async (req, res) => {
                 },
               },
             },
-            where: {
-              id: workspace.id,
-            },
+            where: { id: workspace.id },
           }),
         ]);
         res.status(200).json({ data: { membersList } });

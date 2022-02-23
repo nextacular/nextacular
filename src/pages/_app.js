@@ -5,11 +5,11 @@ import { ThemeProvider } from 'next-themes';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { SWRConfig } from 'swr';
 
-import progressBarConfig from '../config/progress-bar';
-import swrConfig from '../config/swr';
-import WorkspaceProvider from '../providers/workspace';
+import progressBarConfig from '@/config/progress-bar/index';
+import swrConfig from '@/config/swr/index';
+import WorkspaceProvider from '@/providers/workspace';
 
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 const App = ({ Component, pageProps }) => {
   const [progress, setProgress] = useState(false);

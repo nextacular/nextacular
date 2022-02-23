@@ -12,12 +12,8 @@ const handler = async (req, res) => {
       const { memberId } = req.body;
       const deletedAt = new Date();
       await prisma.member.update({
-        data: {
-          deletedAt,
-        },
-        where: {
-          id: memberId,
-        },
+        data: { deletedAt },
+        where: { id: memberId },
       });
       res.status(200).json({ data: { deletedAt } });
     } else {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
 import Button from '@/components/Button/index';
@@ -8,7 +9,6 @@ import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
 import Modal from '@/components/Modal';
-import { useRouter } from 'next/router';
 
 const Advanced = () => {
   const { workspace } = useWorkspace();

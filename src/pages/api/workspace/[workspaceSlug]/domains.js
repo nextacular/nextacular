@@ -10,40 +10,17 @@ const handler = async (req, res) => {
 
     if (session) {
       const slug = req.query.workspaceSlug;
-      const workspace = await prisma.workspace.findFirst({
-        select: {
-          domains: {
-            select: {
-              name: true,
-            },
-          },
-        },
+      const domains = await prisma.domain.findMany({
+        select: { name: true },
         where: {
-          OR: [
-            {
-              id: session.user.userId,
-            },
-            {
-              members: {
-                some: {
-                  email: session.user.email,
-                  deletedAt: null,
-                },
-              },
-            },
-          ],
-          AND: {
+          deletedAt: null,
+          workspace: {
             deletedAt: null,
             slug,
-            domains: {
-              every: {
-                deletedAt: null,
-              },
-            },
           },
         },
       });
-      res.status(200).json({ data: { domains: workspace?.domains || [] } });
+      res.status(200).json({ data: { domains } });
     } else {
       res.status(401).json({ error: 'Unauthorized access' });
     }

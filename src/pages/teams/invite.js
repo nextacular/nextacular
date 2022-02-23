@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { AuthLayout } from '../../layouts';
+import { AuthLayout } from '@/layouts/index';
 
 const Invite = () => {
   return (
@@ -43,14 +43,10 @@ export const getServerSideProps = async (context) => {
   if (session) {
     const slug = context.params.workspaceSlug;
     workspace = await prisma.workspace.findFirst({
-      select: {
-        inviteCode: true,
-      },
+      select: { inviteCode: true },
       where: {
         OR: [
-          {
-            id: session.user.userId,
-          },
+          { id: session.user.userId },
           {
             members: {
               some: {
@@ -69,9 +65,7 @@ export const getServerSideProps = async (context) => {
   }
 
   return {
-    props: {
-      workspace,
-    },
+    props: { workspace },
   };
 };
 

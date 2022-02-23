@@ -16,11 +16,7 @@ const handler = async (req, res) => {
           email: true,
           status: true,
           teamRole: true,
-          member: {
-            select: {
-              name: true,
-            },
-          },
+          member: { select: { name: true } },
         },
         where: {
           deletedAt: null,

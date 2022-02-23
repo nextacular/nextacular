@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 
-import { validateUpdateEmail } from '../../../config/api-validation';
-import prisma from '../../../../prisma';
+import { validateUpdateEmail } from '@/config/api-validation/index';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -17,9 +17,7 @@ const handler = async (req, res) => {
           email,
           emailVerified: null,
         },
-        where: {
-          id: session.user.userId,
-        },
+        where: { id: session.user.userId },
       });
       res.status(200).json({ data: { email } });
     } else {

@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 
-import prisma from '../../../../../prisma';
-import stripe from '../../../../../payments/stripe';
+import prisma from '@/prisma/index';
+import stripe from '@/payments/stripe';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -13,9 +13,7 @@ const handler = async (req, res) => {
       const { priceId } = req.query;
       const [customerPayment, price] = await Promise.all([
         prisma.customerPayment.findUnique({
-          where: {
-            email: session.user?.email,
-          },
+          where: { email: session.user?.email },
         }),
         stripe.prices.retrieve(priceId),
       ]);

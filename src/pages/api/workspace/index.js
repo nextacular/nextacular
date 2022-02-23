@@ -2,8 +2,8 @@ import { InvitationStatus, TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 import slugify from 'slugify';
 
-import { validateCreateWorkspace } from '../../../config/api-validation';
-import prisma from '../../../../prisma';
+import { validateCreateWorkspace } from '@/config/api-validation/index';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -15,11 +15,7 @@ const handler = async (req, res) => {
       await validateCreateWorkspace(req, res);
       const { name } = req.body;
       let slug = slugify(name.toLowerCase());
-      const count = await prisma.workspace.count({
-        where: {
-          slug,
-        },
-      });
+      const count = await prisma.workspace.count({ where: { slug } });
 
       if (count > 0) {
         slug = `${slug}-${count}`;

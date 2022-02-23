@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 
 import prisma from '@/prisma/index';
 
-const allowDeactivation = false;
+const ALLOW_DEACTIVATION = false;
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -14,14 +14,10 @@ const handler = async (req, res) => {
     if (session) {
       const slug = req.query.workspaceSlug;
       const workspace = await prisma.workspace.findFirst({
-        select: {
-          id: true,
-        },
+        select: { id: true },
         where: {
           OR: [
-            {
-              id: session.user.userId,
-            },
+            { id: session.user.userId },
             {
               members: {
                 some: {
@@ -40,14 +36,10 @@ const handler = async (req, res) => {
       });
 
       if (workspace) {
-        if (allowDeactivation) {
+        if (ALLOW_DEACTIVATION) {
           await prisma.workspace.update({
-            data: {
-              deletedAt: new Date(),
-            },
-            where: {
-              id: workspace.id,
-            },
+            data: { deletedAt: new Date() },
+            where: { id: workspace.id },
           });
         }
         res.status(200).json({ data: { slug } });

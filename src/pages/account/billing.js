@@ -4,15 +4,15 @@ import Link from 'next/link';
 import { getSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import Content from '../../components/Content';
-import Modal from '../../components/Modal';
-import { AccountLayout } from '../../layouts';
-import api from '../../lib/common/api';
-import { redirectToCheckout } from '../../../payments/client-stripe';
-import { getInvoices, getProducts } from '../../../payments/stripe';
-import prisma from '../../../prisma';
+import Button from '@/components/Button/index';
+import Card from '@/components/Card/index';
+import Content from '@/components/Content/index';
+import Modal from '@/components/Modal/index';
+import { AccountLayout } from '@/layouts/index';
+import api from '@/lib/common/api';
+import { redirectToCheckout } from '@/payments/client-stripe';
+import { getInvoices, getProducts } from '@/payments/stripe';
+import prisma from '@/prisma/index';
 
 const Billing = ({ invoices, products }) => {
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -161,9 +161,7 @@ const Billing = ({ invoices, products }) => {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   const customerPayment = await prisma.customerPayment.findUnique({
-    where: {
-      email: session.user?.email,
-    },
+    where: { email: session.user?.email },
   });
   const [invoices, products] = await Promise.all([
     getInvoices(customerPayment?.paymentId),

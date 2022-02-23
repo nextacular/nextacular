@@ -4,11 +4,11 @@ import { CheckIcon, PlusIcon, SelectorIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
-import Button from '../Button';
-import Modal from '../Modal';
-import { useWorkspaces } from '../../hooks/data';
-import api from '../../lib/common/api';
-import { useWorkspace } from '../../providers/workspace';
+import Button from '@/components/Button/index';
+import Modal from '@/components/Modal/index';
+import { useWorkspaces } from '@/hooks/data/index';
+import api from '@/lib/common/api';
+import { useWorkspace } from '@/providers/workspace';
 
 const Actions = () => {
   const { data, isLoading } = useWorkspaces();

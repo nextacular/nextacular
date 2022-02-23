@@ -1,5 +1,5 @@
-import Meta from '../components/Meta';
-import { LandingLayout } from '../layouts';
+import Meta from '@/components/Meta/index';
+import { LandingLayout } from '@/layouts/index';
 import {
   CallToAction,
   Features,
@@ -8,7 +8,7 @@ import {
   Hero,
   Pricing,
   Testimonial,
-} from '../sections';
+} from '@/sections/index';
 
 const Home = () => {
   return (

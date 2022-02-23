@@ -1,7 +1,7 @@
 import { InvitationStatus } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
-import prisma from '../../../../prisma';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -40,9 +40,7 @@ const handler = async (req, res) => {
         },
         where: {
           OR: [
-            {
-              id: session.user.userId,
-            },
+            { id: session.user.userId },
             {
               members: {
                 some: {
@@ -53,9 +51,7 @@ const handler = async (req, res) => {
               },
             },
           ],
-          AND: {
-            deletedAt: null,
-          },
+          AND: { deletedAt: null },
         },
       });
       res.status(200).json({ data: { workspaces } });

@@ -43,9 +43,7 @@ const handler = async (req, res) => {
           deletedAt: null,
           email: session.user.email,
           status: InvitationStatus.PENDING,
-          workspace: {
-            deletedAt: null,
-          },
+          workspace: { deletedAt: null },
         },
       });
       res.status(200).json({ data: { invitations } });

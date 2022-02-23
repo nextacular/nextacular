@@ -2,7 +2,7 @@ import { getSession } from 'next-auth/react';
 
 import prisma from '@/prisma/index';
 
-const allowDeactivation = false;
+const ALLOW_DEACTIVATION = false;
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -11,14 +11,10 @@ const handler = async (req, res) => {
     const session = await getSession({ req });
 
     if (session) {
-      if (allowDeactivation) {
+      if (ALLOW_DEACTIVATION) {
         await prisma.user.update({
-          data: {
-            deletedAt: new Date(),
-          },
-          where: {
-            id: session.user.userId,
-          },
+          data: { deletedAt: new Date() },
+          where: { id: session.user.userId },
         });
       }
       res.status(200).json({ data: { email: session.user.email } });

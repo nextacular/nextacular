@@ -25,9 +25,7 @@ const Domain = ({ workspace }) => {
     event.preventDefault();
     setSubmittingState(true);
     api(`/api/workspace/${workspace.slug}/domain`, {
-      body: {
-        domainName: domain,
-      },
+      body: { domainName: domain },
       method: 'POST',
     }).then((response) => {
       setSubmittingState(false);
@@ -50,9 +48,7 @@ const Domain = ({ workspace }) => {
 
   const remove = (domain) => {
     api(`/api/workspace/${workspace.slug}/domain`, {
-      body: {
-        domainName: domain,
-      },
+      body: { domainName: domain },
       method: 'DELETE',
     }).then((response) => {
       if (response.errors) {
@@ -162,14 +158,10 @@ export const getServerSideProps = async (context) => {
   if (session) {
     const slug = context.params.workspaceSlug;
     workspace = await prisma.workspace.findFirst({
-      select: {
-        slug: true,
-      },
+      select: { slug: true },
       where: {
         OR: [
-          {
-            id: session.user.userId,
-          },
+          { id: session.user.userId },
           {
             members: {
               some: {
@@ -188,9 +180,7 @@ export const getServerSideProps = async (context) => {
   }
 
   return {
-    props: {
-      workspace,
-    },
+    props: { workspace },
   };
 };
 

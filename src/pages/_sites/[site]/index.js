@@ -2,7 +2,7 @@ import DefaultErrorPage from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import prisma from '../../../../prisma';
+import prisma from '@/prisma/index';
 
 const Site = ({ workspace }) => {
   const router = useRouter();
@@ -33,33 +33,21 @@ const Site = ({ workspace }) => {
 export const getStaticPaths = async () => {
   const [workspaces, domains] = await Promise.all([
     prisma.workspace.findMany({
-      select: {
-        slug: true,
-      },
-      where: {
-        deletedAt: null,
-      },
+      select: { slug: true },
+      where: { deletedAt: null },
     }),
     prisma.domain.findMany({
-      select: {
-        name: true,
-      },
-      where: {
-        deletedAt: null,
-      },
+      select: { name: true },
+      where: { deletedAt: null },
     }),
   ]);
 
   const paths = [
     ...workspaces.map((workspace) => ({
-      params: {
-        site: workspace.slug,
-      },
+      params: { site: workspace.slug },
     })),
     ...domains.map((domain) => ({
-      params: {
-        site: domain.name,
-      },
+      params: { site: domain.name },
     })),
   ];
 
@@ -81,9 +69,7 @@ export const getStaticProps = async ({ params }) => {
     },
     where: {
       OR: [
-        {
-          slug: site,
-        },
+        { slug: site },
         customDomain
           ? {
               domains: {
@@ -95,18 +81,12 @@ export const getStaticProps = async ({ params }) => {
             }
           : undefined,
       ],
-      AND: [
-        {
-          deletedAt: null,
-        },
-      ],
+      AND: { deletedAt: null },
     },
   });
 
   return {
-    props: {
-      workspace,
-    },
+    props: { workspace },
     revalidate: 10,
   };
 };

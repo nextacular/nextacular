@@ -9,7 +9,6 @@ import { useInvitations, useWorkspaces } from '@/hooks/data/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
-import { XIcon } from '@heroicons/react/outline';
 
 const Welcome = () => {
   const router = useRouter();

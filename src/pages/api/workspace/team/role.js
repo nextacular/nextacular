@@ -12,12 +12,8 @@ const handler = async (req, res) => {
     if (session) {
       const { memberId } = req.body;
       const member = await prisma.member.findFirst({
-        select: {
-          teamRole: true,
-        },
-        where: {
-          id: memberId,
-        },
+        select: { teamRole: true },
+        where: { id: memberId },
       });
       await prisma.member.update({
         data: {
@@ -26,9 +22,7 @@ const handler = async (req, res) => {
               ? TeamRole.OWNER
               : TeamRole.MEMBER,
         },
-        where: {
-          id: memberId,
-        },
+        where: { id: memberId },
       });
       res.status(200).json({ data: { updatedAt: new Date() } });
     } else {

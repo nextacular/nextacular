@@ -5,13 +5,13 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import isEmail from 'validator/lib/isEmail';
 
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import Content from '../../components/Content';
-import Modal from '../../components/Modal';
-import { AccountLayout } from '../../layouts';
-import api from '../../lib/common/api';
-import prisma from '../../../prisma';
+import Button from '@/components/Button/index';
+import Card from '@/components/Card/index';
+import Content from '@/components/Content/index';
+import Modal from '@/components/Modal/index';
+import { AccountLayout } from '@/layouts/index';
+import api from '@/lib/common/api';
+import prisma from '@/prisma/index';
 
 const Settings = ({ user }) => {
   const [email, setEmail] = useState(user.email || '');
@@ -209,9 +209,7 @@ const Settings = ({ user }) => {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   const user = await prisma.user.findUnique({
-    where: {
-      id: session.user?.userId,
-    },
+    where: { id: session.user?.userId },
   });
 
   return {
