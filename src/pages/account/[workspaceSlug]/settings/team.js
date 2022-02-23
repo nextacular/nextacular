@@ -27,10 +27,27 @@ const Team = ({ workspace }) => {
   const { data, isLoading } = useMembers(workspace.slug);
   const [isSubmitting, setSubmittingState] = useState(false);
   const [members, setMembers] = useState([{ ...MEMBERS_TEMPLATE }]);
+  const validateEmails =
+    members.filter((member) => !isEmail(member.email)).length !== 0;
 
   const addEmail = () => {
     members.push({ ...MEMBERS_TEMPLATE });
     setMembers([...members]);
+  };
+
+  const changeRole = (memberId) => {
+    api(`/api/workspace/team/role`, {
+      body: { memberId },
+      method: 'PUT',
+    }).then((response) => {
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toast.success('Updated team member role!');
+      }
+    });
   };
 
   const copyToClipboard = () => toast.success('Copied to clipboard!');
@@ -72,8 +89,20 @@ const Team = ({ workspace }) => {
     setMembers([...members]);
   };
 
-  const validateEmails = () =>
-    members.filter((member) => !isEmail(member.email)).length !== 0;
+  const removeMember = (memberId) => {
+    api(`/api/workspace/team/member`, {
+      body: { memberId },
+      method: 'DELETE',
+    }).then((response) => {
+      if (response.errors) {
+        Object.keys(response.errors).forEach((error) =>
+          toast.error(response.errors[error].msg)
+        );
+      } else {
+        toast.success('Removed team member from workspace!');
+      }
+    });
+  };
 
   return (
     <AccountLayout>
@@ -178,7 +207,7 @@ const Team = ({ workspace }) => {
               </small>
               <Button
                 className="text-white bg-blue-600 hover:bg-blue-500"
-                disabled={validateEmails() || isSubmitting}
+                disabled={validateEmails || isSubmitting}
                 onClick={invite}
               >
                 Invite
@@ -254,7 +283,10 @@ const Team = ({ workspace }) => {
                                 <Menu.Items className="absolute right-0 z-20 mt-2 origin-top-right bg-white border divide-y divide-gray-100 rounded w-60">
                                   <div className="p-2">
                                     <Menu.Item>
-                                      <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
+                                      <button
+                                        className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white"
+                                        onClick={() => changeRole(member.id)}
+                                      >
                                         <span>
                                           Change role to "
                                           {member.teamRole === TeamRole.MEMBER
@@ -265,7 +297,10 @@ const Team = ({ workspace }) => {
                                       </button>
                                     </Menu.Item>
                                     <Menu.Item>
-                                      <button className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-red-600 rounded hover:bg-red-600 hover:text-white group">
+                                      <button
+                                        className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-red-600 rounded hover:bg-red-600 hover:text-white"
+                                        onClick={() => removeMember(member.id)}
+                                      >
                                         <span>Remove Team Member</span>
                                       </button>
                                     </Menu.Item>

@@ -11,7 +11,6 @@ const handler = async (req, res) => {
 
     if (session) {
       const { memberId } = req.body;
-      const slug = req.query.workspaceSlug;
       await prisma.member.update({
         data: {
           status: InvitationStatus.ACCEPTED,
@@ -20,7 +19,7 @@ const handler = async (req, res) => {
           id: memberId,
         },
       });
-      res.status(200).json({ data: { slug } });
+      res.status(200).json({ data: { updatedAt: new Date() } });
     } else {
       res
         .status(401)

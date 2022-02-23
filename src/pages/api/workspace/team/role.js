@@ -1,4 +1,4 @@
-import { InvitationStatus } from '@prisma/client';
+import { TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
 import prisma from '@/prisma/index';
@@ -11,9 +11,20 @@ const handler = async (req, res) => {
 
     if (session) {
       const { memberId } = req.body;
+      const member = await prisma.member.findFirst({
+        select: {
+          teamRole: true,
+        },
+        where: {
+          id: memberId,
+        },
+      });
       await prisma.member.update({
         data: {
-          status: InvitationStatus.DECLINED,
+          teamRole:
+            member.teamRole === TeamRole.MEMBER
+              ? TeamRole.OWNER
+              : TeamRole.MEMBER,
         },
         where: {
           id: memberId,

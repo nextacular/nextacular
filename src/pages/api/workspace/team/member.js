@@ -1,4 +1,3 @@
-import { InvitationStatus } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
 import prisma from '@/prisma/index';
@@ -6,20 +5,21 @@ import prisma from '@/prisma/index';
 const handler = async (req, res) => {
   const { method } = req;
 
-  if (method === 'PUT') {
+  if (method === 'DELETE') {
     const session = await getSession({ req });
 
     if (session) {
       const { memberId } = req.body;
+      const deletedAt = new Date();
       await prisma.member.update({
         data: {
-          status: InvitationStatus.DECLINED,
+          deletedAt,
         },
         where: {
           id: memberId,
         },
       });
-      res.status(200).json({ data: { updatedAt: new Date() } });
+      res.status(200).json({ data: { deletedAt } });
     } else {
       res
         .status(401)

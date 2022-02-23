@@ -10,45 +10,27 @@ const handler = async (req, res) => {
 
     if (session) {
       const slug = req.query.workspaceSlug;
-      const workspace = await prisma.workspace.findFirst({
+      const members = await prisma.member.findMany({
         select: {
-          members: {
+          id: true,
+          email: true,
+          status: true,
+          teamRole: true,
+          member: {
             select: {
-              email: true,
-              status: true,
-              teamRole: true,
-              member: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                },
-              },
+              name: true,
             },
           },
         },
         where: {
-          OR: [
-            {
-              id: session.user.userId,
-            },
-            {
-              members: {
-                some: {
-                  email: session.user.email,
-                  deletedAt: null,
-                },
-              },
-            },
-          ],
-          AND: {
+          deletedAt: null,
+          workspace: {
             deletedAt: null,
             slug,
           },
         },
       });
-
-      res.status(200).json({ data: { members: workspace?.members || [] } });
+      res.status(200).json({ data: { members } });
     } else {
       res
         .status(401)
