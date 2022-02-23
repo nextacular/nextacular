@@ -128,6 +128,7 @@ const Team = ({ workspace }) => {
                   <div key={index} className="flex flex-row space-x-5">
                     <input
                       className="w-1/2 px-3 py-2 border rounded"
+                      disabled={isSubmitting}
                       onChange={(event) => handleEmailChange(event, index)}
                       placeholder="name@email.com"
                       type="text"
@@ -136,6 +137,7 @@ const Team = ({ workspace }) => {
                     <div className="relative inline-block w-1/4 border rounded ">
                       <select
                         className="w-full px-3 py-2 capitalize rounded appearance-none"
+                        disabled={isSubmitting}
                         onChange={(event) => handleRoleChange(event, index)}
                       >
                         {Object.keys(TeamRole).map((key, index) => (
@@ -161,7 +163,7 @@ const Team = ({ workspace }) => {
                 <div>
                   <Button
                     className="text-sm border hover:border-black disabled:opacity-75"
-                    disabled={members.length === 3}
+                    disabled={members.length === 3 || isSubmitting}
                     onClick={addEmail}
                   >
                     <PlusCircleIcon className="w-5 h-5" />
