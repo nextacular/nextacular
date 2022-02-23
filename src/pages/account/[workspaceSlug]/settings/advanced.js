@@ -3,14 +3,16 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
 import Button from '@/components/Button/index';
+import Modal from '@/components/Modal/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
-import Modal from '@/components/Modal';
+import prisma from '@/prisma/index';
+import { getSession } from 'next-auth/react';
 
-const Advanced = () => {
+const Advanced = ({ isCreator }) => {
   const { workspace } = useWorkspace();
   const router = useRouter();
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -60,13 +62,15 @@ const Advanced = () => {
           />
           <Card.Footer>
             <span />
-            <Button
-              className="text-white bg-red-600 hover:bg-red-500"
-              disabled={isSubmitting}
-              onClick={toggleModal}
-            >
-              {isSubmitting ? 'Deleting' : 'Delete'}
-            </Button>
+            {isCreator && (
+              <Button
+                className="text-white bg-red-600 hover:bg-red-500"
+                disabled={isSubmitting}
+                onClick={toggleModal}
+              >
+                {isSubmitting ? 'Deleting' : 'Delete'}
+              </Button>
+            )}
           </Card.Footer>
           <Modal
             show={showModal}
@@ -112,6 +116,52 @@ const Advanced = () => {
       </Content.Container>
     </AccountLayout>
   );
+};
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+  let isCreator = false;
+
+  if (session) {
+    const slug = context.params.workspaceSlug;
+    const workspace = await prisma.workspace.findFirst({
+      select: {
+        creatorId: true,
+        slug: true,
+        members: {
+          select: {
+            email: true,
+            teamRole: true,
+          },
+        },
+      },
+      where: {
+        OR: [
+          { id: session.user.userId },
+          {
+            members: {
+              some: {
+                email: session.user.email,
+                deletedAt: null,
+              },
+            },
+          },
+        ],
+        AND: {
+          deletedAt: null,
+          slug,
+        },
+      },
+    });
+
+    if (workspace) {
+      isCreator = session.user.userId === workspace.creatorId;
+    }
+  }
+
+  return {
+    props: { isCreator },
+  };
 };
 
 export default Advanced;

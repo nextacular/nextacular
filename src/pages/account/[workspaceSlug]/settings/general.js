@@ -14,8 +14,9 @@ import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import prisma from '@/prisma/index';
 import { useWorkspace } from '@/providers/workspace';
+import { TeamRole } from '@prisma/client';
 
-const General = ({ workspace }) => {
+const General = ({ isTeamOwner, workspace }) => {
   const router = useRouter();
   const { setWorkspace } = useWorkspace();
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -95,7 +96,7 @@ const General = ({ workspace }) => {
           >
             <input
               className="w-1/2 px-3 py-2 border rounded"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isTeamOwner}
               onChange={handleNameChange}
               type="text"
               value={name}
@@ -103,13 +104,15 @@ const General = ({ workspace }) => {
           </Card.Body>
           <Card.Footer>
             <small>Please use 16 characters at maximum</small>
-            <Button
-              className="text-white bg-blue-600 hover:bg-blue-500"
-              disabled={!validName || isSubmitting}
-              onClick={changeName}
-            >
-              Save
-            </Button>
+            {isTeamOwner && (
+              <Button
+                className="text-white bg-blue-600 hover:bg-blue-500"
+                disabled={!validName || isSubmitting}
+                onClick={changeName}
+              >
+                Save
+              </Button>
+            )}
           </Card.Footer>
         </Card>
         <Card>
@@ -120,7 +123,7 @@ const General = ({ workspace }) => {
             <div className="flex items-center space-x-3">
               <input
                 className="w-1/2 px-3 py-2 border rounded"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isTeamOwner}
                 onChange={handleSlugChange}
                 type="text"
                 value={slug}
@@ -135,13 +138,15 @@ const General = ({ workspace }) => {
               Please use 16 characters at maximum. Hyphenated alphanumeric
               characters only.
             </small>
-            <Button
-              className="text-white bg-blue-600 hover:bg-blue-500"
-              disabled={!validSlug || isSubmitting}
-              onClick={changeSlug}
-            >
-              Save
-            </Button>
+            {isTeamOwner && (
+              <Button
+                className="text-white bg-blue-600 hover:bg-blue-500"
+                disabled={!validSlug || isSubmitting}
+                onClick={changeSlug}
+              >
+                Save
+              </Button>
+            )}
           </Card.Footer>
         </Card>
         <Card>
@@ -167,15 +172,24 @@ const General = ({ workspace }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  let isCreator = false;
+  let isTeamOwner = false;
   let workspace = null;
 
   if (session) {
     const slug = context.params.workspaceSlug;
     workspace = await prisma.workspace.findFirst({
       select: {
+        creatorId: true,
         name: true,
         slug: true,
         workspaceCode: true,
+        members: {
+          select: {
+            email: true,
+            teamRole: true,
+          },
+        },
       },
       where: {
         OR: [
@@ -195,9 +209,28 @@ export const getServerSideProps = async (context) => {
         },
       },
     });
+
+    if (workspace) {
+      isCreator = session.user.userId === workspace.creatorId;
+      const member = workspace.members.find(
+        (member) =>
+          member.email === session.user.email &&
+          member.teamRole === TeamRole.OWNER
+      );
+
+      if (member) {
+        isTeamOwner = true;
+      }
+    }
   }
 
-  return { props: { workspace } };
+  return {
+    props: {
+      isCreator,
+      isTeamOwner,
+      workspace,
+    },
+  };
 };
 
 export default General;

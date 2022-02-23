@@ -23,7 +23,7 @@ import { useMembers } from '@/hooks/data';
 
 const MEMBERS_TEMPLATE = { email: '', role: TeamRole.MEMBER };
 
-const Team = ({ workspace }) => {
+const Team = ({ isCreator, isTeamOwner, workspace }) => {
   const { data, isLoading } = useMembers(workspace.slug);
   const [isSubmitting, setSubmittingState] = useState(false);
   const [members, setMembers] = useState([{ ...MEMBERS_TEMPLATE }]);
@@ -134,7 +134,7 @@ const Team = ({ workspace }) => {
             </div>
           </Card.Body>
         </Card>
-        {
+        {isTeamOwner && (
           <Card>
             <Card.Body
               title="Add New Members"
@@ -214,7 +214,7 @@ const Team = ({ workspace }) => {
               </Button>
             </Card.Footer>
           </Card>
-        }
+        )}
       </Content.Container>
       <Content.Divider thick />
       <Content.Title
@@ -261,7 +261,7 @@ const Team = ({ workspace }) => {
                           <h4 className="capitalize">
                             {member.teamRole.toLowerCase()}
                           </h4>
-                          {workspace?.creator.email !== member.email && (
+                          {!isCreator && (
                             <Menu
                               as="div"
                               className="relative inline-block text-left"
@@ -331,15 +331,23 @@ const Team = ({ workspace }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  let isCreator = false;
+  let isTeamOwner = false;
   let workspace = null;
 
   if (session) {
     const slug = context.params.workspaceSlug;
     workspace = await prisma.workspace.findFirst({
       select: {
+        creatorId: true,
         inviteCode: true,
         slug: true,
-        creator: { select: { email: true } },
+        members: {
+          select: {
+            email: true,
+            teamRole: true,
+          },
+        },
       },
       where: {
         OR: [
@@ -359,9 +367,28 @@ export const getServerSideProps = async (context) => {
         },
       },
     });
+
+    if (workspace) {
+      isCreator = session.user.userId === workspace.creatorId;
+      const member = workspace.members.find(
+        (member) =>
+          member.email === session.user.email &&
+          member.teamRole === TeamRole.OWNER
+      );
+
+      if (member) {
+        isTeamOwner = true;
+      }
+    }
   }
 
-  return { props: { workspace } };
+  return {
+    props: {
+      isCreator,
+      isTeamOwner,
+      workspace,
+    },
+  };
 };
 
 export default Team;

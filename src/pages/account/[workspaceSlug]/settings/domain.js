@@ -14,8 +14,9 @@ import { useDomains } from '@/hooks/data';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import prisma from '@/prisma/index';
+import { TeamRole } from '@prisma/client';
 
-const Domain = ({ workspace }) => {
+const Domain = ({ isTeamOwner, workspace }) => {
   const { data, isLoading } = useDomains(workspace.slug);
   const [domain, setDomain] = useState('');
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -92,73 +93,88 @@ const Domain = ({ workspace }) => {
           </Card.Body>
         </Card>
       </Content.Container>
-      <Content.Divider thick />
-      <Content.Title
-        title="Domain Configuration"
-        subtitle="Manage your subdomain and domain names"
-      />
-      <Content.Divider />
-      <Content.Container>
-        <Card>
-          <form>
-            <Card.Body
-              title="Add Your Domain"
-              subtitle="This domain is assigned to your current workspace"
-            >
-              <input
-                className="w-1/2 px-3 py-2 border rounded"
-                disabled={isSubmitting}
-                onChange={handleDomainChange}
-                placeholder="mydomain.com"
-                type="text"
-                value={domain}
-              />
-            </Card.Body>
-            <Card.Footer>
-              <span />
-              <Button
-                className="text-white bg-blue-600 hover:bg-blue-500"
-                disabled={!validDomainName || isSubmitting}
-                onClick={addDomain}
-              >
-                Add
-              </Button>
-            </Card.Footer>
-          </form>
-        </Card>
-        {isLoading ? (
-          <DomainCard isLoading />
-        ) : data?.domains.length > 0 ? (
-          data.domains.map((domain, index) => (
-            <DomainCard
-              key={index}
-              apex={process.env.NEXT_PUBLIC_VERCEL_IP_ADDRESS}
-              cname={`${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}
-              isLoading={false}
-              name={domain.name}
-              refresh={refresh}
-              remove={remove}
-            />
-          ))
-        ) : (
-          <Content.Empty>
-            Once you&apos;ve added your domain on Nextacular, that domain will
-            show up here
-          </Content.Empty>
-        )}
-      </Content.Container>
+      {isTeamOwner && (
+        <>
+          <Content.Divider thick />
+          <Content.Title
+            title="Domain Configuration"
+            subtitle="Manage your subdomain and domain names"
+          />
+          <Content.Divider />
+          <Content.Container>
+            <Card>
+              <form>
+                <Card.Body
+                  title="Add Your Domain"
+                  subtitle="This domain is assigned to your current workspace"
+                >
+                  <input
+                    className="w-1/2 px-3 py-2 border rounded"
+                    disabled={isSubmitting}
+                    onChange={handleDomainChange}
+                    placeholder="mydomain.com"
+                    type="text"
+                    value={domain}
+                  />
+                </Card.Body>
+                <Card.Footer>
+                  <span />
+                  <Button
+                    className="text-white bg-blue-600 hover:bg-blue-500"
+                    disabled={!validDomainName || isSubmitting}
+                    onClick={addDomain}
+                  >
+                    Add
+                  </Button>
+                </Card.Footer>
+              </form>
+            </Card>
+            {isLoading ? (
+              <DomainCard isLoading />
+            ) : data?.domains.length > 0 ? (
+              data.domains.map((domain, index) => (
+                <DomainCard
+                  key={index}
+                  apex={process.env.NEXT_PUBLIC_VERCEL_IP_ADDRESS}
+                  cname={`${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}
+                  isLoading={false}
+                  name={domain.name}
+                  refresh={refresh}
+                  remove={remove}
+                />
+              ))
+            ) : (
+              <Content.Empty>
+                Once you&apos;ve added your domain on Nextacular, that domain
+                will show up here
+              </Content.Empty>
+            )}
+          </Content.Container>
+        </>
+      )}
     </AccountLayout>
   );
 };
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  let isCreator = false;
+  let isTeamOwner = false;
   let workspace = null;
 
   if (session) {
     const slug = context.params.workspaceSlug;
     workspace = await prisma.workspace.findFirst({
-      select: { slug: true },
+      select: {
+        creatorId: true,
+        slug: true,
+        members: {
+          select: {
+            email: true,
+            teamRole: true,
+          },
+        },
+      },
       where: {
         OR: [
           { id: session.user.userId },
@@ -177,10 +193,27 @@ export const getServerSideProps = async (context) => {
         },
       },
     });
+
+    if (workspace) {
+      isCreator = session.user.userId === workspace.creatorId;
+      const member = workspace.members.find(
+        (member) =>
+          member.email === session.user.email &&
+          member.teamRole === TeamRole.OWNER
+      );
+
+      if (member) {
+        isTeamOwner = true;
+      }
+    }
   }
 
   return {
-    props: { workspace },
+    props: {
+      isCreator,
+      isTeamOwner,
+      workspace,
+    },
   };
 };
 
