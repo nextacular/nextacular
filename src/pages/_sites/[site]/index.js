@@ -31,22 +31,24 @@ const Site = ({ workspace }) => {
 };
 
 export const getStaticPaths = async () => {
-  const workspaces = await prisma.workspace.findMany({
-    select: {
-      slug: true,
-    },
-    where: {
-      deletedAt: null,
-    },
-  });
-  const domains = await prisma.domain.findMany({
-    select: {
-      name: true,
-    },
-    where: {
-      deletedAt: null,
-    },
-  });
+  const [workspaces, domains] = await Promise.all([
+    prisma.workspace.findMany({
+      select: {
+        slug: true,
+      },
+      where: {
+        deletedAt: null,
+      },
+    }),
+    prisma.domain.findMany({
+      select: {
+        name: true,
+      },
+      where: {
+        deletedAt: null,
+      },
+    }),
+  ]);
 
   const paths = [
     ...workspaces.map((workspace) => ({

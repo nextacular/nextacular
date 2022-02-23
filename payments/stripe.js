@@ -13,8 +13,10 @@ export const getInvoices = async (customer) => {
 };
 
 export const getProducts = async () => {
-  const products = await stripe.products.list();
-  const prices = await stripe.prices.list();
+  const [products, prices] = await Promise.all([
+    stripe.products.list(),
+    stripe.prices.list(),
+  ]);
   const productPrices = {};
   prices?.data.map((price) => (productPrices[price.product] = price));
   products?.data.map((product) => (product.prices = productPrices[product.id]));

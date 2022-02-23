@@ -11,12 +11,14 @@ const handler = async (req, res) => {
 
     if (session) {
       const { priceId } = req.query;
-      const customerPayment = await prisma.customerPayment.findUnique({
-        where: {
-          email: session.user?.email,
-        },
-      });
-      const price = await stripe.prices.retrieve(priceId);
+      const [customerPayment, price] = await Promise.all([
+        prisma.customerPayment.findUnique({
+          where: {
+            email: session.user?.email,
+          },
+        }),
+        stripe.prices.retrieve(priceId),
+      ]);
       const product = await stripe.products.retrieve(price.product);
       const lineItems = [
         {

@@ -165,9 +165,10 @@ export const getServerSideProps = async (context) => {
       email: session.user?.email,
     },
   });
-  const invoices = await getInvoices(customerPayment?.paymentId);
-  const products = await getProducts();
-
+  const [invoices, products] = await Promise.all([
+    getInvoices(customerPayment?.paymentId),
+    getProducts(),
+  ]);
   return {
     props: {
       invoices,

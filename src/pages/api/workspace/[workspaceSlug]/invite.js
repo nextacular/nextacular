@@ -50,23 +50,25 @@ const handler = async (req, res) => {
           createdAt: null,
           email,
         }));
-        await prisma.user.createMany({
-          data: userData,
-          skipDuplicates: true,
-        });
-        await prisma.workspace.update({
-          data: {
-            members: {
-              createMany: {
-                data: membersList,
-                skipDuplicates: true,
+        await Promise.all([
+          prisma.user.createMany({
+            data: userData,
+            skipDuplicates: true,
+          }),
+          prisma.workspace.update({
+            data: {
+              members: {
+                createMany: {
+                  data: membersList,
+                  skipDuplicates: true,
+                },
               },
             },
-          },
-          where: {
-            id: workspace.id,
-          },
-        });
+            where: {
+              id: workspace.id,
+            },
+          }),
+        ]);
         res.status(200).json({ data: { membersList } });
       } else {
         res
