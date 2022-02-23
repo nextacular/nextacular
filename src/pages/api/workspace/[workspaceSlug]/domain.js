@@ -116,15 +116,22 @@ const handler = async (req, res) => {
           },
         },
       });
+      const domain = await prisma.domain.findFirst({
+        select: {
+          id: true,
+        },
+        where: {
+          deletedAt: null,
+          name: domainName,
+          workspaceId: workspace.id,
+        },
+      });
       await prisma.domain.update({
         data: {
           deletedAt: new Date(),
         },
         where: {
-          workspaceId_name: {
-            workspaceId: workspace.id,
-            name: domainName,
-          },
+          id: domain.id,
         },
       });
       res.status(200).json({ data: { domain: domainName } });
