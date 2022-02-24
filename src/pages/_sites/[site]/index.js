@@ -1,10 +1,10 @@
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 import DefaultErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import prisma from '@/prisma/index';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
 
 const Site = ({ workspace }) => {
   const router = useRouter();
