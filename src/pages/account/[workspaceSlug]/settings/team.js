@@ -23,7 +23,7 @@ import { useMembers } from '@/hooks/data';
 
 const MEMBERS_TEMPLATE = { email: '', role: TeamRole.MEMBER };
 
-const Team = ({ isCreator, isTeamOwner, workspace }) => {
+const Team = ({ isTeamOwner, workspace }) => {
   const { data, isLoading } = useMembers(workspace.slug);
   const [isSubmitting, setSubmittingState] = useState(false);
   const [members, setMembers] = useState([{ ...MEMBERS_TEMPLATE }]);
@@ -261,54 +261,57 @@ const Team = ({ isCreator, isTeamOwner, workspace }) => {
                           <h4 className="capitalize">
                             {member.teamRole.toLowerCase()}
                           </h4>
-                          {!isCreator && (
-                            <Menu
-                              as="div"
-                              className="relative inline-block text-left"
-                            >
-                              <div>
-                                <Menu.Button className="flex items-center justify-center p-3 space-x-3 rounded hover:bg-gray-100">
-                                  <DotsVerticalIcon className="w-5 h-5" />
-                                </Menu.Button>
-                              </div>
-                              <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-100"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
+                          {workspace?.creator.email !== member.email &&
+                            isTeamOwner && (
+                              <Menu
+                                as="div"
+                                className="relative inline-block text-left"
                               >
-                                <Menu.Items className="absolute right-0 z-20 mt-2 origin-top-right bg-white border divide-y divide-gray-100 rounded w-60">
-                                  <div className="p-2">
-                                    <Menu.Item>
-                                      <button
-                                        className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white"
-                                        onClick={() => changeRole(member.id)}
-                                      >
-                                        <span>
-                                          Change role to "
-                                          {member.teamRole === TeamRole.MEMBER
-                                            ? TeamRole.OWNER
-                                            : TeamRole.MEMBER}
-                                          "
-                                        </span>
-                                      </button>
-                                    </Menu.Item>
-                                    <Menu.Item>
-                                      <button
-                                        className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-red-600 rounded hover:bg-red-600 hover:text-white"
-                                        onClick={() => removeMember(member.id)}
-                                      >
-                                        <span>Remove Team Member</span>
-                                      </button>
-                                    </Menu.Item>
-                                  </div>
-                                </Menu.Items>
-                              </Transition>
-                            </Menu>
-                          )}
+                                <div>
+                                  <Menu.Button className="flex items-center justify-center p-3 space-x-3 rounded hover:bg-gray-100">
+                                    <DotsVerticalIcon className="w-5 h-5" />
+                                  </Menu.Button>
+                                </div>
+                                <Transition
+                                  as={Fragment}
+                                  enter="transition ease-out duration-100"
+                                  enterFrom="transform opacity-0 scale-95"
+                                  enterTo="transform opacity-100 scale-100"
+                                  leave="transition ease-in duration-75"
+                                  leaveFrom="transform opacity-100 scale-100"
+                                  leaveTo="transform opacity-0 scale-95"
+                                >
+                                  <Menu.Items className="absolute right-0 z-20 mt-2 origin-top-right bg-white border divide-y divide-gray-100 rounded w-60">
+                                    <div className="p-2">
+                                      <Menu.Item>
+                                        <button
+                                          className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white"
+                                          onClick={() => changeRole(member.id)}
+                                        >
+                                          <span>
+                                            Change role to "
+                                            {member.teamRole === TeamRole.MEMBER
+                                              ? TeamRole.OWNER
+                                              : TeamRole.MEMBER}
+                                            "
+                                          </span>
+                                        </button>
+                                      </Menu.Item>
+                                      <Menu.Item>
+                                        <button
+                                          className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-red-600 rounded hover:bg-red-600 hover:text-white"
+                                          onClick={() =>
+                                            removeMember(member.id)
+                                          }
+                                        >
+                                          <span>Remove Team Member</span>
+                                        </button>
+                                      </Menu.Item>
+                                    </div>
+                                  </Menu.Items>
+                                </Transition>
+                              </Menu>
+                            )}
                         </div>
                       </td>
                     </tr>
@@ -331,7 +334,6 @@ const Team = ({ isCreator, isTeamOwner, workspace }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  let isCreator = false;
   let isTeamOwner = false;
   let workspace = null;
 
@@ -342,6 +344,7 @@ export const getServerSideProps = async (context) => {
         creatorId: true,
         inviteCode: true,
         slug: true,
+        creator: { select: { email: true } },
         members: {
           select: {
             email: true,
@@ -369,7 +372,6 @@ export const getServerSideProps = async (context) => {
     });
 
     if (workspace) {
-      isCreator = session.user.userId === workspace.creatorId;
       const member = workspace.members.find(
         (member) =>
           member.email === session.user.email &&
@@ -384,7 +386,6 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      isCreator,
       isTeamOwner,
       workspace,
     },

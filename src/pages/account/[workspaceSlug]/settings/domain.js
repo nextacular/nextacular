@@ -158,7 +158,6 @@ const Domain = ({ isTeamOwner, workspace }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  let isCreator = false;
   let isTeamOwner = false;
   let workspace = null;
 
@@ -195,7 +194,6 @@ export const getServerSideProps = async (context) => {
     });
 
     if (workspace) {
-      isCreator = session.user.userId === workspace.creatorId;
       const member = workspace.members.find(
         (member) =>
           member.email === session.user.email &&
@@ -210,7 +208,6 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      isCreator,
       isTeamOwner,
       workspace,
     },

@@ -61,7 +61,11 @@ const Advanced = ({ isCreator }) => {
             subtitle="The workspace will be permanently deleted, including its contents and domains. This action is irreversible and can not be undone."
           />
           <Card.Footer>
-            <span />
+            <small className={[isCreator && 'text-red-600']}>
+              {isCreator
+                ? 'This action is not reversible. Please be certain.'
+                : 'Please contact your team creator for the deletion of your workspace.'}
+            </small>
             {isCreator && (
               <Button
                 className="text-white bg-red-600 hover:bg-red-500"
