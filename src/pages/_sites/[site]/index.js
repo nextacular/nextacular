@@ -1,8 +1,10 @@
 import DefaultErrorPage from 'next/error';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import prisma from '@/prisma/index';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 
 const Site = ({ workspace }) => {
   const router = useRouter();
@@ -12,14 +14,39 @@ const Site = ({ workspace }) => {
   }
 
   return workspace ? (
-    <div className="flex flex-col items-center justify-center p-10 space-y-5 text-center">
-      <h1 className="text-4xl font-bold">
-        Welcome to your workspace's subdomain!
-      </h1>
-      <h2 className="text-2xl">
-        This is the workspace of <strong>{workspace.name}.</strong>
-      </h2>
-    </div>
+    <main className="relative flex flex-col items-center justify-center h-screen space-y-10 text-gray-800 bg-gray-50">
+      <div className="flex flex-col items-center justify-center p-10 space-y-5 text-center ">
+        <h1 className="text-4xl font-bold">
+          Welcome to your workspace's subdomain!
+        </h1>
+        <h2 className="text-2xl">
+          This is the workspace of <strong>{workspace.name}.</strong>
+        </h2>
+        <p>You can also visit these links:</p>
+        <Link
+          href={`https://${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}
+        >
+          <a
+            className="flex space-x-3 text-blue-600 hover:underline"
+            target="_blank"
+          >
+            <span>{`${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}</span>
+            <ExternalLinkIcon className="w-5 h-5" />
+          </a>
+        </Link>
+        {workspace.domains.map((domain, index) => (
+          <Link key={index} href={`https://${domain.name}`}>
+            <a
+              className="flex space-x-3 text-blue-600 hover:underline"
+              target="_blank"
+            >
+              <span>{domain.name}</span>
+              <ExternalLinkIcon className="w-5 h-5" />
+            </a>
+          </Link>
+        ))}
+      </div>
+    </main>
   ) : (
     <>
       <Head>
@@ -60,12 +87,12 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const { site } = params;
   const customDomain = site.includes('.') ? true : false;
-
   const workspace = await prisma.workspace.findFirst({
     select: {
       id: true,
       name: true,
       slug: true,
+      domains: { select: { name: true } },
     },
     where: {
       OR: [
@@ -84,7 +111,6 @@ export const getStaticProps = async ({ params }) => {
       AND: { deletedAt: null },
     },
   });
-
   return {
     props: { workspace },
     revalidate: 10,
