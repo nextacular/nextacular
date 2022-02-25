@@ -5,32 +5,26 @@ const Hero = () => {
   const { status: sessionStatus } = useSession();
 
   return (
-    <div className="w-full py-5">
-      <div className="relative flex flex-col w-3/4 mx-auto space-y-5">
-        <header className="flex flex-row items-center justify-between space-x-3">
+    <div className="w-full py-10">
+      <div className="relative flex flex-col px-10 mx-auto space-y-5 md:w-3/4">
+        <header className="flex items-center justify-between space-x-3">
           <div>
             <a className="text-2xl font-bold" href="#!">
               Nextacular
             </a>
           </div>
-          <nav className="flex flex-row space-x-3">
-            <a className="px-5 py-2 rounded hover:bg-gray-100" href="#!">
-              Guides
-            </a>
-            <a className="px-5 py-2 rounded hover:bg-gray-100" href="#!">
-              Pricing
-            </a>
-            <a className="px-5 py-2 rounded hover:bg-gray-100" href="#!">
-              Blog
-            </a>
+          <nav className="flex-col hidden space-x-0 space-y-3 text-center md:flex md:space-y-0 md:space-x-3 md:flex-row">
+            <a className="px-5 py-2 rounded hover:bg-gray-100">Guides</a>
+            <a className="px-5 py-2 rounded hover:bg-gray-100">Pricing</a>
+            <a className="px-5 py-2 rounded hover:bg-gray-100">Blog</a>
           </nav>
-          <div className="flex flex-row space-x-3">
+          <div className="flex space-x-3">
             <Link
               href={
                 sessionStatus === 'authenticated' ? '/account' : '/auth/login'
               }
             >
-              <a className="px-5 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-500">
+              <a className="px-5 py-2 text-center text-white bg-blue-600 rounded shadow hover:bg-blue-500">
                 {sessionStatus === 'authenticated'
                   ? 'Go to Dashboard'
                   : 'Login'}
@@ -38,8 +32,8 @@ const Hero = () => {
             </Link>
           </div>
         </header>
-        <div className="flex flex-col items-center justify-center w-3/5 pt-10 pb-5 mx-auto">
-          <h1 className="text-6xl font-bold text-center">
+        <div className="flex flex-col items-center justify-center pt-10 mx-auto md:w-3/5">
+          <h1 className="text-6xl font-extrabold text-center">
             <span className="block">Build SaaS platforms</span>
             <span className="block text-blue-600">like never before</span>
           </h1>
@@ -47,17 +41,11 @@ const Hero = () => {
             Quickly build landing pages that will help you get results fast
           </p>
         </div>
-        <div className="flex flex-row items-center justify-center space-x-5">
-          <a
-            className="px-10 py-3 text-white bg-blue-600 rounded shadow hover:bg-blue-500"
-            href="#!"
-          >
+        <div className="flex items-center justify-center space-x-5">
+          <a className="px-10 py-3 text-center text-white bg-blue-600 rounded shadow hover:bg-blue-500">
             Get Started
           </a>
-          <a
-            className="px-10 py-3 text-blue-600 rounded shadow hover:bg-blue-50"
-            href="#!"
-          >
+          <a className="px-10 py-3 text-center text-blue-600 rounded shadow hover:bg-blue-50">
             Live Demo
           </a>
         </div>

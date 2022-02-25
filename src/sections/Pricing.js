@@ -3,7 +3,7 @@ import { CheckIcon } from '@heroicons/react/outline';
 const Pricing = () => {
   return (
     <div className="w-full py-10">
-      <div className="relative flex flex-col w-3/4 mx-auto space-y-5">
+      <div className="relative flex flex-col px-5 mx-auto space-y-5 md:w-3/4">
         <div className="flex flex-col items-center">
           <h6 className="font-bold text-center text-blue-600 uppercase">
             Pricing
@@ -18,8 +18,8 @@ const Pricing = () => {
             system
           </p>
         </div>
-        <div className="flex flex-row p-10 space-x-5 bg-gray-200 rounded-lg">
-          <div className="flex flex-col items-start w-1/2 overflow-hidden bg-white border rounded-lg">
+        <div className="flex flex-col p-10 space-x-0 space-y-5 bg-gray-200 rounded-lg md:space-y-0 md:space-x-5 md:flex-row">
+          <div className="flex flex-col items-start overflow-hidden bg-white border rounded-lg md:w-1/2">
             <div className="w-full p-10 space-y-5">
               <span className="px-5 py-1 text-sm text-blue-600 uppercase bg-blue-100 rounded-full">
                 Hobby
@@ -59,7 +59,7 @@ const Pricing = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-start w-1/2 overflow-hidden bg-white border rounded-lg">
+          <div className="flex flex-col items-start overflow-hidden bg-white border rounded-lg md:w-1/2">
             <div className="w-full p-10 space-y-5">
               <span className="px-5 py-1 text-sm text-blue-600 uppercase bg-blue-100 rounded-full">
                 Premium

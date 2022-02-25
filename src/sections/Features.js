@@ -13,8 +13,8 @@ const Features = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit
           </p>
         </div>
-        <div className="flex flex-row py-10 space-x-5">
-          <div className="flex flex-col items-center justify-center w-1/3 px-5 space-y-5">
+        <div className="flex flex-col py-10 space-x-0 space-y-10 md:space-y-0 md:space-x-5 md:flex-row">
+          <div className="flex flex-col items-center justify-start px-5 space-y-3 md:w-1/3">
             <div className="flex items-center justify-center w-16 h-16 bg-gray-600 rounded-full" />
             <h3 className="text-lg font-bold">Excellent Services</h3>
             <p className="text-center text-gray-400">
@@ -22,7 +22,7 @@ const Features = () => {
               bulk of the card&apos;s content.
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center w-1/3 px-5 space-y-5">
+          <div className="flex flex-col items-center justify-start px-5 space-y-3 md:w-1/3">
             <div className="flex items-center justify-center w-16 h-16 bg-gray-600 rounded-full" />
             <h3 className="text-lg font-bold">Grow Your Market</h3>
             <p className="text-center text-gray-400">
@@ -30,7 +30,7 @@ const Features = () => {
               bulk of the card&apos;s content.
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center w-1/3 px-5 space-y-5">
+          <div className="flex flex-col items-center justify-start px-5 space-y-3 md:w-1/3">
             <div className="flex items-center justify-center w-16 h-16 bg-gray-600 rounded-full" />
             <h3 className="text-lg font-bold">Launch Time</h3>
             <p className="text-center text-gray-400">
