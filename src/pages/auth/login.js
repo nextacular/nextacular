@@ -52,7 +52,7 @@ const Login = () => {
         title="NextJS SaaS Boilerplate | Login"
         description="A boilerplate for your NextJS SaaS projects."
       />
-      <div className="flex flex-col items-center justify-center w-1/3 p-10 m-auto space-y-5 rounded shadow-lg">
+      <div className="flex flex-col items-center justify-center p-5 m-auto space-y-5 rounded shadow-lg md:p-10 md:w-1/3">
         <div>
           <Link href="/">
             <a className="text-4xl font-bold">Nextacular</a>
