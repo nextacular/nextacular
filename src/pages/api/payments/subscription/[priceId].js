@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 
 import prisma from '@/prisma/index';
-import stripe from '@/payments/stripe';
+import stripe from '@/lib/server/stripe';
 
 const handler = async (req, res) => {
   const { method } = req;

@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 
 import { validateWorkspaceInvite } from '@/config/api-validation/index';
 import prisma from '@/prisma/index';
+import { sendMail } from '@/lib/server/mail';
 
 const handler = async (req, res) => {
   const { method } = req;

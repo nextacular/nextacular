@@ -3,7 +3,7 @@ import NextAuth from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 
 import prisma from '@/prisma/index';
-import { createCustomer } from '@/payments/stripe';
+import { createCustomer } from '@/lib/server/stripe';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),

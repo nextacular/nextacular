@@ -10,8 +10,8 @@ import Content from '@/components/Content/index';
 import Modal from '@/components/Modal/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
-import { redirectToCheckout } from '@/payments/client-stripe';
-import { getInvoices, getProducts } from '@/payments/stripe';
+import { redirectToCheckout } from '@/lib/client/stripe';
+import { getInvoices, getProducts } from '@/lib/server/stripe';
 import prisma from '@/prisma/index';
 
 const Billing = ({ invoices, products }) => {
