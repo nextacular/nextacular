@@ -12,7 +12,7 @@ const Card = ({ children, danger }) => {
 
 Card.Body = ({ children, subtitle, title }) => {
   return (
-    <div className="flex flex-col p-5 space-y-3">
+    <div className="flex flex-col p-5 space-y-3 overflow-auto">
       {title ? (
         <h2 className="text-2xl font-bold">{title}</h2>
       ) : (

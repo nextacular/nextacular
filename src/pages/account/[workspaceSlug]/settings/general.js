@@ -95,7 +95,7 @@ const General = ({ isTeamOwner, workspace }) => {
             subtitle="Used to identify your Workspace on the Dashboard"
           >
             <input
-              className="w-1/2 px-3 py-2 border rounded"
+              className="px-3 py-2 border rounded md:w-1/2"
               disabled={isSubmitting || !isTeamOwner}
               onChange={handleNameChange}
               type="text"
@@ -122,7 +122,7 @@ const General = ({ isTeamOwner, workspace }) => {
           >
             <div className="flex items-center space-x-3">
               <input
-                className="w-1/2 px-3 py-2 border rounded"
+                className="px-3 py-2 border rounded md:w-1/2"
                 disabled={isSubmitting || !isTeamOwner}
                 onChange={handleSlugChange}
                 type="text"
@@ -154,7 +154,7 @@ const General = ({ isTeamOwner, workspace }) => {
             title="Workspace ID"
             subtitle="Used when interacting with APIs"
           >
-            <div className="flex items-center justify-between w-1/2 px-3 py-2 space-x-5 font-mono text-sm border rounded">
+            <div className="flex items-center justify-between px-3 py-2 space-x-5 font-mono text-sm border rounded md:w-1/2">
               <span className="overflow-x-auto">{workspace.workspaceCode}</span>
               <CopyToClipboard
                 onCopy={copyToClipboard}

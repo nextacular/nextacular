@@ -75,7 +75,7 @@ const Domain = ({ isTeamOwner, workspace }) => {
             title="Subdomain"
             subtitle="Your subdomain depends on your workspace slug"
           >
-            <div className="flex items-center justify-between w-1/2 px-3 py-2 font-mono text-sm border rounded">
+            <div className="flex items-center justify-between px-3 py-2 font-mono text-sm border rounded md:w-1/2">
               <div>
                 <strong>{workspace.slug}</strong>
                 <span className="pr-3">
@@ -109,7 +109,7 @@ const Domain = ({ isTeamOwner, workspace }) => {
                   subtitle="This domain is assigned to your current workspace"
                 >
                   <input
-                    className="w-1/2 px-3 py-2 border rounded"
+                    className="px-3 py-2 border rounded md:w-1/2"
                     disabled={isSubmitting}
                     onChange={handleDomainChange}
                     placeholder="mydomain.com"

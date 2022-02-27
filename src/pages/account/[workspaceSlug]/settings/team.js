@@ -147,7 +147,7 @@ const Team = ({ isTeamOwner, workspace }) => {
                       Email
                     </label>
                   </div>
-                  <div className="w-1/4">
+                  <div className="w-1/2 md:w-1/4">
                     <label className="text-sm font-bold text-gray-400">
                       Role
                     </label>
@@ -163,7 +163,7 @@ const Team = ({ isTeamOwner, workspace }) => {
                       type="text"
                       value={member.email}
                     />
-                    <div className="relative inline-block w-1/4 border rounded ">
+                    <div className="relative inline-block w-1/2 border rounded md:w-1/4 ">
                       <select
                         className="w-full px-3 py-2 capitalize rounded appearance-none"
                         disabled={isSubmitting}

@@ -21,7 +21,7 @@ const AccountLayout = ({ children }) => {
   }, [data, router]);
 
   return (
-    <main className="relative flex flex-row w-screen h-screen space-x-5 text-gray-800 bg-gray-50">
+    <main className="relative flex flex-col w-screen h-screen space-x-0 text-gray-800 md:space-x-5 md:flex-row bg-gray-50">
       <Sidebar menu={menu(workspace?.slug)} />
       <Content>
         <Toaster position="bottom-left" toastOptions={{ duration: 10000 }} />

@@ -90,7 +90,7 @@ const Settings = ({ user }) => {
               subtitle="Please enter your full name, or a display name you are comfortable with"
             >
               <input
-                className="w-1/2 px-3 py-2 border rounded"
+                className="px-3 py-2 border rounded md:w-1/2"
                 disabled={isSubmitting}
                 onChange={handleNameChange}
                 type="text"
@@ -117,7 +117,7 @@ const Settings = ({ user }) => {
               Nextacular"
             >
               <input
-                className="w-1/2 px-3 py-2 border rounded"
+                className="px-3 py-2 border rounded md:w-1/2"
                 disabled={isSubmitting}
                 onChange={handleEmailChange}
                 type="email"
@@ -140,7 +140,7 @@ const Settings = ({ user }) => {
             title="Personal Account ID"
             subtitle="Used when interacting with APIs"
           >
-            <div className="flex items-center justify-between w-1/2 px-3 py-2 space-x-5 font-mono text-sm border rounded">
+            <div className="flex items-center justify-between px-3 py-2 space-x-5 font-mono text-sm border rounded md:w-1/2">
               <span className="overflow-x-auto">{userCode}</span>
               <CopyToClipboard onCopy={copyToClipboard} text={userCode}>
                 <DocumentDuplicateIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />

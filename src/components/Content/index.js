@@ -1,6 +1,6 @@
 const Content = ({ children }) => {
   return (
-    <div className="flex flex-col w-3/4 h-full p-10 space-y-5 overflow-y-auto">
+    <div className="flex flex-col h-full p-5 space-y-5 overflow-y-auto md:p-10 md:w-3/4">
       {children}
     </div>
   );
@@ -27,7 +27,7 @@ Content.Empty = ({ children }) => {
 Content.Title = ({ subtitle, title }) => {
   return (
     <div>
-      <h1 className="text-4xl font-bold">{title}</h1>
+      <h1 className="text-3xl font-bold md:text-4xl">{title}</h1>
       <h3 className="text-gray-400">{subtitle}</h3>
     </div>
   );
