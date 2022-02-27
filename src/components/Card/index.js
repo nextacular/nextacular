@@ -4,7 +4,7 @@ const Card = ({ children, danger }) => {
       {children}
     </div>
   ) : (
-    <div className="flex flex-col justify-between border rounded">
+    <div className="flex flex-col justify-between border rounded dark:border-gray-600">
       {children}
     </div>
   );
@@ -27,7 +27,7 @@ Card.Body = ({ children, subtitle, title }) => {
 Card.Empty = ({ children }) => {
   return (
     <div>
-      <div className="flex items-center justify-center p-5 bg-gray-100 border-4 border-dashed rounded">
+      <div className="flex items-center justify-center p-5 bg-gray-100 border-4 border-dashed rounded dark:bg-transparent dark:border-gray-600">
         <p>{children}</p>
       </div>
     </div>
@@ -36,7 +36,7 @@ Card.Empty = ({ children }) => {
 
 Card.Footer = ({ children }) => {
   return (
-    <div className="flex flex-row items-center justify-between px-5 py-3 bg-gray-100 border-t">
+    <div className="flex flex-row items-center justify-between px-5 py-3 bg-gray-100 border-t rounded-b dark:border-t-gray-600 dark:bg-gray-900">
       {children}
     </div>
   );

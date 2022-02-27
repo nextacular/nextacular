@@ -38,7 +38,7 @@ const Sidebar = ({ menu }) => {
   const toggleMenu = () => setMenuVisibility(!showMenu);
 
   return (
-    <aside className="sticky z-50 flex flex-col space-y-5 text-white bg-gray-800 md:overflow-y-auto md:w-1/4 md:h-screen overscroll-contain">
+    <aside className="sticky z-50 flex flex-col space-y-5 text-white bg-gray-800 dark:bg-gray-900 md:overflow-y-auto md:w-1/4 md:h-screen overscroll-contain">
       <div className="relative flex items-center justify-center p-5 text-center border-b border-b-gray-900">
         <Link href="/">
           <a className="flex-grow text-2xl font-bold">Nextacular</a>
