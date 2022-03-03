@@ -16,7 +16,9 @@ const handler = async (req, res) => {
       let { slug } = req.body;
       const pathSlug = req.query.workspaceSlug;
       slug = slugify(slug.toLowerCase());
-      const count = await prisma.workspace.count({ where: { slug } });
+      const count = await prisma.workspace.count({
+        where: { slug: { startsWith: slug } },
+      });
 
       if (count > 0) {
         slug = `${slug}-${count}`;
