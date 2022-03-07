@@ -84,4 +84,4 @@ All code in this repository is provided under the [MIT License](LICENSE)
 
 ## Appreciation
 
-🙏 Happy to have the support of early adopters and supporters over at [Gumroad](https://arjayosma.gumroad.com/l/nextacular), [Github](https://github.com/arjayosma/nextacular), [Twitter](https://twitter.com/nextacular), and through personal email. Lots of plans moving forward. Thanks to you guys!
+🙏 Happy to have the support of early adopters and supporters over at [Product Hunt](https://www.producthunt.com/posts/nextacular), [Gumroad](https://arjayosma.gumroad.com/l/nextacular), [Github](https://github.com/arjayosma/nextacular), [Twitter](https://twitter.com/nextacular), and through personal email. Lots of plans moving forward. Thanks to you guys!
