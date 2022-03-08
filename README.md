@@ -102,7 +102,7 @@ All code in this repository is provided under the [MIT License](LICENSE)
 
 ## Supporters – Special Mention 🎉 Thank you!
 
-Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
+Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr (@DasBeasto), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
 
 ## Acknowledgement
 
