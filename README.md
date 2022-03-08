@@ -1,6 +1,6 @@
 # Nextacular🌙
 
-![GitHub issues](https://img.shields.io/github/issues/arjayosma/nextacular) ![GitHub](https://img.shields.io/github/license/arjayosma/nextacular) ![GitHub Repo stars](https://img.shields.io/github/stars/arjayosma/nextacular?style=social)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/arjayosma/nextacular) ![GitHub issues](https://img.shields.io/github/issues/arjayosma/nextacular) ![GitHub](https://img.shields.io/github/license/arjayosma/nextacular) ![GitHub Repo stars](https://img.shields.io/github/stars/arjayosma/nextacular?style=social)
 
 ## Quickly launch multi-tenant SaaS applications
 
