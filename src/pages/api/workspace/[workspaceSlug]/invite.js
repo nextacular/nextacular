@@ -2,8 +2,9 @@ import { TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 
 import { validateWorkspaceInvite } from '@/config/api-validation/index';
-import prisma from '@/prisma/index';
+import { html, text } from '@/config/email-templates/invitation';
 import { sendMail } from '@/lib/server/mail';
+import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -16,7 +17,11 @@ const handler = async (req, res) => {
       const { members } = req.body;
       const slug = req.query.workspaceSlug;
       const workspace = await prisma.workspace.findFirst({
-        select: { id: true },
+        select: {
+          id: true,
+          inviteCode: true,
+          name: true,
+        },
         where: {
           OR: [
             { id: session.user.userId },
@@ -62,6 +67,12 @@ const handler = async (req, res) => {
               },
             },
             where: { id: workspace.id },
+          }),
+          sendMail({
+            html: html({ code: workspace.inviteCode, name: workspace.name }),
+            subject: `[Nextacular] You have been invited to join ${workspace.name} workspace`,
+            text: text({ code: workspace.inviteCode, name: workspace.name }),
+            to: members.map((member) => member.email),
           }),
         ]);
         res.status(200).json({ data: { membersList } });

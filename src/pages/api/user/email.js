@@ -1,6 +1,8 @@
 import { getSession } from 'next-auth/react';
 
 import { validateUpdateEmail } from '@/config/api-validation/index';
+import { html, text } from '@/config/email-templates/email-update';
+import { sendMail } from '@/lib/server/mail';
 import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
@@ -18,6 +20,12 @@ const handler = async (req, res) => {
           emailVerified: null,
         },
         where: { id: session.user.userId },
+      });
+      await sendMail({
+        html: html({ email }),
+        subject: `[Nextacular] Email address updated`,
+        text: text({ email }),
+        to: [email, session.user.email],
       });
       res.status(200).json({ data: { email } });
     } else {

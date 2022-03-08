@@ -3,6 +3,8 @@ import { getSession } from 'next-auth/react';
 import slugify from 'slugify';
 
 import { validateCreateWorkspace } from '@/config/api-validation/index';
+import { html, text } from '@/config/email-templates/workspace-create';
+import { sendMail } from '@/lib/server/mail';
 import prisma from '@/prisma/index';
 
 const handler = async (req, res) => {
@@ -23,7 +25,7 @@ const handler = async (req, res) => {
         slug = `${slug}-${count}`;
       }
 
-      await prisma.workspace.create({
+      const workspace = await prisma.workspace.create({
         data: {
           creatorId: session.user.userId,
           members: {
@@ -37,6 +39,13 @@ const handler = async (req, res) => {
           name,
           slug,
         },
+      });
+
+      await sendMail({
+        html: html({ code: workspace.inviteCode, name }),
+        subject: `[Nextacular] Workspace created: ${name}`,
+        text: text({ code: workspace.inviteCode, name }),
+        to: session.user.email,
       });
       res.status(200).json({ data: { name, slug } });
     } else {

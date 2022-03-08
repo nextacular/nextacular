@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DocumentDuplicateIcon } from '@heroicons/react/outline';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import isEmail from 'validator/lib/isEmail';
@@ -43,6 +43,32 @@ const Settings = ({ user }) => {
         toast.success('Name successfully updated!');
       }
     });
+  };
+
+  const changeEmail = (event) => {
+    event.preventDefault();
+    const result = confirm(
+      'Are you sure you want to update your email address?'
+    );
+
+    if (result) {
+      setSubmittingState(true);
+      api('/api/user/email', {
+        body: { email },
+        method: 'PUT',
+      }).then((response) => {
+        setSubmittingState(false);
+
+        if (response.errors) {
+          Object.keys(response.errors).forEach((error) =>
+            toast.error(response.errors[error].msg)
+          );
+        } else {
+          toast.success('Email successfully updated and signing you out!');
+          setTimeout(() => signOut({ callbackUrl: '/auth/login' }), 2000);
+        }
+      });
+    }
   };
 
   const deactivateAccount = (event) => {
@@ -129,6 +155,7 @@ const Settings = ({ user }) => {
               <Button
                 className="text-white bg-blue-600 hover:bg-blue-500"
                 disabled={!validEmail || isSubmitting}
+                onClick={changeEmail}
               >
                 Save
               </Button>
