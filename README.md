@@ -1,10 +1,14 @@
 # Nextacular🌙
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/arjayosma/nextacular) ![GitHub issues](https://img.shields.io/github/issues/arjayosma/nextacular) ![GitHub](https://img.shields.io/github/license/arjayosma/nextacular) ![GitHub Repo stars](https://img.shields.io/github/stars/arjayosma/nextacular?style=social)
+
 ## Quickly launch multi-tenant SaaS applications
 
 ![Nextacular - Quickly launch multi-tenant SaaS applications](./public/images/seo-cover.png)
 
 An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe
+
+**Features** packaged out-of-the-box: **Authentication**, **Billing & Payment**, **Database**, **Email**, **Custom Domains**, **Multi-tenancy**, **Workspaces**, and **Teams**
 
 ## **Help Ukraine 🇺🇦 Win**
 
@@ -17,6 +21,20 @@ Nextacular Demo: [https://demo.nextacular.co](https://demo.nextacular.co)
 ## Documentation
 
 Nextacular Documentation: [https://docs.nextacular.co](https://docs.nextacular.co)
+
+## Getting Started
+
+Read the quick start here: [https://docs.nextacular.co/getting-started/quick-start](https://docs.nextacular.co/getting-started/quick-start)
+
+## One-Click Deploy to Vercel 🚀
+
+Deploy to Vercel for free!
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farjayosma%2Fnextacular&env=NEXT_PUBLIC_ROOT_URL,NEXT_PUBLIC_URL,NEXT_PUBLIC_PUBLISHABLE_KEY,NEXT_PUBLIC_VERCEL_IP_ADDRESS,NEXT_PUBLIC_GOOGLE_ANALYTICS_ID&project-name=nextacular&repo-name=nextacular&demo-title=Nextacular%20-%20Your%20Next%20SaaS%20Project&demo-description=Nextacular%20is%20an%20open-source%20starter%20kit%20that%20will%20help%20you%20build%20SaaS%20platforms%20efficiently%20and%20focus%20on%20developing%20your%20core%20SaaS%20features.&demo-url=https%3A%2F%2Fdemo.nextacular.co&demo-image=https%3A%2F%2Fnextacular.co%2Fimages%2Fseo-cover.png)
+
+You might encounter errors after deployment, so make sure you add the necessary [Environment Variables](https://docs.nextacular.co/customization/environment-variables)
+
+Read the [docs](https://docs.nextacular.co) for more details
 
 ## Outstanding Features
 
