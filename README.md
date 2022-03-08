@@ -100,6 +100,10 @@ Read the [guidelines](CONTRIBUTING.md) for contributing
 
 All code in this repository is provided under the [MIT License](LICENSE)
 
-## Appreciation
+## Supporters – Special Mention 🎉 Thank you!
+
+Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
+
+## Acknowledgement
 
 🙏 Happy to have the support of early adopters and supporters over at [Product Hunt](https://www.producthunt.com/posts/nextacular), [Gumroad](https://arjayosma.gumroad.com/l/nextacular), [Github](https://github.com/arjayosma/nextacular), [Twitter](https://twitter.com/nextacular), and through personal email. Lots of plans moving forward. Thanks to you guys!
