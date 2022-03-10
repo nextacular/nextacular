@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/payments/*": ["payments/*"],
       "@/prisma/*": ["prisma/*"],
       "@/components/*": ["src/components/*"],
       "@/config/*": ["src/config/*"],
