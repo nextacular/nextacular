@@ -11,13 +11,17 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendMail = async ({ from, html, subject, text, to }) => {
-  await transporter.sendMail({
+  const data = {
     from: from ?? process.env.EMAIL_FROM,
     to,
     subject,
     text,
     html,
-  });
+  };
+
+  process.env.NODE_ENV === 'production'
+    ? await transporter.sendMail(data)
+    : console.log(data);
 };
 
 export default transporter;

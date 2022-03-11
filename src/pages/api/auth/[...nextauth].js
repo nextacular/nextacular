@@ -18,7 +18,7 @@ export default NextAuth({
       return session;
     },
   },
-  debug: process.env.NODE_ENV !== 'production',
+  debug: !(process.env.NODE_ENV === 'production'),
   events: {
     signIn: async ({ user, isNewUser }) => {
       const customerPayment = await prisma.customerPayment.findUnique({
