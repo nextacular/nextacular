@@ -3,6 +3,8 @@ import NextAuth from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 
 import prisma from '@/prisma/index';
+import { html, text } from '@/config/email-templates/signin';
+import { sendMail } from '@/lib/server/mail';
 import { createCustomer } from '@/lib/server/stripe';
 
 export default NextAuth({
@@ -45,6 +47,15 @@ export default NextAuth({
         },
         host: process.env.EMAIL_SERVER_HOST,
         port: process.env.EMAIL_SERVER_PORT,
+      },
+      sendVerificationRequest: async ({ identifier: email, url }) => {
+        const { host } = new URL(url);
+        await sendMail({
+          html: html({ email, url }),
+          subject: `[Nextacular] Sign in to ${host}`,
+          text: text({ email, url }),
+          to: email,
+        });
       },
     }),
   ],
