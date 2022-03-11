@@ -6,7 +6,7 @@ const Modal = ({ children, show, title, toggle }) => {
   return (
     <Transition appear as={Fragment} show={show}>
       <Dialog
-        className="fixed inset-0 z-20 overflow-y-auto text-gray-800"
+        className="fixed inset-0 z-50 overflow-y-auto text-gray-800"
         onClose={toggle}
       >
         <div className="flex items-center justify-center h-screen p-5">
