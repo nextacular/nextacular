@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import prisma from '@/prisma/index';
+import { getAllDomains } from '@/prisma/services/domain';
 
 const Site = ({ workspace }) => {
   const router = useRouter();
@@ -63,10 +64,7 @@ export const getStaticPaths = async () => {
       select: { slug: true },
       where: { deletedAt: null },
     }),
-    prisma.domain.findMany({
-      select: { name: true },
-      where: { deletedAt: null },
-    }),
+    getAllDomains(),
   ]);
 
   const paths = [

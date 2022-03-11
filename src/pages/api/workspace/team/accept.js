@@ -1,26 +1,15 @@
 import { InvitationStatus } from '@prisma/client';
-import { getSession } from 'next-auth/react';
 
-import prisma from '@/prisma/index';
+import { validateSession } from '@/config/api-validation';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'PUT') {
-    const session = await getSession({ req });
-
-    if (session) {
-      const { memberId } = req.body;
-      await prisma.member.update({
-        data: { status: InvitationStatus.ACCEPTED },
-        where: { id: memberId },
-      });
-      res.status(200).json({ data: { updatedAt: new Date() } });
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
+    await validateSession(req, res);
+    const { memberId } = req.body;
+    await updateStatus(memberId, InvitationStatus.ACCEPTED);
+    res.status(200).json({ data: { updatedAt: new Date() } });
   } else {
     res
       .status(405)

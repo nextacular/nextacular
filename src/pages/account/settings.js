@@ -11,7 +11,7 @@ import Content from '@/components/Content/index';
 import Modal from '@/components/Modal/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
-import prisma from '@/prisma/index';
+import { getUser } from '@/prisma/services/user';
 
 const Settings = ({ user }) => {
   const [email, setEmail] = useState(user.email || '');
@@ -235,16 +235,13 @@ const Settings = ({ user }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  const user = await prisma.user.findUnique({
-    where: { id: session.user?.userId },
-  });
-
+  const { email, name, userCode } = await getUser(session.user?.userId);
   return {
     props: {
       user: {
-        email: user.email,
-        name: user.name,
-        userCode: user.userCode,
+        email,
+        name,
+        userCode,
       },
     },
   };

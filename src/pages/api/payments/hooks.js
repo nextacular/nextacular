@@ -1,6 +1,5 @@
 import { buffer } from 'micro';
 
-import prisma from '@/prisma/index';
 import stripe from '@/lib/server/stripe';
 
 const handler = async (req, res) => {
@@ -24,10 +23,7 @@ const handler = async (req, res) => {
     switch (event.type) {
       case 'charge.succeeded':
         if (metadata?.customerId && metadata?.type) {
-          await prisma.customerPayment.update({
-            data: { subscriptionType: metadata.type },
-            where: { customerId: metadata.customerId },
-          });
+          await updateSubscription(metadata.customerId, metadata.type);
         }
         break;
       default:
