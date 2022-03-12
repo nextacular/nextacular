@@ -18,6 +18,12 @@ export const countWorkspaces = async (slug) =>
   });
 
 export const createWorkspace = async (creatorId, email, name, slug) => {
+  const count = await countWorkspaces(slug);
+
+  if (count > 0) {
+    slug = `${slug}-${count}`;
+  }
+
   const workspace = await prisma.workspace.create({
     data: {
       creatorId,
@@ -54,6 +60,20 @@ export const deleteWorkspace = async (id, email, slug) => {
     throw new Error('Unable to find workspace');
   }
 };
+
+export const getInvitation = async (inviteCode) =>
+  await prisma.workspace.findFirst({
+    select: {
+      id: true,
+      name: true,
+      workspaceCode: true,
+      slug: true,
+    },
+    where: {
+      deletedAt: null,
+      inviteCode,
+    },
+  });
 
 export const getOwnWorkspace = async (id, email, slug) =>
   await prisma.workspace.findFirst({
@@ -212,11 +232,12 @@ export const getWorkspacePaths = async () => {
 
 export const inviteUsers = async (id, email, members, slug) => {
   const workspace = await getOwnWorkspace(id, email, slug);
+  const inviter = email;
 
   if (workspace) {
     const membersList = members.map(({ email, role }) => ({
       email,
-      inviter: session.user.email,
+      inviter,
       teamRole: role,
     }));
     const data = members.map(({ email }) => ({
@@ -312,9 +333,7 @@ export const updateName = async (id, email, name, slug) => {
 
 export const updateSlug = async (id, email, newSlug, pathSlug) => {
   let slug = slugify(newSlug.toLowerCase());
-  const count = await prisma.workspace.count({
-    where: { slug: { startsWith: slug } },
-  });
+  const count = await countWorkspaces(slug);
 
   if (count > 0) {
     slug = `${slug}-${count}`;

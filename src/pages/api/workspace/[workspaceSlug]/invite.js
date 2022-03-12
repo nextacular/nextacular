@@ -11,7 +11,7 @@ const handler = async (req, res) => {
     const session = await validateSession(req, res);
     await validateWorkspaceInvite(req, res);
     const { members } = req.body;
-    inviteUsers(
+    await inviteUsers(
       session.user.userId,
       session.user.email,
       members,

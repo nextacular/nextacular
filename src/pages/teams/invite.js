@@ -75,9 +75,7 @@ const Invite = ({ workspace }) => {
 export const getServerSideProps = async (context) => {
   const { code } = context.query;
   const workspace = await getInvitation(code);
-  return {
-    props: { workspace },
-  };
+  return { props: { workspace } };
 };
 
 export default Invite;

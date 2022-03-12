@@ -51,7 +51,7 @@ const Advanced = ({ isCreator }) => {
 
   return (
     <AccountLayout>
-      <Meta title={`Nextacular - ${workspace.name} | Advanced Settings`} />
+      <Meta title={`Nextacular - ${workspace?.name} | Advanced Settings`} />
       <Content.Title
         title="Advanced Workspace Settings"
         subtitle="Manage your workspace settings"

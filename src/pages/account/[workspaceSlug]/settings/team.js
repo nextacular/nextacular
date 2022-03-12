@@ -17,9 +17,10 @@ import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
 import Meta from '@/components/Meta/index';
+import { useMembers } from '@/hooks/data';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
-import { useMembers } from '@/hooks/data';
+import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
 
 const MEMBERS_TEMPLATE = { email: '', role: TeamRole.MEMBER };
 
