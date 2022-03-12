@@ -2,12 +2,6 @@ import { html, text } from '@/config/email-templates/email-update';
 import { sendMail } from '@/lib/server/mail';
 import prisma from '@/prisma/index';
 
-export const createUsers = async (data) =>
-  await prisma.user.createMany({
-    data,
-    skipDuplicates: true,
-  });
-
 export const deactivate = async (id) =>
   await prisma.user.update({
     data: { deletedAt: new Date() },

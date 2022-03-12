@@ -1,18 +1,6 @@
 import { InvitationStatus } from '@prisma/client';
 import prisma from '@/prisma/index';
 
-export const createNewRecord = async (workspaceId, email, inviter) =>
-  await prisma.member.upsert({
-    create: {
-      workspaceId,
-      email,
-      inviter,
-      status: InvitationStatus.ACCEPTED,
-    },
-    update: {},
-    where: { email },
-  });
-
 export const getMember = async (id) =>
   await prisma.member.findFirst({
     select: { teamRole: true },

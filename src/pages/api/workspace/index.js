@@ -1,13 +1,10 @@
-import { InvitationStatus, TeamRole } from '@prisma/client';
 import slugify from 'slugify';
 
 import {
   validateCreateWorkspace,
   validateSession,
 } from '@/config/api-validation/index';
-import { html, text } from '@/config/email-templates/workspace-create';
-import { sendMail } from '@/lib/server/mail';
-import prisma from '@/prisma/index';
+import { countWorkspaces } from '@/prisma/services/workspace';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -17,36 +14,13 @@ const handler = async (req, res) => {
     await validateCreateWorkspace(req, res);
     const { name } = req.body;
     let slug = slugify(name.toLowerCase());
-    const count = await prisma.workspace.count({
-      where: { slug: { startsWith: slug } },
-    });
+    const count = await countWorkspaces(slug);
 
     if (count > 0) {
       slug = `${slug}-${count}`;
     }
 
-    const workspace = await prisma.workspace.create({
-      data: {
-        creatorId: session.user.userId,
-        members: {
-          create: {
-            email: session.user.email,
-            inviter: session.user.email,
-            status: InvitationStatus.ACCEPTED,
-            teamRole: TeamRole.OWNER,
-          },
-        },
-        name,
-        slug,
-      },
-    });
-
-    await sendMail({
-      html: html({ code: workspace.inviteCode, name }),
-      subject: `[Nextacular] Workspace created: ${name}`,
-      text: text({ code: workspace.inviteCode, name }),
-      to: session.user.email,
-    });
+    await createWorkspace(session.user.userId, session.user.email, name, slug);
     res.status(200).json({ data: { name, slug } });
   } else {
     res

@@ -1,11 +1,8 @@
-import { TeamRole } from '@prisma/client';
-import slugify from 'slugify';
-
 import {
   validateUpdateWorkspaceSlug,
   validateSession,
 } from '@/config/api-validation/index';
-import prisma from '@/prisma/index';
+import { updateSlug } from '@/prisma/services/workspace';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -13,50 +10,16 @@ const handler = async (req, res) => {
   if (method === 'PUT') {
     await validateSession(req, res);
     await validateUpdateWorkspaceSlug(req, res);
-    let { slug } = req.body;
-    const pathSlug = req.query.workspaceSlug;
-    slug = slugify(slug.toLowerCase());
-    const count = await prisma.workspace.count({
-      where: { slug: { startsWith: slug } },
-    });
-
-    if (count > 0) {
-      slug = `${slug}-${count}`;
-    }
-
-    const workspace = await prisma.workspace.findFirst({
-      select: { id: true },
-      where: {
-        OR: [
-          { id: session.user.userId },
-          {
-            members: {
-              some: {
-                deletedAt: null,
-                teamRole: TeamRole.OWNER,
-                email: session.user.email,
-              },
-            },
-          },
-        ],
-        AND: {
-          deletedAt: null,
-          slug: pathSlug,
-        },
-      },
-    });
-
-    if (workspace) {
-      await prisma.workspace.update({
-        data: { slug },
-        where: { id: workspace.id },
-      });
-      res.status(200).json({ data: { slug } });
-    } else {
-      res
-        .status(404)
-        .json({ errors: { error: { msg: 'Unable to find workspace' } } });
-    }
+    updateSlug(
+      session.user.userId,
+      session.user.email,
+      slug,
+      req.query.workspaceSlug
+    )
+      .then((slug) => res.status(200).json({ data: { slug } }))
+      .catch((error) =>
+        res.status(404).json({ errors: { error: { msg: error.message } } })
+      );
   } else {
     res
       .status(405)

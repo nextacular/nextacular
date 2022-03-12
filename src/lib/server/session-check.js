@@ -1,16 +1,14 @@
 import { getSession } from 'next-auth/react';
 
 const validateMiddleware = () => {
-  return async (req, res, next) => {
+  return async (req, res) => {
     const session = await getSession({ req });
     const errors = [];
 
     if (!session) {
       errors.push({ param: 'session', msg: 'Unauthorized access' });
-    }
-
-    if (errors.length === 0) {
-      return next();
+    } else {
+      return session;
     }
 
     const errorObject = {};

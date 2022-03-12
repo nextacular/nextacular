@@ -65,12 +65,6 @@ export const deleteDomain = async (id, email, slug, name) => {
   });
 };
 
-export const getAllDomains = async () =>
-  await prisma.domain.findMany({
-    select: { name: true },
-    where: { deletedAt: null },
-  });
-
 export const getDomains = async (slug) =>
   await prisma.domain.findMany({
     select: { name: true },
