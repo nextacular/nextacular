@@ -4,13 +4,13 @@ import {
   validateCreateWorkspace,
   validateSession,
 } from '@/config/api-validation/index';
-import { countWorkspaces } from '@/prisma/services/workspace';
+import { countWorkspaces, createWorkspace } from '@/prisma/services/workspace';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'POST') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     await validateCreateWorkspace(req, res);
     const { name } = req.body;
     let slug = slugify(name.toLowerCase());

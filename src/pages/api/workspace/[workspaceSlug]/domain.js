@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'POST') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     await validateAddDomain(req, res);
     const { domainName } = req.body;
     const teamId = process.env.VERCEL_TEAM_ID;
@@ -37,7 +37,7 @@ const handler = async (req, res) => {
         .json({ errors: { error: { msg: response.error.message } } });
     }
   } else if (method === 'DELETE') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     const { domainName } = req.body;
     const teamId = process.env.VERCEL_TEAM_ID;
     await api(

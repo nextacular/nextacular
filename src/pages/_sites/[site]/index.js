@@ -4,8 +4,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import prisma from '@/prisma/index';
-import { getWorkspacePaths } from '@/prisma/services/workspace';
+import {
+  getSiteWorkspace,
+  getWorkspacePaths,
+} from '@/prisma/services/workspace';
 
 const Site = ({ workspace }) => {
   const router = useRouter();
@@ -68,31 +70,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const { site } = params;
-  const customDomain = site.includes('.');
-  const workspace = await prisma.workspace.findFirst({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      domains: { select: { name: true } },
-    },
-    where: {
-      OR: [
-        { slug: site },
-        customDomain
-          ? {
-              domains: {
-                some: {
-                  name: site,
-                  deletedAt: null,
-                },
-              },
-            }
-          : undefined,
-      ],
-      AND: { deletedAt: null },
-    },
-  });
+  const workspace = await getSiteWorkspace(site, site.includes('.'));
   return {
     props: { workspace },
     revalidate: 10,

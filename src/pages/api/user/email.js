@@ -1,10 +1,13 @@
-import { validateUpdateEmail } from '@/config/api-validation/index';
+import {
+  validateUpdateEmail,
+  validateSession,
+} from '@/config/api-validation/index';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'PUT') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     await validateUpdateEmail(req, res);
     const { email } = req.body;
     await updateEmail(session.user.userId, email, session.user.email);

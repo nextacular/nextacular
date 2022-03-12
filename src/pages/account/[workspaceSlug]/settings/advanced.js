@@ -9,11 +9,11 @@ import Content from '@/components/Content/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
-import prisma from '@/prisma/index';
 import { getSession } from 'next-auth/react';
+import { getWorkspace, isWorkspaceCreator } from '@/prisma/services/workspace';
 
 const Advanced = ({ isCreator }) => {
-  const { workspace } = useWorkspace();
+  const { setWorkspace, workspace } = useWorkspace();
   const router = useRouter();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [showModal, setModalState] = useState(false);
@@ -36,6 +36,7 @@ const Advanced = ({ isCreator }) => {
         );
       } else {
         toggleModal();
+        setWorkspace(null);
         router.replace('/account');
         toast.success('Workspace has been deleted!');
       }
@@ -127,45 +128,15 @@ export const getServerSideProps = async (context) => {
   let isCreator = false;
 
   if (session) {
-    const slug = context.params.workspaceSlug;
-    const workspace = await prisma.workspace.findFirst({
-      select: {
-        creatorId: true,
-        slug: true,
-        members: {
-          select: {
-            email: true,
-            teamRole: true,
-          },
-        },
-      },
-      where: {
-        OR: [
-          { id: session.user.userId },
-          {
-            members: {
-              some: {
-                email: session.user.email,
-                deletedAt: null,
-              },
-            },
-          },
-        ],
-        AND: {
-          deletedAt: null,
-          slug,
-        },
-      },
-    });
-
-    if (workspace) {
-      isCreator = session.user.userId === workspace.creatorId;
-    }
+    const workspace = await getWorkspace(
+      session.user.userId,
+      session.user.email,
+      context.params.workspaceSlug
+    );
+    isCreator = isWorkspaceCreator(session.user.userId, workspace.creatorId);
   }
 
-  return {
-    props: { isCreator },
-  };
+  return { props: { isCreator } };
 };
 
 export default Advanced;

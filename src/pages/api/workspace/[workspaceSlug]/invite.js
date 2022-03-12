@@ -8,7 +8,7 @@ const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'POST') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     await validateWorkspaceInvite(req, res);
     const { members } = req.body;
     inviteUsers(

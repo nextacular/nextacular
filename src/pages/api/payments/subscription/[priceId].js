@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'POST') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     const { priceId } = req.query;
     const [customerPayment, price] = await Promise.all([
       getPayment(session.user?.email),

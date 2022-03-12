@@ -8,7 +8,7 @@ const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'PUT') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     await validateUpdateWorkspaceName(req, res);
     const { name } = req.body;
     updateName(

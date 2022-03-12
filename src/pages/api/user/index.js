@@ -7,7 +7,7 @@ const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'DELETE') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     if (ALLOW_DEACTIVATION) {
       await deactivate(session.user.userId);
     }

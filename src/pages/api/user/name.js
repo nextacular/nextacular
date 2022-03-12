@@ -1,11 +1,14 @@
-import { validateUpdateName } from '@/config/api-validation/index';
+import {
+  validateUpdateName,
+  validateSession,
+} from '@/config/api-validation/index';
 import { updateName } from '@/prisma/services/user';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'PUT') {
-    await validateSession(req, res);
+    const session = await validateSession(req, res);
     await validateUpdateName(req, res);
     const { name } = req.body;
     await updateName(session.user.userId, name);
