@@ -7,12 +7,13 @@ import toast from 'react-hot-toast';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta/index';
 import Modal from '@/components/Modal/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { redirectToCheckout } from '@/lib/client/stripe';
 import { getInvoices, getProducts } from '@/lib/server/stripe';
-import prisma from '@/prisma/index';
+import { getPayment } from '@/prisma/services/customer';
 
 const Billing = ({ invoices, products }) => {
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -39,6 +40,7 @@ const Billing = ({ invoices, products }) => {
 
   return (
     <AccountLayout>
+      <Meta title="Nextacular - Billing" />
       <Content.Title
         title="Billing"
         subtitle="Manage your billing and preferences"
@@ -160,9 +162,7 @@ const Billing = ({ invoices, products }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  const customerPayment = await prisma.customerPayment.findUnique({
-    where: { email: session.user?.email },
-  });
+  const customerPayment = await getPayment(session.user?.email);
   const [invoices, products] = await Promise.all([
     getInvoices(customerPayment?.paymentId),
     getProducts(),

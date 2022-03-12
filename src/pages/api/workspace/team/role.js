@@ -1,35 +1,20 @@
 import { TeamRole } from '@prisma/client';
-import { getSession } from 'next-auth/react';
 
-import prisma from '@/prisma/index';
+import { validateSession } from '@/config/api-validation';
+import { getMember, toggleRole } from '@/prisma/services/membership';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'PUT') {
-    const session = await getSession({ req });
-
-    if (session) {
-      const { memberId } = req.body;
-      const member = await prisma.member.findFirst({
-        select: { teamRole: true },
-        where: { id: memberId },
-      });
-      await prisma.member.update({
-        data: {
-          teamRole:
-            member.teamRole === TeamRole.MEMBER
-              ? TeamRole.OWNER
-              : TeamRole.MEMBER,
-        },
-        where: { id: memberId },
-      });
-      res.status(200).json({ data: { updatedAt: new Date() } });
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
+    await validateSession(req, res);
+    const { memberId } = req.body;
+    const member = getMember(memberId);
+    await toggleRole(
+      memberId,
+      member.teamRole === TeamRole.MEMBER ? TeamRole.OWNER : TeamRole.MEMBER
+    );
+    res.status(200).json({ data: { updatedAt: new Date() } });
   } else {
     res
       .status(405)

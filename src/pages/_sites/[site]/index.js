@@ -4,7 +4,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import prisma from '@/prisma/index';
+import {
+  getSiteWorkspace,
+  getWorkspacePaths,
+} from '@/prisma/services/workspace';
 
 const Site = ({ workspace }) => {
   const router = useRouter();
@@ -58,26 +61,7 @@ const Site = ({ workspace }) => {
 };
 
 export const getStaticPaths = async () => {
-  const [workspaces, domains] = await Promise.all([
-    prisma.workspace.findMany({
-      select: { slug: true },
-      where: { deletedAt: null },
-    }),
-    prisma.domain.findMany({
-      select: { name: true },
-      where: { deletedAt: null },
-    }),
-  ]);
-
-  const paths = [
-    ...workspaces.map((workspace) => ({
-      params: { site: workspace.slug },
-    })),
-    ...domains.map((domain) => ({
-      params: { site: domain.name },
-    })),
-  ];
-
+  const paths = await getWorkspacePaths();
   return {
     paths,
     fallback: true,
@@ -86,31 +70,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const { site } = params;
-  const customDomain = site.includes('.') ? true : false;
-  const workspace = await prisma.workspace.findFirst({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      domains: { select: { name: true } },
-    },
-    where: {
-      OR: [
-        { slug: site },
-        customDomain
-          ? {
-              domains: {
-                some: {
-                  name: site,
-                  deletedAt: null,
-                },
-              },
-            }
-          : undefined,
-      ],
-      AND: { deletedAt: null },
-    },
-  });
+  const workspace = await getSiteWorkspace(site, site.includes('.'));
   return {
     props: { workspace },
     revalidate: 10,

@@ -1,128 +1,63 @@
-import { getSession } from 'next-auth/react';
-
-import { validateAddDomain } from '@/config/api-validation';
-import prisma from '@/prisma/index';
+import { validateAddDomain, validateSession } from '@/config/api-validation';
 import api from '@/lib/common/api';
+import { createDomain, deleteDomain } from '@/prisma/services/domain';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'POST') {
-    const session = await getSession({ req });
-
-    if (session) {
-      await validateAddDomain(req, res);
-      const { domainName } = req.body;
-      const teamId = process.env.VERCEL_TEAM_ID;
-      const response = await api(
-        `${process.env.VERCEL_API_URL}/v8/projects/${
-          process.env.VERCEL_PROJECT_ID
-        }/domains${teamId ? `?teamId=${teamId}` : ''}`,
-        {
-          body: { name: domainName },
-          headers: {
-            Authorization: `Bearer ${process.env.VERCEL_AUTH_BEARER_TOKEN}`,
-          },
-          method: 'POST',
-        }
-      );
-
-      if (!response.error) {
-        const slug = req.query.workspaceSlug;
-        const workspace = await prisma.workspace.findFirst({
-          select: { id: true },
-          where: {
-            OR: [
-              { id: session.user.userId },
-              {
-                members: {
-                  some: {
-                    email: session.user.email,
-                    deletedAt: null,
-                  },
-                },
-              },
-            ],
-            AND: {
-              deletedAt: null,
-              slug,
-            },
-          },
-        });
-        await prisma.domain.create({
-          data: {
-            addedById: session.user.userId,
-            name: domainName,
-            workspaceId: workspace.id,
-          },
-        });
-        res.status(200).json({ data: { domain: domainName } });
-      } else {
-        res
-          .status(response.status)
-          .json({ errors: { error: { msg: response.error.message } } });
+    const session = await validateSession(req, res);
+    await validateAddDomain(req, res);
+    const { domainName } = req.body;
+    const teamId = process.env.VERCEL_TEAM_ID;
+    const response = await api(
+      `${process.env.VERCEL_API_URL}/v8/projects/${
+        process.env.VERCEL_PROJECT_ID
+      }/domains${teamId ? `?teamId=${teamId}` : ''}`,
+      {
+        body: { name: domainName },
+        headers: {
+          Authorization: `Bearer ${process.env.VERCEL_AUTH_BEARER_TOKEN}`,
+        },
+        method: 'POST',
       }
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
-  } else if (method === 'DELETE') {
-    const session = await getSession({ req });
+    );
 
-    if (session) {
-      const { domainName } = req.body;
-      const teamId = process.env.VERCEL_TEAM_ID;
-      const slug = req.query.workspaceSlug;
-      await api(
-        `${process.env.VERCEL_API_URL}/v8/projects/${
-          process.env.VERCEL_PROJECT_ID
-        }/domains/${domainName}${teamId ? `?teamId=${teamId}` : ''}`,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.VERCEL_AUTH_BEARER_TOKEN}`,
-          },
-          method: 'DELETE',
-        }
+    if (!response.error) {
+      await createDomain(
+        session.user.userId,
+        session.user.email,
+        req.query.workspaceSlug,
+        domainName
       );
-      const workspace = await prisma.workspace.findFirst({
-        select: { id: true },
-        where: {
-          OR: [
-            { id: session.user.userId },
-            {
-              members: {
-                some: {
-                  email: session.user.email,
-                  deletedAt: null,
-                },
-              },
-            },
-          ],
-          AND: {
-            deletedAt: null,
-            slug,
-          },
-        },
-      });
-      const domain = await prisma.domain.findFirst({
-        select: { id: true },
-        where: {
-          deletedAt: null,
-          name: domainName,
-          workspaceId: workspace.id,
-        },
-      });
-      await prisma.domain.update({
-        data: { deletedAt: new Date() },
-        where: { id: domain.id },
-      });
       res.status(200).json({ data: { domain: domainName } });
     } else {
       res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
+        .status(response.status)
+        .json({ errors: { error: { msg: response.error.message } } });
     }
+  } else if (method === 'DELETE') {
+    const session = await validateSession(req, res);
+    const { domainName } = req.body;
+    const teamId = process.env.VERCEL_TEAM_ID;
+    await api(
+      `${process.env.VERCEL_API_URL}/v8/projects/${
+        process.env.VERCEL_PROJECT_ID
+      }/domains/${domainName}${teamId ? `?teamId=${teamId}` : ''}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.VERCEL_AUTH_BEARER_TOKEN}`,
+        },
+        method: 'DELETE',
+      }
+    );
+    await deleteDomain(
+      session.user.userId,
+      session.user.email,
+      req.query.workspaceSlug,
+      domainName
+    );
+    res.status(200).json({ data: { domain: domainName } });
   } else {
     res
       .status(405)

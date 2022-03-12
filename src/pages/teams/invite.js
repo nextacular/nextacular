@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Card from '@/components/Card/index';
 import Button from '@/components/Button';
 import api from '@/lib/common/api';
+import { getInvitation } from '@/prisma/services/workspace';
 
 const Invite = ({ workspace }) => {
   const { data } = useSession();
@@ -73,21 +74,8 @@ const Invite = ({ workspace }) => {
 
 export const getServerSideProps = async (context) => {
   const { code } = context.query;
-  const workspace = await prisma.workspace.findFirst({
-    select: {
-      id: true,
-      name: true,
-      workspaceCode: true,
-      slug: true,
-    },
-    where: {
-      deletedAt: null,
-      inviteCode: code,
-    },
-  });
-  return {
-    props: { workspace },
-  };
+  const workspace = await getInvitation(code);
+  return { props: { workspace } };
 };
 
 export default Invite;
