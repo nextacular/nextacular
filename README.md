@@ -80,6 +80,13 @@ Read the [docs](https://docs.nextacular.co) for more details
 
 Nextacular's Previous and Upcoming Features: [https://github.com/arjayosma/nextacular/projects/1](https://github.com/arjayosma/nextacular/projects/1)
 
+## Reviews
+
+> Steven Tey - Developer, Vercel
+> It's going to be super helpful for folks to bootstrap their MVPs and get to market faster!
+>
+> **Positive company mission**, **Easy to use**, **Cost-effective**, **Strong feature set**
+
 ## Sponsors
 
 Your company name could be here. If you wish to be listed as a sponsor, reach out to [arjay.osma@gmail.com](mailto:arjay.osma@gmail.com)
