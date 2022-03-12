@@ -8,6 +8,7 @@ import isEmail from 'validator/lib/isEmail';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta';
 import Modal from '@/components/Modal/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
@@ -103,6 +104,7 @@ const Settings = ({ user }) => {
 
   return (
     <AccountLayout>
+      <Meta title="Nextacular - Account Settings" />
       <Content.Title
         title="Account Settings"
         subtitle="Manage your profile, preferences, and account settings"

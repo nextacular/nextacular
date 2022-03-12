@@ -10,6 +10,7 @@ import Button from '@/components/Button/index';
 import DomainCard from '@/components/Card/domain';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta/index';
 import { useDomains } from '@/hooks/data';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
@@ -63,6 +64,7 @@ const Domain = ({ isTeamOwner, workspace }) => {
 
   return (
     <AccountLayout>
+      <Meta title={`Nextacular - ${workspace.name} | Domains`} />
       <Content.Title
         title="Subdomain Management"
         subtitle="Manage your subdomain"

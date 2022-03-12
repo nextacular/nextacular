@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
 import Button from '@/components/Button/index';
+import Meta from '@/components/Meta/index';
 import Modal from '@/components/Modal/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
@@ -50,6 +51,7 @@ const Advanced = ({ isCreator }) => {
 
   return (
     <AccountLayout>
+      <Meta title={`Nextacular - ${workspace.name} | Advanced Settings`} />
       <Content.Title
         title="Advanced Workspace Settings"
         subtitle="Manage your workspace settings"

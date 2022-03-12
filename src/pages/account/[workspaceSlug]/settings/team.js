@@ -16,8 +16,8 @@ import isEmail from 'validator/lib/isEmail';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta/index';
 import { AccountLayout } from '@/layouts/index';
-import prisma from '@/prisma/index';
 import api from '@/lib/common/api';
 import { useMembers } from '@/hooks/data';
 
@@ -106,6 +106,7 @@ const Team = ({ isTeamOwner, workspace }) => {
 
   return (
     <AccountLayout>
+      <Meta title={`Nextacular - ${workspace.name} | Team Management`} />
       <Content.Title
         title="Team Management"
         subtitle="Manage your team under your workspace and invite team members"

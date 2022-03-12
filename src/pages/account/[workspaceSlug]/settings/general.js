@@ -10,6 +10,7 @@ import isSlug from 'validator/lib/isSlug';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
@@ -82,6 +83,7 @@ const General = ({ isTeamOwner, workspace }) => {
 
   return (
     <AccountLayout>
+      <Meta title={`Nextacular - ${workspace.name} | Settings`} />
       <Content.Title
         title="Workspace Information"
         subtitle="Manage your workspace details and information"

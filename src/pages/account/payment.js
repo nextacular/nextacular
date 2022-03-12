@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import Meta from '@/components/Meta/index';
 import { PublicLayout } from '@/layouts/index';
 
 const Payment = () => {
@@ -8,6 +9,7 @@ const Payment = () => {
 
   return (
     <PublicLayout>
+      <Meta title="Nextacular - Subscription Status" />
       <div className="w-full py-5">
         <div className="relative flex flex-col mx-auto space-y-5">
           <div className="flex flex-col items-center justify-center pt-10 pb-5 mx-auto">
