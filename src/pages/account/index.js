@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta/index';
 import { useInvitations, useWorkspaces } from '@/hooks/data/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
@@ -62,6 +63,7 @@ const Welcome = () => {
 
   return (
     <AccountLayout>
+      <Meta title="Nextacular - Dashboard" />
       <Content.Title
         title="Nextacular Dashboard"
         subtitle="Start building SaaS platforms in a day"

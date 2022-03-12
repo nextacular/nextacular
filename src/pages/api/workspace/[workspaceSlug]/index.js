@@ -1,58 +1,20 @@
-import { TeamRole } from '@prisma/client';
-import { getSession } from 'next-auth/react';
-
-import prisma from '@/prisma/index';
-
-const ALLOW_DEACTIVATION = false;
+import { validateSession } from '@/config/api-validation';
+import { deleteWorkspace } from '@/prisma/services/workspace';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'DELETE') {
-    const session = await getSession({ req });
-
-    if (session) {
-      const slug = req.query.workspaceSlug;
-      const workspace = await prisma.workspace.findFirst({
-        select: { id: true },
-        where: {
-          OR: [
-            { id: session.user.userId },
-            {
-              members: {
-                some: {
-                  deletedAt: null,
-                  teamRole: TeamRole.OWNER,
-                  email: session.user.email,
-                },
-              },
-            },
-          ],
-          AND: {
-            deletedAt: null,
-            slug,
-          },
-        },
-      });
-
-      if (workspace) {
-        if (ALLOW_DEACTIVATION) {
-          await prisma.workspace.update({
-            data: { deletedAt: new Date() },
-            where: { id: workspace.id },
-          });
-        }
-        res.status(200).json({ data: { slug } });
-      } else {
-        res
-          .status(401)
-          .json({ errors: { error: { msg: 'Unauthorized access' } } });
-      }
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
+    const session = await validateSession(req, res);
+    deleteWorkspace(
+      session.user.userId,
+      session.user.email,
+      req.query.workspaceSlug
+    )
+      .then((slug) => res.status(200).json({ data: { slug } }))
+      .catch((error) =>
+        res.status(404).json({ errors: { error: { msg: error.message } } })
+      );
   } else {
     res
       .status(405)

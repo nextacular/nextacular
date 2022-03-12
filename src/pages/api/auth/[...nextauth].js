@@ -5,14 +5,19 @@ import EmailProvider from 'next-auth/providers/email';
 import prisma from '@/prisma/index';
 import { html, text } from '@/config/email-templates/signin';
 import { sendMail } from '@/lib/server/mail';
-import { createCustomer } from '@/lib/server/stripe';
+import { getPayment } from '@/prisma/services/customer';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   callbacks: {
     session: async ({ session, user }) => {
       if (session.user) {
+        const customerPayment = await getPayment(user.email);
         session.user.userId = user.id;
+
+        if (customerPayment) {
+          session.user.subscription = customerPayment.subscriptionType;
+        }
       }
 
       return session;
@@ -21,19 +26,10 @@ export default NextAuth({
   debug: !(process.env.NODE_ENV === 'production'),
   events: {
     signIn: async ({ user, isNewUser }) => {
-      const customerPayment = await prisma.customerPayment.findUnique({
-        where: { email: user.email },
-      });
+      const customerPayment = await getPayment(user.email);
 
       if (isNewUser || customerPayment === null || user.createdAt === null) {
-        const paymentAccount = await createCustomer(user.email);
-        await prisma.customerPayment.create({
-          data: {
-            customerId: user.id,
-            email: user.email,
-            paymentId: paymentAccount.id,
-          },
-        });
+        await createPaymentAccount(user.email, user.id);
       }
     },
   },

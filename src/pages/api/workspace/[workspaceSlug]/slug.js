@@ -1,67 +1,26 @@
-import { TeamRole } from '@prisma/client';
-import { getSession } from 'next-auth/react';
-import slugify from 'slugify';
-
-import { validateUpdateWorkspaceSlug } from '@/config/api-validation/index';
-import prisma from '@/prisma/index';
+import {
+  validateUpdateWorkspaceSlug,
+  validateSession,
+} from '@/config/api-validation/index';
+import { updateSlug } from '@/prisma/services/workspace';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'PUT') {
-    const session = await getSession({ req });
-
-    if (session) {
-      await validateUpdateWorkspaceSlug(req, res);
-      let { slug } = req.body;
-      const pathSlug = req.query.workspaceSlug;
-      slug = slugify(slug.toLowerCase());
-      const count = await prisma.workspace.count({
-        where: { slug: { startsWith: slug } },
-      });
-
-      if (count > 0) {
-        slug = `${slug}-${count}`;
-      }
-
-      const workspace = await prisma.workspace.findFirst({
-        select: { id: true },
-        where: {
-          OR: [
-            { id: session.user.userId },
-            {
-              members: {
-                some: {
-                  deletedAt: null,
-                  teamRole: TeamRole.OWNER,
-                  email: session.user.email,
-                },
-              },
-            },
-          ],
-          AND: {
-            deletedAt: null,
-            slug: pathSlug,
-          },
-        },
-      });
-
-      if (workspace) {
-        await prisma.workspace.update({
-          data: { slug },
-          where: { id: workspace.id },
-        });
-        res.status(200).json({ data: { slug } });
-      } else {
-        res
-          .status(401)
-          .json({ errors: { error: { msg: 'Unauthorized access' } } });
-      }
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
+    const session = await validateSession(req, res);
+    let { slug } = req.body;
+    await validateUpdateWorkspaceSlug(req, res);
+    updateSlug(
+      session.user.userId,
+      session.user.email,
+      slug,
+      req.query.workspaceSlug
+    )
+      .then((slug) => res.status(200).json({ data: { slug } }))
+      .catch((error) =>
+        res.status(404).json({ errors: { error: { msg: error.message } } })
+      );
   } else {
     res
       .status(405)

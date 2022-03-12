@@ -1,26 +1,14 @@
-import { getSession } from 'next-auth/react';
-
-import prisma from '@/prisma/index';
+import { validateSession } from '@/config/api-validation';
+import { remove } from '@/prisma/services/membership';
 
 const handler = async (req, res) => {
   const { method } = req;
 
   if (method === 'DELETE') {
-    const session = await getSession({ req });
-
-    if (session) {
-      const { memberId } = req.body;
-      const deletedAt = new Date();
-      await prisma.member.update({
-        data: { deletedAt },
-        where: { id: memberId },
-      });
-      res.status(200).json({ data: { deletedAt } });
-    } else {
-      res
-        .status(401)
-        .json({ errors: { error: { msg: 'Unauthorized access' } } });
-    }
+    await validateSession(req, res);
+    const { memberId } = req.body;
+    await remove(memberId);
+    res.status(200).json({ data: { deletedAt: new Date() } });
   } else {
     res
       .status(405)

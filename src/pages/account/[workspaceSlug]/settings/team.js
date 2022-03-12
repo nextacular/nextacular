@@ -16,10 +16,11 @@ import isEmail from 'validator/lib/isEmail';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import { AccountLayout } from '@/layouts/index';
-import prisma from '@/prisma/index';
-import api from '@/lib/common/api';
+import Meta from '@/components/Meta/index';
 import { useMembers } from '@/hooks/data';
+import { AccountLayout } from '@/layouts/index';
+import api from '@/lib/common/api';
+import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
 
 const MEMBERS_TEMPLATE = { email: '', role: TeamRole.MEMBER };
 
@@ -106,6 +107,7 @@ const Team = ({ isTeamOwner, workspace }) => {
 
   return (
     <AccountLayout>
+      <Meta title={`Nextacular - ${workspace.name} | Team Management`} />
       <Content.Title
         title="Team Management"
         subtitle="Manage your team under your workspace and invite team members"
@@ -338,49 +340,14 @@ export const getServerSideProps = async (context) => {
   let workspace = null;
 
   if (session) {
-    const slug = context.params.workspaceSlug;
-    workspace = await prisma.workspace.findFirst({
-      select: {
-        creatorId: true,
-        inviteCode: true,
-        slug: true,
-        creator: { select: { email: true } },
-        members: {
-          select: {
-            email: true,
-            teamRole: true,
-          },
-        },
-      },
-      where: {
-        OR: [
-          { id: session.user.userId },
-          {
-            members: {
-              some: {
-                email: session.user.email,
-                deletedAt: null,
-              },
-            },
-          },
-        ],
-        AND: {
-          deletedAt: null,
-          slug,
-        },
-      },
-    });
+    workspace = await getWorkspace(
+      session.user.userId,
+      session.user.email,
+      context.params.workspaceSlug
+    );
 
     if (workspace) {
-      const member = workspace.members.find(
-        (member) =>
-          member.email === session.user.email &&
-          member.teamRole === TeamRole.OWNER
-      );
-
-      if (member) {
-        isTeamOwner = true;
-      }
+      isTeamOwner = isWorkspaceOwner(session.user.email, workspace);
     }
   }
 

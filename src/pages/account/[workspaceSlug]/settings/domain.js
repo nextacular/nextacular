@@ -10,11 +10,11 @@ import Button from '@/components/Button/index';
 import DomainCard from '@/components/Card/domain';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
+import Meta from '@/components/Meta/index';
 import { useDomains } from '@/hooks/data';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
-import prisma from '@/prisma/index';
-import { TeamRole } from '@prisma/client';
+import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
 
 const Domain = ({ isTeamOwner, workspace }) => {
   const { data, isLoading } = useDomains(workspace.slug);
@@ -64,6 +64,7 @@ const Domain = ({ isTeamOwner, workspace }) => {
 
   return (
     <AccountLayout>
+      <Meta title={`Nextacular - ${workspace.name} | Domains`} />
       <Content.Title
         title="Subdomain Management"
         subtitle="Manage your subdomain"
@@ -162,47 +163,14 @@ export const getServerSideProps = async (context) => {
   let workspace = null;
 
   if (session) {
-    const slug = context.params.workspaceSlug;
-    workspace = await prisma.workspace.findFirst({
-      select: {
-        creatorId: true,
-        slug: true,
-        members: {
-          select: {
-            email: true,
-            teamRole: true,
-          },
-        },
-      },
-      where: {
-        OR: [
-          { id: session.user.userId },
-          {
-            members: {
-              some: {
-                email: session.user.email,
-                deletedAt: null,
-              },
-            },
-          },
-        ],
-        AND: {
-          deletedAt: null,
-          slug,
-        },
-      },
-    });
+    workspace = await getWorkspace(
+      session.user.userId,
+      session.user.email,
+      context.params.workspaceSlug
+    );
 
     if (workspace) {
-      const member = workspace.members.find(
-        (member) =>
-          member.email === session.user.email &&
-          member.teamRole === TeamRole.OWNER
-      );
-
-      if (member) {
-        isTeamOwner = true;
-      }
+      isTeamOwner = isWorkspaceOwner(session.user.email, workspace);
     }
   }
 
