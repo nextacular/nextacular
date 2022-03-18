@@ -1,6 +1,6 @@
 {
   "name": "nextacular",
-  "version": "1.1.0-Beta",
+  "version": "1.1.1-Beta",
   "private": true,
   "scripts": {
     "dev": "next dev",
