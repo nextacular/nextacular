@@ -30,7 +30,7 @@ Read the quick start here: [https://docs.nextacular.co/getting-started/quick-sta
 
 Deploy to Vercel for free!
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farjayosma%2Fnextacular&env=NEXT_PUBLIC_ROOT_URL,NEXT_PUBLIC_URL,NEXT_PUBLIC_PUBLISHABLE_KEY,NEXT_PUBLIC_VERCEL_IP_ADDRESS,NEXT_PUBLIC_GOOGLE_ANALYTICS_ID&project-name=nextacular&repo-name=nextacular&demo-title=Nextacular%20-%20Your%20Next%20SaaS%20Project&demo-description=Nextacular%20is%20an%20open-source%20starter%20kit%20that%20will%20help%20you%20build%20SaaS%20platforms%20efficiently%20and%20focus%20on%20developing%20your%20core%20SaaS%20features.&demo-url=https%3A%2F%2Fdemo.nextacular.co&demo-image=https%3A%2F%2Fnextacular.co%2Fimages%2Fseo-cover.png)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Farjayosma%2Fnextacular&env=APP_URL,NEXTAUTH_SECRET,DATABASE_URL,SHADOW_DATABASE_URL,NEXT_PUBLIC_VERCEL_IP_ADDRESS,VERCEL_API_URL,EMAIL_FROM,EMAIL_SERVER_USER,EMAIL_SERVER_PASSWORD,EMAIL_SERVICE&envDescription=Minimum%20required%20API%20keys%20needed%20for%20production%20deployment&envLink=https%3A%2F%2Fdocs.nextacular.co%2Fcustomization%2Fenvironment-variables&demo-title=Nextacular%20Demo&demo-description=A%20demo%20prepared%20for%20you%20by%20Nextacular%20team.&demo-url=https%3A%2F%2Fdemo.nextacular.co&demo-image=https%3A%2F%2Fdemo.nextacular.co%2Fimages%2Fseo-cover.png)
 
 You might encounter errors after deployment, so make sure you add the necessary [Environment Variables](https://docs.nextacular.co/customization/environment-variables)
 
@@ -109,7 +109,7 @@ All code in this repository is provided under the [MIT License](LICENSE)
 
 ## Supporters – Special Mention 🎉 Thank you!
 
-Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr ([@DasBeasto](https://twitter.com/dasbeasto)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
+Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr ([@DasBeasto](https://twitter.com/dasbeasto)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha, Cien
 
 ## Acknowledgement
 
