@@ -120,16 +120,10 @@ const Team = ({ isTeamOwner, workspace }) => {
             subtitle="Allow other people to join your team through the link below"
           >
             <div className="flex items-center justify-between px-3 py-2 space-x-5 font-mono text-sm border rounded">
-              <span className="overflow-x-auto">
-                {`${process.env.NEXT_PUBLIC_URL}/teams/invite?code=${encodeURI(
-                  workspace.inviteCode
-                )}`}
-              </span>
+              <span className="overflow-x-auto">{workspace.inviteLink}</span>
               <CopyToClipboard
                 onCopy={copyToClipboard}
-                text={`${
-                  process.env.NEXT_PUBLIC_URL
-                }/teams/invite?code=${encodeURI(workspace.inviteCode)}`}
+                text={workspace.inviteLink}
               >
                 <DocumentDuplicateIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
               </CopyToClipboard>
@@ -348,6 +342,9 @@ export const getServerSideProps = async (context) => {
 
     if (workspace) {
       isTeamOwner = isWorkspaceOwner(session.user.email, workspace);
+      workspace.inviteLink = `${
+        process.env.APP_URL
+      }/teams/invite?code=${encodeURI(workspace.inviteCode)}`;
     }
   }
 

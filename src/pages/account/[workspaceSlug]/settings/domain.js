@@ -166,10 +166,10 @@ export const getServerSideProps = async (context) => {
     );
 
     if (workspace) {
-      const appUrl = new URL(process.env.APP_URL);
+      const { host } = new URL(process.env.APP_URL);
       isTeamOwner = isWorkspaceOwner(session.user.email, workspace);
-      workspace.host = appUrl.host;
-      workspace.hostname = `${workspace.slug}.${appUrl.host}`;
+      workspace.host = host;
+      workspace.hostname = `${workspace.slug}.${host}`;
     }
   }
 
