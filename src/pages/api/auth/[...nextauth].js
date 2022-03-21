@@ -5,7 +5,7 @@ import EmailProvider from 'next-auth/providers/email';
 import prisma from '@/prisma/index';
 import { html, text } from '@/config/email-templates/signin';
 import { emailConfig, sendMail } from '@/lib/server/mail';
-import { getPayment } from '@/prisma/services/customer';
+import { createPaymentAccount, getPayment } from '@/prisma/services/customer';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
