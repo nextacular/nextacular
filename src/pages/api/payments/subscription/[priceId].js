@@ -24,8 +24,8 @@ const handler = async (req, res) => {
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: lineItems,
-      success_url: `${process.env.NEXTAUTH_URL}/account/payment?status=success`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/account/payment?status=cancelled`,
+      success_url: `${process.env.APP_URL}/account/payment?status=success`,
+      cancel_url: `${process.env.APP_URL}/account/payment?status=cancelled`,
       metadata: {
         customerId: customerPayment.customerId,
         type: product.metadata.type,

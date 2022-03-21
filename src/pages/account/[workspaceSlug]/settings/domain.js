@@ -79,13 +79,9 @@ const Domain = ({ isTeamOwner, workspace }) => {
             <div className="flex items-center justify-between px-3 py-2 font-mono text-sm border rounded md:w-1/2">
               <div>
                 <strong>{workspace.slug}</strong>
-                <span className="pr-3">
-                  .{process.env.NEXT_PUBLIC_ROOT_URL}
-                </span>
+                <span className="pr-3">.{workspace.host}</span>
               </div>
-              <Link
-                href={`http://${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}
-              >
+              <Link href={`http://${workspace.hostname}`}>
                 <a target="_blank">
                   <ExternalLinkIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
                 </a>
@@ -137,7 +133,7 @@ const Domain = ({ isTeamOwner, workspace }) => {
                 <DomainCard
                   key={index}
                   apex={process.env.NEXT_PUBLIC_VERCEL_IP_ADDRESS}
-                  cname={`${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}
+                  cname={workspace.hostname}
                   isLoading={false}
                   name={domain.name}
                   refresh={refresh}
@@ -170,7 +166,10 @@ export const getServerSideProps = async (context) => {
     );
 
     if (workspace) {
+      const appUrl = new URL(process.env.APP_URL);
       isTeamOwner = isWorkspaceOwner(session.user.email, workspace);
+      workspace.host = appUrl.host;
+      workspace.hostname = `${workspace.slug}.${appUrl.host}`;
     }
   }
 

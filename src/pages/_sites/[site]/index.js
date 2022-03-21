@@ -1,9 +1,9 @@
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import DefaultErrorPage from 'next/error';
-import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import Meta from '@/components/Meta';
 import {
   getSiteWorkspace,
   getWorkspacePaths,
@@ -18,6 +18,7 @@ const Site = ({ workspace }) => {
 
   return workspace ? (
     <main className="relative flex flex-col items-center justify-center h-screen space-y-10 text-gray-800 bg-gray-50">
+      <Meta title={workspace.name} />
       <div className="flex flex-col items-center justify-center p-10 space-y-5 text-center ">
         <h1 className="text-4xl font-bold">
           Welcome to your workspace's subdomain!
@@ -26,14 +27,12 @@ const Site = ({ workspace }) => {
           This is the workspace of <strong>{workspace.name}.</strong>
         </h2>
         <p>You can also visit these links:</p>
-        <Link
-          href={`https://${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}
-        >
+        <Link href={`https://${workspace.hostname}`}>
           <a
             className="flex space-x-3 text-blue-600 hover:underline"
             target="_blank"
           >
-            <span>{`${workspace.slug}.${process.env.NEXT_PUBLIC_ROOT_URL}`}</span>
+            <span>{`${workspace.hostname}`}</span>
             <ExternalLinkIcon className="w-5 h-5" />
           </a>
         </Link>
@@ -52,9 +51,7 @@ const Site = ({ workspace }) => {
     </main>
   ) : (
     <>
-      <Head>
-        <meta name="robots" content="noindex" />
-      </Head>
+      <Meta noIndex />
       <DefaultErrorPage statusCode={404} />
     </>
   );
@@ -70,7 +67,18 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const { site } = params;
-  const workspace = await getSiteWorkspace(site, site.includes('.'));
+  const siteWorkspace = await getSiteWorkspace(site, site.includes('.'));
+  let workspace = null;
+
+  if (siteWorkspace) {
+    const appUrl = new URL(process.env.APP_URL);
+    workspace = {
+      domains: siteWorkspace.domains,
+      name: siteWorkspace.name,
+      hostname: `${siteWorkspace.slug}.${appUrl.host}`,
+    };
+  }
+
   return {
     props: { workspace },
     revalidate: 10,
