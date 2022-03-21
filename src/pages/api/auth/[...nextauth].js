@@ -6,6 +6,7 @@ import prisma from '@/prisma/index';
 import { html, text } from '@/config/email-templates/signin';
 import { emailConfig, sendMail } from '@/lib/server/mail';
 import { createPaymentAccount, getPayment } from '@/prisma/services/customer';
+import { logCreateAccount } from '@/prisma/services/user';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -29,7 +30,10 @@ export default NextAuth({
       const customerPayment = await getPayment(user.email);
 
       if (isNewUser || customerPayment === null || user.createdAt === null) {
-        await createPaymentAccount(user.email, user.id);
+        new Promise.all(
+          createPaymentAccount(user.email, user.id),
+          logCreateAccount(user.email)
+        );
       }
     },
   },
