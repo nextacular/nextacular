@@ -89,6 +89,10 @@ Nextacular's Previous and Upcoming Features: [https://github.com/arjayosma/nexta
 
 ## Company Sponsors
 
+## Vercel
+
+[![Powered by Vercel](./public/images/powered-by-vercel.svg)](https://vercel.com/?utm_source=nextacular&utm_campaign=oss)
+
 ### GitBook - Documentation Sponsor
 
 [![GitBook](https://www.vectorlogo.zone/logos/gitbook/gitbook-ar21.svg)](https://gitbook.com)
