@@ -79,7 +79,7 @@ const General = ({ isTeamOwner, workspace }) => {
     setName(workspace.name);
     setSlug(workspace.slug);
     setWorkspace(workspace);
-  }, [workspace]);
+  }, [workspace, setWorkspace]);
 
   return (
     <AccountLayout>

@@ -89,8 +89,8 @@ const Advanced = ({ isCreator }) => {
                 Your workspace will be deleted, along with all of its contents.
               </span>
               <span>
-                Data associated with this workspace can't be accessed by team
-                members.
+                Data associated with this workspace can&apos;t be accessed by
+                team members.
               </span>
             </p>
             <p className="px-3 py-2 text-red-600 border border-red-600 rounded">

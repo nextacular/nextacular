@@ -21,7 +21,7 @@ const Site = ({ workspace }) => {
       <Meta title={workspace.name} />
       <div className="flex flex-col items-center justify-center p-10 space-y-5 text-center ">
         <h1 className="text-4xl font-bold">
-          Welcome to your workspace's subdomain!
+          Welcome to your workspace&apos;s subdomain!
         </h1>
         <h2 className="text-2xl">
           This is the workspace of <strong>{workspace.name}.</strong>

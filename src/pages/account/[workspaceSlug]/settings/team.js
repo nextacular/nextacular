@@ -285,11 +285,11 @@ const Team = ({ isTeamOwner, workspace }) => {
                                           onClick={() => changeRole(member.id)}
                                         >
                                           <span>
-                                            Change role to "
+                                            Change role to &quot;
                                             {member.teamRole === TeamRole.MEMBER
                                               ? TeamRole.OWNER
                                               : TeamRole.MEMBER}
-                                            "
+                                            &quot;
                                           </span>
                                         </button>
                                       </Menu.Item>

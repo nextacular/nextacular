@@ -137,7 +137,7 @@ const Welcome = () => {
             ))
           ) : (
             <Card.Empty>
-              You haven't received any invitations to a workspace yet.
+              You haven&apos;t received any invitations to a workspace yet.
             </Card.Empty>
           )}
         </div>
