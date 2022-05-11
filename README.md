@@ -65,7 +65,6 @@ Read the [docs](https://docs.nextacular.co) for more details
 - Hero Icons - 1.0.5
 - Date FNS - 2.28.0
 - Express Validator - 6.14.0
-- Micro - 9.3.4
 - Next Themes - 0.0.15
 - Nodemailer - 6.7.2
 - React Copy to Clipboard - 5.0.4

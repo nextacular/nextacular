@@ -8,7 +8,7 @@ const handler = async (req, res) => {
 
   try {
     event = stripe.webhooks.constructEvent(
-      req.body,
+      req.rawBody,
       signature,
       process.env.PAYMENTS_SIGNING_SECRET
     );
