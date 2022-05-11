@@ -1,3 +1,5 @@
+import { buffer } from 'micro';
+
 import stripe from '@/lib/server/stripe';
 import { updateSubscription } from '@/prisma/services/customer';
 import prisma from '@/prisma/index';
@@ -5,12 +7,13 @@ import prisma from '@/prisma/index';
 export const config = { api: { bodyParser: false } };
 
 const handler = async (req, res) => {
+  const reqBuffer = await buffer(req);
   const signature = req.headers['stripe-signature'];
   let event = null;
 
   try {
     event = stripe.webhooks.constructEvent(
-      req.body,
+      reqBuffer,
       signature,
       process.env.PAYMENTS_SIGNING_SECRET
     );
