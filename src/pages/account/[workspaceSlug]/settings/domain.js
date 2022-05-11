@@ -44,8 +44,32 @@ const Domain = ({ isTeamOwner, workspace }) => {
 
   const handleDomainChange = (event) => setDomain(event.target.value);
 
-  const refresh = (domain) =>
-    mutate(`/api/workspace/domain/check?domain=${domain}`);
+  const refresh = (domain, verified) => {
+    setSubmittingState(true);
+
+    if (verified) {
+      mutate(`/api/workspace/domain/check?domain=${domain}`).then(() =>
+        setSubmittingState(false)
+      );
+    } else {
+      api(`/api/workspace/${workspace.slug}/domain`, {
+        body: { domainName: domain },
+        method: 'PUT',
+      }).then((response) => {
+        setSubmittingState(false);
+
+        if (response.errors) {
+          Object.keys(response.errors).forEach((error) =>
+            toast.error(response.errors[error].msg)
+          );
+        } else {
+          toast.success('Domain successfully verified!');
+        }
+      });
+    }
+
+    return verified;
+  };
 
   const remove = (domain) => {
     api(`/api/workspace/${workspace.slug}/domain`, {
@@ -134,8 +158,8 @@ const Domain = ({ isTeamOwner, workspace }) => {
                   key={index}
                   apex={process.env.NEXT_PUBLIC_VERCEL_IP_ADDRESS}
                   cname={workspace.hostname}
-                  isLoading={false}
-                  name={domain.name}
+                  isLoading={isSubmitting}
+                  domain={domain}
                   refresh={refresh}
                   remove={remove}
                 />

@@ -35,15 +35,17 @@ const Login = () => {
     signIn(socialId);
   };
 
-  useEffect(async () => {
-    const socialProviders = [];
-    const { email, ...providers } = await getProviders();
+  useEffect(() => {
+    (async () => {
+      const socialProviders = [];
+      const { email, ...providers } = await getProviders();
 
-    for (const provider in providers) {
-      socialProviders.push(providers[provider]);
-    }
+      for (const provider in providers) {
+        socialProviders.push(providers[provider]);
+      }
 
-    setSocialProviders([...socialProviders]);
+      setSocialProviders([...socialProviders]);
+    })();
   }, []);
 
   return (

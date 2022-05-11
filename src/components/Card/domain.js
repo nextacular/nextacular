@@ -7,9 +7,18 @@ import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import { useDomain } from '@/hooks/data';
 
-const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
+const DomainCard = ({ apex, cname, domain, isLoading, refresh, remove }) => {
+  const { name, subdomain, value, verified } = domain || {};
   const { data, isLoading: isChecking } = useDomain(name);
-  const [display, setDisplay] = useState('cname');
+  const [display, setDisplay] = useState(verified ? 'cname' : 'txt');
+
+  const handleRefresh = (name, isVerified) => {
+    const verified = refresh(name, isVerified);
+
+    if (verified) {
+      setDisplay('cname');
+    }
+  };
 
   const onRemove = () => {
     const result = confirm(
@@ -24,6 +33,8 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
   const showApex = () => setDisplay('apex');
 
   const showCName = () => setDisplay('cname');
+
+  const showTxt = () => setDisplay('txt');
 
   return (
     <Card>
@@ -42,7 +53,7 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
                   <ExternalLinkIcon className="w-5 h-5" />
                 </a>
               </Link>
-              {!data?.valid ? (
+              {!data?.valid || !verified ? (
                 <h3 className="flex items-center space-x-1 text-red-600">
                   <XCircleIcon className="w-5 h-5" />
                   <span>Invalid Configuration</span>
@@ -56,28 +67,44 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
             </div>
             <div className="flex flex-col space-y-5">
               <div className="flex space-x-3">
-                <button
-                  className={[
-                    'py-2',
-                    display === 'cname'
-                      ? 'border-b-2 border-b-gray-800'
-                      : 'text-gray-400',
-                  ].join(' ')}
-                  onClick={showCName}
-                >
-                  CNAME Record (subdomains)
-                </button>
-                <button
-                  className={[
-                    'py-2',
-                    display === 'apex'
-                      ? 'border-b-2 border-b-gray-800'
-                      : 'text-gray-400',
-                  ].join(' ')}
-                  onClick={showApex}
-                >
-                  A Record (apex domain)
-                </button>
+                {!verified ? (
+                  <button
+                    className={[
+                      'py-2',
+                      display === 'txt'
+                        ? 'border-b-2 border-b-gray-800'
+                        : 'text-gray-400',
+                    ].join(' ')}
+                    onClick={showTxt}
+                  >
+                    TXT Record (verification)
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      className={[
+                        'py-2',
+                        display === 'cname'
+                          ? 'border-b-2 border-b-gray-800'
+                          : 'text-gray-400',
+                      ].join(' ')}
+                      onClick={showCName}
+                    >
+                      CNAME Record (subdomains)
+                    </button>
+                    <button
+                      className={[
+                        'py-2',
+                        display === 'apex'
+                          ? 'border-b-2 border-b-gray-800'
+                          : 'text-gray-400',
+                      ].join(' ')}
+                      onClick={showApex}
+                    >
+                      A Record (apex domain)
+                    </button>
+                  </>
+                )}
               </div>
               <p>Set the following record on your DNS provider to continue:</p>
               <table className="bg-gray-100 table-fixed">
@@ -91,11 +118,25 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
                 <tbody>
                   <tr className="font-mono text-sm">
                     <td className="p-3">
-                      {display === 'cname' ? 'CNAME' : 'A'}
+                      {display === 'cname'
+                        ? 'CNAME'
+                        : display === 'txt'
+                        ? 'TXT'
+                        : 'A'}
                     </td>
-                    <td className="p-3">{display === 'cname' ? 'www' : '@'}</td>
                     <td className="p-3">
-                      {display === 'cname' ? cname : apex}
+                      {display === 'cname'
+                        ? 'www'
+                        : display === 'txt'
+                        ? subdomain
+                        : '@'}
+                    </td>
+                    <td className="p-3">
+                      {display === 'cname'
+                        ? cname
+                        : display === 'txt'
+                        ? value
+                        : apex}
                     </td>
                   </tr>
                 </tbody>
@@ -103,15 +144,27 @@ const DomainCard = ({ apex, cname, isLoading, name, refresh, remove }) => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <span />
+            {!verified ? (
+              <span className="text-red-600">
+                <strong>Error</strong>: Domain {name} was added to a different
+                project. Please complete verification to add it to this project
+                instead.
+              </span>
+            ) : (
+              <span />
+            )}
             <div className="flex flex-row space-x-3">
-              {!data?.valid && (
+              {(!data?.valid || !verified) && (
                 <Button
                   className="text-gray-600 border border-gray-600 hover:border-gray-600 hover:text-gray-600"
                   disabled={isChecking}
-                  onClick={() => refresh(name)}
+                  onClick={() => handleRefresh(name, verified)}
                 >
-                  {isChecking ? 'Checking...' : 'Refresh'}
+                  {isChecking
+                    ? 'Checking...'
+                    : !verified
+                    ? 'Verify'
+                    : 'Refresh'}
                 </Button>
               )}
               <Button

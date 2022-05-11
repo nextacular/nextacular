@@ -50,6 +50,9 @@ model Domain {
   workspaceId String
   addedById   String
   name        String
+  subdomain   String?
+  verified    Boolean?  @default(true)
+  value       String?
   createdAt   DateTime? @default(now())
   deletedAt   DateTime?
   updatedAt   DateTime? @updatedAt
