@@ -87,6 +87,7 @@ Check out these amazing projects built with Nextacular:
 1. [Nextacular Demo](https://demo.nextacular.co) by Nextacular
 2. [Livebic](https://livebic.com/) by Shadrach
 3. [Vixion Pro Blogging](https://vixion.pro) by Mina
+4. [Living Pupil Homeschool Solutions](https://livingpupilhomeschool.com) by Living Pupil
 
 > If you have a project built with Nextacular and want to be listed, feel free to reach out to us through our Discord server.
 
