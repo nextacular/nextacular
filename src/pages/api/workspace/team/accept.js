@@ -1,4 +1,5 @@
 import { InvitationStatus } from '@prisma/client';
+import { updateStatus } from '@/prisma/services/membership';
 
 import { validateSession } from '@/config/api-validation';
 
