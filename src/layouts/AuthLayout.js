@@ -6,17 +6,18 @@ import { Toaster } from 'react-hot-toast';
 
 const AuthLayout = ({ children }) => {
   const router = useRouter();
-  const { data } = useSession();
+  const { status } = useSession();
   const { setTheme } = useTheme();
 
   useEffect(() => {
     setTheme('light');
 
-    if (data) {
+    if (status === 'authenticated') {
       router.push('/account');
     }
-  }, [data, router]);
+  }, [status, router]);
 
+  if (status === 'loading') return <></>;
   return (
     <main className="relative flex flex-col items-center justify-center h-screen p-10 space-y-10">
       <Toaster position="bottom-center" toastOptions={{ duration: 10000 }} />
