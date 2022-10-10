@@ -8,7 +8,7 @@ import {
   MoonIcon,
   SunIcon,
   UserCircleIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';

@@ -6,7 +6,7 @@ import {
   DotsVerticalIcon,
   PlusCircleIcon,
   XIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 import { InvitationStatus, TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 import CopyToClipboard from 'react-copy-to-clipboard';

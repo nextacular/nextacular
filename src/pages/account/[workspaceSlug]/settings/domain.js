@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
+import { ExternalLinkIcon } from '@heroicons/react/24/outline';
 import { getSession } from 'next-auth/react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';

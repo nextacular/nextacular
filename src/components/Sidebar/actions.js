@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, PlusIcon, SelectorIcon } from '@heroicons/react/solid';
+import { CheckIcon, PlusIcon, SelectorIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 

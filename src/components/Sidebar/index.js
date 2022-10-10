@@ -6,7 +6,7 @@ import Menu from './menu';
 import sidebarMenu from '@/config/menu/sidebar-static';
 import { useWorkspaces } from '@/hooks/data';
 import { useWorkspace } from '@/providers/workspace';
-import { MenuIcon } from '@heroicons/react/outline';
+import { MenuIcon } from '@heroicons/react/24/outline';
 
 const staticMenu = sidebarMenu();
 

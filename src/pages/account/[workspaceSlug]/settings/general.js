@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DocumentDuplicateIcon } from '@heroicons/react/outline';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';

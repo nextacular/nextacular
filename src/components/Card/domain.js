@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
+import { ExternalLinkIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 
 import Button from '@/components/Button/index';
