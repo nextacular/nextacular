@@ -61,19 +61,19 @@ Read the [docs](https://docs.nextacular.co) for more details
 
 ## Dependencies
 
-- Headless UI - 1.4.2
-- Hero Icons - 1.0.5
-- Date FNS - 2.28.0
-- Express Validator - 6.14.0
-- Micro - 9.3.4
-- Next Themes - 0.0.15
-- Nodemailer - 6.7.2
-- React Copy to Clipboard - 5.0.4
-- React Google Analytics - 3.3.0
-- React Hot Toast - 2.2.0
-- React Top Bar Progress Indicator - 4.1.0
+- Headless UI - 1.7.3
+- Hero Icons - 2.0.12
+- Date FNS - 2.29.3
+- Express Validator - 6.14.2
+- Micro - 9.4.1
+- Next Themes - 0.2.1
+- Nodemailer - 6.8.0
+- React Copy to Clipboard - 5.1.0
+- React Google Analytics - 3.3.1
+- React Hot Toast - 2.4.0
+- React Top Bar Progress Indicator - 4.1.1
 - Slugify - 1.6.5
-- SWR - 1.2.1
+- SWR - 1.3.0
 - Validator - 13.7.0
 
 ## Project Roadmap
