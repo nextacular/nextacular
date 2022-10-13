@@ -53,9 +53,9 @@ Read the [docs](https://docs.nextacular.co) for more details
 
 ### Primary
 
-- [Next.JS](https://nextjs.org)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Prisma](https://prisma.io)
+- [Next.JS](https://nextjs.org) - **12.3.1**
+- [Tailwind CSS](https://tailwindcss.com) - **3.1.8**
+- [Prisma](https://prisma.io) - **4.4.0**
 - [Stripe](https://stripe.com)
 - [Vercel](https://vercel.com)
 
