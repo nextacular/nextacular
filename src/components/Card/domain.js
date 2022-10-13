@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ExternalLinkIcon } from '@heroicons/react/24/outline';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 
@@ -50,7 +50,7 @@ const DomainCard = ({ apex, cname, domain, isLoading, refresh, remove }) => {
                   target="_blank"
                 >
                   <span>Visit {name}</span>
-                  <ExternalLinkIcon className="w-5 h-5" />
+                  <ArrowTopRightOnSquareIcon className="w-5 h-5" />
                 </a>
               </Link>
               {!data?.valid || !verified ? (
