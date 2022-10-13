@@ -53,7 +53,7 @@ Read the [docs](https://docs.nextacular.co) for more details
 
 ### Primary
 
-- [Next.JS](https://nextjs.org) - **12.3.1**
+- [Next.JS](https://nextjs.org) - **12.3.1** (React **18.2.0**)
 - [Tailwind CSS](https://tailwindcss.com) - **3.1.8**
 - [Prisma](https://prisma.io) - **4.4.0**
 - [Stripe](https://stripe.com)
