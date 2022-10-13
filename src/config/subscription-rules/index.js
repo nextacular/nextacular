@@ -1,6 +1,6 @@
 import { SubscriptionType } from '@prisma/client';
 
-export default {
+const rules = {
   [SubscriptionType.FREE]: {
     customDomains: 1,
     members: 1,
@@ -17,3 +17,5 @@ export default {
     workspaces: 10,
   },
 };
+
+export default rules;
