@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MenuIcon, XIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -18,9 +18,9 @@ const Hero = () => {
           </Link>
           <button className="md:hidden" onClick={toggleMenu}>
             {!showMenu ? (
-              <MenuIcon className="w-8 h-8" />
+              <Bars3Icon className="w-8 h-8" />
             ) : (
-              <XIcon className="w-8 h-8" />
+              <XMarkIcon className="w-8 h-8" />
             )}
           </button>
           <div

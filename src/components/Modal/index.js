@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 const Modal = ({ children, show, title, toggle }) => {
   return (
@@ -42,7 +42,7 @@ const Modal = ({ children, show, title, toggle }) => {
                 className="absolute top-0 outline-none right-5"
                 onClick={toggle}
               >
-                <XIcon className="w-6 h-6" />
+                <XMarkIcon className="w-6 h-6" />
               </button>
             </div>
           </Transition.Child>

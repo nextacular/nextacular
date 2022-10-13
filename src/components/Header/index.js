@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
+  ArrowRightOnRectangleIcon,
   CogIcon,
   CreditCardIcon,
-  DesktopComputerIcon,
-  LogoutIcon,
+  ComputerDesktopIcon,
   MoonIcon,
   SunIcon,
   UserCircleIcon,
@@ -78,7 +78,7 @@ const Header = () => {
               <Menu.Item>
                 <Link href="/">
                   <a className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group">
-                    <DesktopComputerIcon
+                    <ComputerDesktopIcon
                       aria-hidden="true"
                       className="w-5 h-5"
                     />
@@ -111,7 +111,10 @@ const Header = () => {
                   className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group"
                   onClick={logOut}
                 >
-                  <LogoutIcon aria-hidden="true" className="w-5 h-5" />
+                  <ArrowRightOnRectangleIcon
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                  />
                   <span>Logout</span>
                 </button>
               </Menu.Item>
