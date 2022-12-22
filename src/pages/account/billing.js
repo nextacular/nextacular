@@ -122,10 +122,12 @@ const Billing = ({ invoices, products }) => {
               {invoices.map((invoice, index) => (
                 <tr key={index} className="text-sm hover:bg-gray-100">
                   <td className="px-3 py-5">
-                    <Link href={invoice.hosted_invoice_url}>
-                      <a className="text-blue-600" target="_blank">
-                        {invoice.number}
-                      </a>
+                    <Link
+                      href={invoice.hosted_invoice_url}
+                      className="text-blue-600"
+                      target="_blank"
+                    >
+                      {invoice.number}
                     </Link>
                   </td>
                   <td className="py-5">
@@ -139,10 +141,12 @@ const Billing = ({ invoices, products }) => {
                   </td>
                   <td className="py-5">{invoice.status}</td>
                   <td className="py-5">
-                    <Link href={invoice.hosted_invoice_url}>
-                      <a className="text-blue-600" target="_blank">
-                        &rarr;
-                      </a>
+                    <Link
+                      href={invoice.hosted_invoice_url}
+                      className="text-blue-600"
+                      target="_blank"
+                    >
+                      &rarr;
                     </Link>
                   </td>
                 </tr>

@@ -44,14 +44,13 @@ const DomainCard = ({ apex, cname, domain, isLoading, refresh, remove }) => {
         <>
           <Card.Body title={name}>
             <div className="flex items-center mb-5 space-x-3">
-              <Link href={`https://${name}`}>
-                <a
-                  className="flex items-center space-x-2 text-blue-600 hover:underline"
-                  target="_blank"
-                >
-                  <span>Visit {name}</span>
-                  <ExternalLinkIcon className="w-5 h-5" />
-                </a>
+              <Link
+                href={`https://${name}`}
+                className="flex items-center space-x-2 text-blue-600 hover:underline"
+                target="_blank"
+              >
+                <span>Visit {name}</span>
+                <ExternalLinkIcon className="w-5 h-5" />
               </Link>
               {!data?.valid || !verified ? (
                 <h3 className="flex items-center space-x-1 text-red-600">

@@ -6,7 +6,6 @@ const middleware = (req) => {
   const { pathname } = req.nextUrl;
   const hostname = req.headers.get('host');
   const currentHost = hostname.replace(`.${host}`, '');
-
   if (pathname.startsWith(`/_sites`)) {
     return new Response(null, { status: 404 });
   }
