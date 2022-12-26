@@ -43,7 +43,7 @@ const Site = ({ workspace }) => {
             target="_blank"
           >
             <span>{domain.name}</span>
-            <ExternalLinkIcon className="w-5 h-5" />
+            <ArrowTopRightOnSquareIcon className="w-5 h-5" />
           </Link>
         ))}
       </div>
