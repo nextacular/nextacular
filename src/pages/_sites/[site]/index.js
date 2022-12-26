@@ -27,24 +27,23 @@ const Site = ({ workspace }) => {
           This is the workspace of <strong>{workspace.name}.</strong>
         </h2>
         <p>You can also visit these links:</p>
-        <Link href={`https://${workspace.hostname}`}>
-          <a
+        <Link
+          href={`https://${workspace.hostname}`}
+          className="flex space-x-3 text-blue-600 hover:underline"
+          target="_blank"
+        >
+          <span>{`${workspace.hostname}`}</span>
+          <ArrowTopRightOnSquareIcon className="w-5 h-5" />
+        </Link>
+        {workspace.domains.map((domain, index) => (
+          <Link
+            key={index}
+            href={`https://${domain.name}`}
             className="flex space-x-3 text-blue-600 hover:underline"
             target="_blank"
           >
-            <span>{`${workspace.hostname}`}</span>
-            <ArrowTopRightOnSquareIcon className="w-5 h-5" />
-          </a>
-        </Link>
-        {workspace.domains.map((domain, index) => (
-          <Link key={index} href={`https://${domain.name}`}>
-            <a
-              className="flex space-x-3 text-blue-600 hover:underline"
-              target="_blank"
-            >
-              <span>{domain.name}</span>
-              <ArrowTopRightOnSquareIcon className="w-5 h-5" />
-            </a>
+            <span>{domain.name}</span>
+            <ExternalLinkIcon className="w-5 h-5" />
           </Link>
         ))}
       </div>

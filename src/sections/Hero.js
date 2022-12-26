@@ -13,8 +13,8 @@ const Hero = () => {
     <div className="w-full py-10">
       <div className="relative flex flex-col px-10 mx-auto space-y-5 md:w-3/4">
         <header className="flex items-center justify-between space-x-3">
-          <Link href="/">
-            <a className="text-2xl font-bold">Nextacular</a>
+          <Link href="/" className="text-2xl font-bold">
+            Nextacular
           </Link>
           <button className="md:hidden" onClick={toggleMenu}>
             {!showMenu ? (
@@ -40,12 +40,9 @@ const Hero = () => {
               href={
                 sessionStatus === 'authenticated' ? '/account' : '/auth/login'
               }
+              className="w-full px-5 py-2 text-center text-white bg-blue-600 rounded shadow hover:bg-blue-500"
             >
-              <a className="w-full px-5 py-2 text-center text-white bg-blue-600 rounded shadow hover:bg-blue-500">
-                {sessionStatus === 'authenticated'
-                  ? 'Go to Dashboard'
-                  : 'Login'}
-              </a>
+              {sessionStatus === 'authenticated' ? 'Go to Dashboard' : 'Login'}
             </Link>
           </div>
         </header>

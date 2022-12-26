@@ -105,10 +105,8 @@ const Domain = ({ isTeamOwner, workspace }) => {
                 <strong>{workspace.slug}</strong>
                 <span className="pr-3">.{workspace.host}</span>
               </div>
-              <Link href={`http://${workspace.hostname}`}>
-                <a target="_blank">
-                  <ArrowTopRightOnSquareIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
-                </a>
+              <Link href={`http://${workspace.hostname}`} target="_blank">
+                <ArrowTopRightOnSquareIcon className="w-5 h-5 cursor-pointer hover:text-blue-600" />
               </Link>
             </div>
           </Card.Body>
