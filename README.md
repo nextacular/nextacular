@@ -10,10 +10,6 @@ An open-source starter kit that will help you build full-stack multi-tenant SaaS
 
 **Features** packaged out-of-the-box: **Authentication**, **Billing & Payment**, **Database**, **Email**, **Custom Domains**, **Multi-tenancy**, **Workspaces**, and **Teams**
 
-## **Help Ukraine 🇺🇦 Win**
-
-Take a look at the different ways you can [help Ukraine win](https://helpukrainewin.org)
-
 ## Live Demo
 
 Nextacular Demo: [https://demo.nextacular.co](https://demo.nextacular.co)
@@ -61,7 +57,7 @@ Read the [docs](https://docs.nextacular.co) for more details
 
 ## Dependencies
 
-- Headless UI - 1.7.3
+- Headless UI - 1.7.7
 - Hero Icons - 2.0.12
 - Date FNS - 2.29.3
 - Express Validator - 6.14.2
@@ -133,7 +129,7 @@ Show some love and support, and be a backer of our project
 
 [![Open Collective](https://www.vectorlogo.zone/logos/opencollective/opencollective-ar21.svg)](https://opencollective.com/nextacular)
 
-Brian Roach, Cien Lim, Chris Moutsos, Fred Guth ([@fredguth](https://twitter.com/fredguth)), Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr ([@DasBeasto](https://twitter.com/dasbeasto)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
+Brian Roach, Cien Lim, Chris Moutsos, Fred Guth ([@fredguth](https://twitter.com/fredguth)), Maxence Rose ([@pirmax](https://twitter.com/pirmax)) Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr ([@DasBeasto](https://twitter.com/dasbeasto)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
 
 ## Acknowledgement
 
