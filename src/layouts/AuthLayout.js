@@ -15,7 +15,7 @@ const AuthLayout = ({ children }) => {
     if (status === 'authenticated') {
       router.push('/account');
     }
-  }, [status, router]);
+  }, [setTheme, status, router]);
 
   if (status === 'loading') return <></>;
   return (

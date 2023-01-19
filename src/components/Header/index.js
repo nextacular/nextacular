@@ -1,14 +1,14 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
+  ArrowRightOnRectangleIcon,
   CogIcon,
   CreditCardIcon,
-  DesktopComputerIcon,
-  LogoutIcon,
+  ComputerDesktopIcon,
   MoonIcon,
   SunIcon,
   UserCircleIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
@@ -82,7 +82,7 @@ const Header = () => {
                   href="/"
                   className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group"
                 >
-                  <DesktopComputerIcon aria-hidden="true" className="w-5 h-5" />
+                  <ComputerDesktopIcon aria-hidden="true" className="w-5 h-5" />
                   <span>Landing Page</span>
                 </Link>
               </Menu.Item>
@@ -111,7 +111,10 @@ const Header = () => {
                   className="flex items-center w-full px-2 py-2 space-x-2 text-sm text-gray-800 rounded hover:bg-blue-600 hover:text-white group"
                   onClick={logOut}
                 >
-                  <LogoutIcon aria-hidden="true" className="w-5 h-5" />
+                  <ArrowRightOnRectangleIcon
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                  />
                   <span>Logout</span>
                 </button>
               </Menu.Item>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DocumentDuplicateIcon } from '@heroicons/react/outline';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { getSession, signOut } from 'next-auth/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';

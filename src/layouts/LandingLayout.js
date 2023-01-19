@@ -6,7 +6,7 @@ const LandingLayout = ({ children }) => {
 
   useEffect(() => {
     setTheme('light');
-  }, []);
+  }, [setTheme]);
 
   return (
     <main className="relative flex flex-col text-gray-800">{children}</main>

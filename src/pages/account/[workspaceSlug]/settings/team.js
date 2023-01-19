@@ -3,10 +3,10 @@ import { Menu, Transition } from '@headlessui/react';
 import {
   ChevronDownIcon,
   DocumentDuplicateIcon,
-  DotsVerticalIcon,
+  EllipsisVerticalIcon,
   PlusCircleIcon,
-  XIcon,
-} from '@heroicons/react/outline';
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import { InvitationStatus, TeamRole } from '@prisma/client';
 import { getSession } from 'next-auth/react';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -180,7 +180,7 @@ const Team = ({ isTeamOwner, workspace }) => {
                         className="text-red-600"
                         onClick={() => remove(index)}
                       >
-                        <XIcon className="w-5 h-5" />
+                        <XMarkIcon className="w-5 h-5" />
                       </button>
                     )}
                   </div>
@@ -265,7 +265,7 @@ const Team = ({ isTeamOwner, workspace }) => {
                               >
                                 <div>
                                   <Menu.Button className="flex items-center justify-center p-3 space-x-3 rounded hover:bg-gray-100">
-                                    <DotsVerticalIcon className="w-5 h-5" />
+                                    <EllipsisVerticalIcon className="w-5 h-5" />
                                   </Menu.Button>
                                 </div>
                                 <Transition

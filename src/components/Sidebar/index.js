@@ -6,7 +6,7 @@ import Menu from './menu';
 import sidebarMenu from '@/config/menu/sidebar-static';
 import { useWorkspaces } from '@/hooks/data';
 import { useWorkspace } from '@/providers/workspace';
-import { MenuIcon } from '@heroicons/react/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 
 const staticMenu = sidebarMenu();
 
@@ -44,7 +44,7 @@ const Sidebar = ({ menu }) => {
           Nextacular
         </Link>
         <button className="absolute right-0 p-5 md:hidden" onClick={toggleMenu}>
-          <MenuIcon className="w-6 h-6" />
+          <Bars3Icon className="w-6 h-6" />
         </button>
       </div>
       <div

@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from '@heroicons/react/outline';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import DefaultErrorPage from 'next/error';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -33,7 +33,7 @@ const Site = ({ workspace }) => {
           target="_blank"
         >
           <span>{`${workspace.hostname}`}</span>
-          <ExternalLinkIcon className="w-5 h-5" />
+          <ArrowTopRightOnSquareIcon className="w-5 h-5" />
         </Link>
         {workspace.domains.map((domain, index) => (
           <Link
@@ -43,7 +43,7 @@ const Site = ({ workspace }) => {
             target="_blank"
           >
             <span>{domain.name}</span>
-            <ExternalLinkIcon className="w-5 h-5" />
+            <ArrowTopRightOnSquareIcon className="w-5 h-5" />
           </Link>
         ))}
       </div>
