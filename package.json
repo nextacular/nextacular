@@ -9,6 +9,9 @@
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.12",
