@@ -1,6 +1,6 @@
 {
   "name": "nextacular",
-  "version": "1.3.0-Beta",
+  "version": "1.4.0-Beta",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
@@ -17,7 +20,6 @@
     "@stripe/stripe-js": "^1.38.1",
     "date-fns": "^2.29.3",
     "express-validator": "^6.14.2",
-    "logsnag": "^0.1.3",
     "micro": "^9.4.1",
     "next": "^13.1.0",
     "next-auth": "^4.12.3",
