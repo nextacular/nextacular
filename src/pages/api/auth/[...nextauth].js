@@ -7,7 +7,7 @@ import { html, text } from '@/config/email-templates/signin';
 import { emailConfig, sendMail } from '@/lib/server/mail';
 import { createPaymentAccount, getPayment } from '@/prisma/services/customer';
 
-export default NextAuth({
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   callbacks: {
     session: async ({ session, user }) => {
@@ -52,4 +52,6 @@ export default NextAuth({
   session: {
     jwt: true,
   },
-});
+};
+
+export default NextAuth(authOptions);
