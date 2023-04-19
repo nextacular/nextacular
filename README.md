@@ -6,7 +6,7 @@
 
 ![Nextacular - Quickly launch multi-tenant SaaS applications](./public/images/seo-cover.png)
 
-An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe
+An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, and Prisma
 
 **Features** packaged out-of-the-box: **Authentication**, **Billing & Payment**, **Database**, **Email**, **Custom Domains**, **Multi-tenancy**, **Workspaces**, and **Teams**
 
@@ -49,10 +49,9 @@ Read the [docs](https://docs.nextacular.co) for more details
 
 ### Primary
 
-- [Next.JS](https://nextjs.org) - **12.3.1** (React **18.2.0**)
+- [Next.JS](https://nextjs.org) - **13.1.0** (React **18.2.0**)
 - [Tailwind CSS](https://tailwindcss.com) - **3.1.8**
 - [Prisma](https://prisma.io) - **4.4.0**
-- [Stripe](https://stripe.com)
 - [Vercel](https://vercel.com)
 
 ## Dependencies
@@ -69,12 +68,9 @@ Read the [docs](https://docs.nextacular.co) for more details
 - React Hot Toast - 2.4.0
 - React Top Bar Progress Indicator - 4.1.1
 - Slugify - 1.6.5
+- Stripe - 10.13.0
 - SWR - 1.3.0
 - Validator - 13.7.0
-
-## Project Roadmap
-
-Nextacular's Previous and Upcoming Features: [https://github.com/nextacular/nextacular/projects/1](https://github.com/nextacular/nextacular/projects/1)
 
 ## Built With Nextacular
 
@@ -85,6 +81,7 @@ Check out these amazing projects built with Nextacular:
 3. [Vixion Pro Blogging](https://vixion.pro) by Mina
 4. [Living Pupil Homeschool Solutions](https://livingpupilhomeschool.com) by Living Pupil
 5. [MyWS](https://myws.dev) by @monoxruyi
+6. [Trippr AI](https://ai.trippr.travel) by Trippr Tech Inc.
 
 > If you have a project built with Nextacular and want to be listed, feel free to reach out to us through our Discord server.
 
@@ -105,7 +102,7 @@ Check out these amazing projects built with Nextacular:
 
 [![GitBook](https://www.vectorlogo.zone/logos/gitbook/gitbook-ar21.svg)](https://gitbook.com)
 
-Your company name could be here. If you wish to be listed as a sponsor, reach out to [arjay.osma@gmail.com](mailto:arjay.osma@gmail.com)
+Your company name could be here. If you wish to be listed as a sponsor, reach out to [teamnextacular@gmail.com](mailto:teamnextacular.com)
 
 ## Contributing
 
@@ -117,7 +114,7 @@ Want to support this project?
 4. Submit issues and features. Fork the project. Give it some stars. Join the discussion
 5. Share Nextacular with your network
 
-Read the [guidelines](CONTRIBUTING.md) for contributing
+> Read the [guidelines](CONTRIBUTING.md) for contributing
 
 ## License
 
@@ -129,7 +126,7 @@ Show some love and support, and be a backer of our project
 
 [![Open Collective](https://www.vectorlogo.zone/logos/opencollective/opencollective-ar21.svg)](https://opencollective.com/nextacular)
 
-Brian Roach, Cien Lim, Chris Moutsos, Fred Guth ([@fredguth](https://twitter.com/fredguth)), Maxence Rose ([@pirmax](https://twitter.com/pirmax)) Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr ([@DasBeasto](https://twitter.com/dasbeasto)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
+Kaur Kirikall ([@KaurKirikall](https://twitter.com/KaurKirikall)), Brian Roach, Cien Lim, Chris Moutsos, Fred Guth ([@fredguth](https://twitter.com/fredguth)), Maxence Rose ([@pirmax](https://twitter.com/pirmax)) Sandeep Kumar ([@deepsand](https://twitter.com/deepsand)), Justin Harr ([@DasBeasto](https://twitter.com/dasbeasto)), Saket Tawde ([@SaketCodes](https://twitter.com/SaketCodes)), Corey Kellgren, Adarsh Tadimari, Altamir Meister, Abhi Ksinha
 
 ## Acknowledgement
 
