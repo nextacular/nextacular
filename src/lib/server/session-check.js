@@ -1,8 +1,9 @@
-import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '/src/pages/api/auth/[...nextauth]';
 
 const validateMiddleware = () => {
   return async (req, res, next) => {
-    const session = await getSession({ req });
+    const session = await getServerSession(req, res, authOptions);
     const errors = [];
 
     if (!session) {
