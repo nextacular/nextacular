@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '/src/pages/api/auth/[...nextauth]';
+
+import { authOptions } from '@/lib/server/auth';
 
 const validateMiddleware = () => {
   return async (req, res, next) => {
