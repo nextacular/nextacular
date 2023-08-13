@@ -4,6 +4,6 @@ import validate from '@/lib/server/validate';
 
 const rules = [check('email').isEmail().withMessage('Email must be valid')];
 
-const validateUpdateName = initMiddleware(validate(rules));
+const validateUpdateEmail = initMiddleware(validate(rules));
 
-export default validateUpdateName;
+export default validateUpdateEmail;
