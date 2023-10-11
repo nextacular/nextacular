@@ -80,8 +80,10 @@ Check out these amazing projects built with Nextacular:
 2. [Livebic](https://livebic.com/) by Shadrach
 3. [Vixion Pro Blogging](https://vixion.pro) by Mina
 4. [Living Pupil Homeschool Solutions](https://livingpupilhomeschool.com) by Living Pupil
-5. [MyWS](https://myws.dev) by @monoxruyi
+5. [MyWS](https://myws.dev) by Ruyi (@monoxruyi/@ruyi12)
 6. [Trippr AI](https://ai.trippr.travel) by Trippr Tech Inc.
+7. [BuzzBonus](https://buzzbonus.tech) by Ram (@rapturt9)
+8. [MediumFox](https://mediumfox.com) by CSK (@medfox_73823)
 
 > If you have a project built with Nextacular and want to be listed, feel free to reach out to us through our Discord server.
 
