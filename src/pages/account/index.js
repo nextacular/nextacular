@@ -10,6 +10,7 @@ import { useInvitations, useWorkspaces } from '@/hooks/data/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
+import { useTranslation } from "react-i18next";
 
 const Welcome = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const Welcome = () => {
   const { data: workspacesData, isLoading: isFetchingWorkspaces } =
     useWorkspaces();
   const { setWorkspace } = useWorkspace();
+  const { t } = useTranslation();
   const [isSubmitting, setSubmittingState] = useState(false);
 
   const accept = (memberId) => {
@@ -65,8 +67,8 @@ const Welcome = () => {
     <AccountLayout>
       <Meta title="Nextacular - Dashboard" />
       <Content.Title
-        title="Nextacular Dashboard"
-        subtitle="Start building SaaS platforms in a day"
+        title={t('workspace.dashboard.header.title')}
+        subtitle={t("workspace.dashboard.header.description")}
       />
       <Content.Divider />
       <Content.Container>
@@ -91,14 +93,14 @@ const Welcome = () => {
               </Card>
             ))
           ) : (
-            <Card.Empty>Start creating a workspace now</Card.Empty>
+            <Card.Empty>{t('workspace.message.createworkspace')}</Card.Empty>
           )}
         </div>
       </Content.Container>
       <Content.Divider thick />
       <Content.Title
-        title="Workspace Invitations"
-        subtitle="Listed here are the invitations received by your account"
+        title={t("workspace.dashboard.header.invitations.title")}
+        subtitle={t("workspace.dashboard.header.invitations.description")}
       />
       <Content.Divider />
       <Content.Container>
@@ -113,9 +115,8 @@ const Welcome = () => {
               <Card key={index}>
                 <Card.Body
                   title={invitation.workspace.name}
-                  subtitle={`You have been invited by ${
-                    invitation.invitedBy.name || invitation.invitedBy.email
-                  }`}
+                  subtitle={`You have been invited by ${invitation.invitedBy.name || invitation.invitedBy.email
+                    }`}
                 />
                 <Card.Footer>
                   <Button
@@ -137,7 +138,7 @@ const Welcome = () => {
             ))
           ) : (
             <Card.Empty>
-              You haven&apos;t received any invitations to a workspace yet.
+              {t("workspace.team.invitations.empty.message")}
             </Card.Empty>
           )}
         </div>

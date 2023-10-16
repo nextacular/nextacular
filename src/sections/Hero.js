@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
   const { status: sessionStatus } = useSession();
   const [showMenu, setMenuVisibility] = useState(false);
 
   const toggleMenu = () => setMenuVisibility(!showMenu);
+  const { t } = useTranslation();
 
   return (
     <div className="w-full py-10">
@@ -32,9 +34,9 @@ const Hero = () => {
             ].join(' ')}
           >
             <nav className="flex flex-col w-full space-x-0 space-y-3 text-center md:space-y-0 md:space-x-3 md:flex-row">
-              <a className="px-5 py-2 rounded hover:bg-gray-100">Guides</a>
-              <a className="px-5 py-2 rounded hover:bg-gray-100">Pricing</a>
-              <a className="px-5 py-2 rounded hover:bg-gray-100">Blog</a>
+              <a className="px-5 py-2 rounded hover:bg-gray-100">{t("common.label.guides")}</a>
+              <a className="px-5 py-2 rounded hover:bg-gray-100">{t("common.label.pricing")}</a>
+              <a className="px-5 py-2 rounded hover:bg-gray-100">{t("common.label.blog")}</a>
             </nav>
             <Link
               href={

@@ -13,8 +13,10 @@ import Modal from '@/components/Modal/index';
 import { useWorkspaces } from '@/hooks/data/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
+import { useTranslation } from "react-i18next";
 
 const Actions = () => {
+  const { t } = useTranslation();
   const { data, isLoading } = useWorkspaces();
   const { workspace, setWorkspace } = useWorkspace();
   const router = useRouter();
@@ -60,19 +62,19 @@ const Actions = () => {
         onClick={toggleModal}
       >
         <PlusIcon className="w-5 h-5 text-white" aria-hidden="true" />
-        <span>Create Workspace</span>
+        <span>{t('workspace.action.button.label')}</span>
       </Button>
       <Modal show={showModal} title="Create a Workspace" toggle={toggleModal}>
         <div className="space-y-0 text-sm text-gray-600">
           <p>
-            Create a workspace to keep your team&apos;s content in one place.
+            {t("workspace.action.create.description.lineOne")}
           </p>
-          <p>You&apos;ll be able to invite everyone later!</p>
+          <p>{t("workspace.action.create.description.lineTwo")}</p>
         </div>
         <div className="space-y-1">
-          <h3 className="text-xl font-bold">Workspace Name</h3>
+          <h3 className="text-xl font-bold">{t("workspace.action.name.label")}</h3>
           <p className="text-sm text-gray-400">
-            Name your workspace. Keep it simple.
+            {t("workspace.suggesion.label")}
           </p>
           <input
             className="w-full px-3 py-2 border rounded"
@@ -88,7 +90,7 @@ const Actions = () => {
             disabled={!validName || isSubmitting}
             onClick={createWorkspace}
           >
-            <span>Create Workspace</span>
+            <span>{t('workspace.action.button.label')}</span>
           </Button>
         </div>
       </Modal>
@@ -99,10 +101,10 @@ const Actions = () => {
               {isLoading
                 ? 'Fetching workspaces...'
                 : data?.workspaces.length === 0
-                ? 'No workspaces found'
-                : workspace === null
-                ? 'Select a workspace...'
-                : workspace.name}
+                  ? t("workspace.message.notfound")
+                  : workspace === null
+                    ? t("workspace.action.label.select")
+                    : workspace.name}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <ChevronUpDownIcon

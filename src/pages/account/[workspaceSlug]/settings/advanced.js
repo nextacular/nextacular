@@ -12,9 +12,11 @@ import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
 import { getSession } from 'next-auth/react';
 import { getWorkspace, isWorkspaceCreator } from '@/prisma/services/workspace';
+import { useTranslation } from "react-i18next";
 
 const Advanced = ({ isCreator }) => {
   const { setWorkspace, workspace } = useWorkspace();
+  const { t } = useTranslation();
   const router = useRouter();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [showModal, setModalState] = useState(false);
@@ -53,21 +55,21 @@ const Advanced = ({ isCreator }) => {
     <AccountLayout>
       <Meta title={`Nextacular - ${workspace?.name} | Advanced Settings`} />
       <Content.Title
-        title="Advanced Workspace Settings"
-        subtitle="Manage your workspace settings"
+        title={t("settings.workspace.advanced")}
+        subtitle={t("settings.workspace.manage.label")}
       />
       <Content.Divider />
       <Content.Container>
         <Card danger>
           <Card.Body
-            title="Delete Workspace"
-            subtitle="The workspace will be permanently deleted, including its contents and domains. This action is irreversible and can not be undone."
+            title={t("settings.workspace.delete")}
+            subtitle={t("settings.workspace.delete.message")}
           />
           <Card.Footer>
             <small className={[isCreator && 'text-red-600']}>
               {isCreator
-                ? 'This action is not reversible. Please be certain.'
-                : 'Please contact your team creator for the deletion of your workspace.'}
+                ? t("setting.workspace.delete.warning.message")
+                : t("settings.workspace.delete.contact.message")}
             </small>
             {isCreator && (
               <Button
@@ -86,7 +88,7 @@ const Advanced = ({ isCreator }) => {
           >
             <p className="flex flex-col">
               <span>
-                Your workspace will be deleted, along with all of its contents.
+                {t("settings.workspace.delete.data.warning")}
               </span>
               <span>
                 Data associated with this workspace can&apos;t be accessed by
@@ -94,8 +96,7 @@ const Advanced = ({ isCreator }) => {
               </span>
             </p>
             <p className="px-3 py-2 text-red-600 border border-red-600 rounded">
-              <strong>Warning:</strong> This action is not reversible. Please be
-              certain.
+              <strong>Warning:</strong> {t("settings.workspace.delete.final.message")}
             </p>
             <div className="flex flex-col">
               <label className="text-sm text-gray-400">
@@ -115,7 +116,7 @@ const Advanced = ({ isCreator }) => {
                 disabled={!verifiedWorkspace || isSubmitting}
                 onClick={deleteWorkspace}
               >
-                <span>Delete Workspace</span>
+                <span>{t("settings.workspace.delete")}</span>
               </Button>
             </div>
           </Modal>

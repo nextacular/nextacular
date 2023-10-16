@@ -3,11 +3,11 @@ const menu = (workspaceId) => [
     name: 'Workspace',
     menuItems: [
       {
-        name: 'Home',
+        name: 'common.label.home',
         path: `/account/${workspaceId}`,
       },
       {
-        name: 'Integrations',
+        name: 'common.label.integrations',
         path: `/account/${workspaceId}/integrations`,
       },
     ],
@@ -16,19 +16,19 @@ const menu = (workspaceId) => [
     name: 'Settings',
     menuItems: [
       {
-        name: 'Workspace Information',
+        name: 'settings.workspace.information',
         path: `/account/${workspaceId}/settings/general`,
       },
       {
-        name: 'Domain Configurations',
+        name: 'settings.domain.configuration',
         path: `/account/${workspaceId}/settings/domain`,
       },
       {
-        name: 'Team Management',
+        name: 'settings.team.management',
         path: `/account/${workspaceId}/settings/team`,
       },
       {
-        name: 'Advanced',
+        name: 'settings.advanced',
         path: `/account/${workspaceId}/settings/advanced`,
       },
     ],

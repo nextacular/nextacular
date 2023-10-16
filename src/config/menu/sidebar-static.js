@@ -1,17 +1,20 @@
+import i18next from "i18next";
+
+
 const sidebarMenu = () => [
   {
     name: 'Account',
     menuItems: [
       {
-        name: 'Dashboard',
+        name: 'common.label.dashboard',
         path: `/account`,
       },
       {
-        name: 'Billing',
+        name: 'common.label.billing',
         path: `/account/billing`,
       },
       {
-        name: 'Settings',
+        name: 'common.label.settings',
         path: `/account/settings`,
       },
     ],

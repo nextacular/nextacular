@@ -6,10 +6,12 @@ import isEmail from 'validator/lib/isEmail';
 
 import Meta from '@/components/Meta/index';
 import { AuthLayout } from '@/layouts/index';
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const { status } = useSession();
   const [email, setEmail] = useState('');
+  const { t } = useTranslation();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [socialProviders, setSocialProviders] = useState([]);
   const validate = isEmail(email);
@@ -61,10 +63,9 @@ const Login = () => {
           </Link>
         </div>
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Sign in with your email</h1>
+          <h1 className="text-2xl font-bold">{t('login.label')}</h1>
           <h2 className="text-gray-600">
-            We&apos;ll send a magic link to your inbox to confirm your email
-            address and sign you in.
+            {t('login.message.magiclink')}
           </h2>
         </div>
         <form className="flex flex-col w-full space-y-3">
@@ -81,10 +82,10 @@ const Login = () => {
             onClick={signInWithEmail}
           >
             {status === 'loading'
-              ? 'Checking session...'
+              ? t("login.message.checking.session")
               : isSubmitting
-              ? 'Sending the link...'
-              : 'Send the Magic Link'}
+                ? t('login.message.sendinglink')
+                : t('login.message.magiclink')}
           </button>
         </form>
         {socialProviders.length > 0 && (
