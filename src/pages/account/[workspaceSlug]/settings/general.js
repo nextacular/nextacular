@@ -15,10 +15,12 @@ import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
 import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
+import { useTranslation } from "react-i18next";
 
 const General = ({ isTeamOwner, workspace }) => {
   const router = useRouter();
   const { setWorkspace } = useWorkspace();
+  const { t } = useTranslation();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [name, setName] = useState(workspace.name || '');
   const [slug, setSlug] = useState(workspace.slug || '');
@@ -85,15 +87,15 @@ const General = ({ isTeamOwner, workspace }) => {
     <AccountLayout>
       <Meta title={`Nextacular - ${workspace.name} | Settings`} />
       <Content.Title
-        title="Workspace Information"
-        subtitle="Manage your workspace details and information"
+        title={t("settings.workspace.information")}
+        subtitle={t("settings.general.workspace.description")}
       />
       <Content.Divider />
       <Content.Container>
         <Card>
           <Card.Body
-            title="Workspace Name"
-            subtitle="Used to identify your Workspace on the Dashboard"
+            title={t("workspace.action.name.label")}
+            subtitle={t("settings.workspace.name.description")}
           >
             <input
               className="px-3 py-2 border rounded md:w-1/2"
@@ -118,8 +120,8 @@ const General = ({ isTeamOwner, workspace }) => {
         </Card>
         <Card>
           <Card.Body
-            title="Workspace Slug"
-            subtitle="Used to identify your Workspace on the Dashboard"
+            title={t("settings.workspace.slug")}
+            subtitle={t("setting.workspace.slug.description")}
           >
             <div className="flex items-center space-x-3">
               <input
@@ -136,8 +138,7 @@ const General = ({ isTeamOwner, workspace }) => {
           </Card.Body>
           <Card.Footer>
             <small>
-              Please use 16 characters at maximum. Hyphenated alphanumeric
-              characters only.
+              {t("settings.workspace.slug.validation.message")}
             </small>
             {isTeamOwner && (
               <Button
@@ -145,15 +146,15 @@ const General = ({ isTeamOwner, workspace }) => {
                 disabled={!validSlug || isSubmitting}
                 onClick={changeSlug}
               >
-                Save
+                {t("common.label.save")}
               </Button>
             )}
           </Card.Footer>
         </Card>
         <Card>
           <Card.Body
-            title="Workspace ID"
-            subtitle="Used when interacting with APIs"
+            title={t("settings.workspace.slug.validation.message")}
+            subtitle={t("settings.workspace.id.description")}
           >
             <div className="flex items-center justify-between px-3 py-2 space-x-5 font-mono text-sm border rounded md:w-1/2">
               <span className="overflow-x-auto">{workspace.workspaceCode}</span>

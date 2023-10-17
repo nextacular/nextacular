@@ -13,6 +13,7 @@ import Modal from '@/components/Modal/index';
 import { AccountLayout } from '@/layouts/index';
 import api from '@/lib/common/api';
 import { getUser } from '@/prisma/services/user';
+import { useTranslation } from "react-i18next";
 
 const Settings = ({ user }) => {
   const [email, setEmail] = useState(user.email || '');
@@ -23,6 +24,7 @@ const Settings = ({ user }) => {
   const [verifyEmail, setVerifyEmail] = useState('');
   const validName = name.length > 0 && name.length <= 32;
   const validEmail = isEmail(email);
+  const { t } = useTranslation();
   const verifiedEmail = verifyEmail === email;
 
   const copyToClipboard = () => toast.success('Copied to clipboard!');
@@ -106,15 +108,15 @@ const Settings = ({ user }) => {
     <AccountLayout>
       <Meta title="Nextacular - Account Settings" />
       <Content.Title
-        title="Account Settings"
-        subtitle="Manage your profile, preferences, and account settings"
+        title={t("settings.header.title")}
+        subtitle={t("settings.header.description")}
       />
       <Content.Divider />
       <Content.Container>
         <Card>
           <form>
             <Card.Body
-              title="Your Name"
+              title={t("settings.profile.name")}
               subtitle="Please enter your full name, or a display name you are comfortable with"
             >
               <input
@@ -126,13 +128,13 @@ const Settings = ({ user }) => {
               />
             </Card.Body>
             <Card.Footer>
-              <small>Please use 32 characters at maximum</small>
+              <small>{t("settings.profile.name.validation.message")}</small>
               <Button
                 className="text-white bg-blue-600 hover:bg-blue-500"
                 disabled={!validName || isSubmitting}
                 onClick={changeName}
               >
-                Save
+                {t("common.label.save")}
               </Button>
             </Card.Footer>
           </form>
@@ -140,9 +142,8 @@ const Settings = ({ user }) => {
         <Card>
           <form>
             <Card.Body
-              title="Email Address"
-              subtitle="Please enter the email address you want to use to log in with
-              Nextacular"
+              title={t("settings.profile.email.label")}
+              subtitle={t("settings.profile.email.description")}
             >
               <input
                 className="px-3 py-2 border rounded md:w-1/2"
@@ -153,21 +154,21 @@ const Settings = ({ user }) => {
               />
             </Card.Body>
             <Card.Footer>
-              <small>We will email you to verify the change</small>
+              <small>{t("settings.profile.email.message")}</small>
               <Button
                 className="text-white bg-blue-600 hover:bg-blue-500"
                 disabled={!validEmail || isSubmitting}
                 onClick={changeEmail}
               >
-                Save
+                {t("common.label.save")}
               </Button>
             </Card.Footer>
           </form>
         </Card>
         <Card>
           <Card.Body
-            title="Personal Account ID"
-            subtitle="Used when interacting with APIs"
+            title={t("settings.profile.personal.account.id")}
+            subtitle={t("settings.profile.personal.account.message")}
           >
             <div className="flex items-center justify-between px-3 py-2 space-x-5 font-mono text-sm border rounded md:w-1/2">
               <span className="overflow-x-auto">{userCode}</span>
@@ -179,19 +180,18 @@ const Settings = ({ user }) => {
         </Card>
         <Card danger>
           <Card.Body
-            title="Danger Zone"
-            subtitle="Permanently remove your Personal Account and all of its contents
-              from Nextacular platform"
+            title={t("settings.account.deactive.title")}
+            subtitle={t("settings.account.deactive.description")}
           />
           <Card.Footer>
             <small>
-              This action is not reversible, so please continue with caution
+              {t("settings.account.deactive.message")}
             </small>
             <Button
               className="text-white bg-red-600 hover:bg-red-500"
               onClick={toggleModal}
             >
-              Deactivate Personal Account
+              {t("settings.account.action.deactive.label")}
             </Button>
           </Card.Footer>
           <Modal
@@ -200,12 +200,10 @@ const Settings = ({ user }) => {
             toggle={toggleModal}
           >
             <p>
-              Your account will be deleted, along with all of its Workspace
-              contents.
+              {t("settings.account.action.deactive.label")}
             </p>
             <p className="px-3 py-2 text-red-600 border border-red-600 rounded">
-              <strong>Warning:</strong> This action is not reversible. Please be
-              certain.
+              <strong>Warning:</strong> {t("settings.account.deactive.message")}
             </p>
             <div className="flex flex-col">
               <label className="text-sm text-gray-400">
@@ -225,7 +223,7 @@ const Settings = ({ user }) => {
                 disabled={!verifiedEmail || isSubmitting}
                 onClick={deactivateAccount}
               >
-                <span>Deactivate Personal Account</span>
+                <span>{t("settings.account.action.deactive.label")}</span>
               </Button>
             </div>
           </Modal>
