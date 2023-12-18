@@ -232,7 +232,7 @@ export const getWorkspacePaths = async () => {
 
 export const inviteUsers = async (id, email, members, slug) => {
   const workspace = await getOwnWorkspace(id, email, slug);
-  const inviter = email;
+  const inviter = id;
 
   if (workspace) {
     const membersList = members.map(({ email, role }) => ({
