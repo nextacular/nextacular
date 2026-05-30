@@ -1,13 +1,15 @@
+'use client';
+
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
   const { status: sessionStatus } = useSession();
   const [showMenu, setMenuVisibility] = useState(false);
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const toggleMenu = () => setMenuVisibility(!showMenu);
 

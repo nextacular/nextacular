@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { getSession } from 'next-auth/react';
 import { useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { mutate } from 'swr';
 import isFQDN from 'validator/lib/isFQDN';
 
@@ -35,7 +35,7 @@ type MutationResponse = {
 };
 
 const DomainPage = ({ isTeamOwner, workspace }: DomainPageProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { data, isLoading } = useDomains(workspace?.slug ?? '');
   const [domain, setDomain] = useState('');
   const [isSubmitting, setSubmittingState] = useState(false);

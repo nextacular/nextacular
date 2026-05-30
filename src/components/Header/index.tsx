@@ -12,12 +12,12 @@ import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { Fragment, type MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 const Header = () => {
   const { data } = useSession();
   const { theme, setTheme } = useTheme();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const logOut = () => {
     const result = confirm('Are you sure you want to logout?');

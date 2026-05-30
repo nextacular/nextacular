@@ -3,7 +3,7 @@ import type { GetServerSideProps } from 'next';
 import { getSession, signOut } from 'next-auth/react';
 import { useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import isEmail from 'validator/lib/isEmail';
 
 import Button from '@/components/Button/index';
@@ -39,7 +39,7 @@ const Settings = ({ user }: SettingsProps) => {
   const [verifyEmail, setVerifyEmail] = useState('');
   const validName = name.length > 0 && name.length <= 32;
   const validEmail = isEmail(email);
-  const { t } = useTranslation();
+  const t = useTranslations();
   const verifiedEmail = verifyEmail === email;
 
   const handleCopyUserCode = async () => {

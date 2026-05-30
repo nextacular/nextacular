@@ -11,7 +11,7 @@ import type { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import { Fragment, useState, type ChangeEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import isEmail from 'validator/lib/isEmail';
 
 import Button from '@/components/Button/index';
@@ -57,7 +57,7 @@ const MEMBERS_TEMPLATE: MemberFormRow = {
 };
 
 const Team = ({ isTeamOwner, workspace }: TeamProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { data, isLoading } = useMembers(workspace?.slug ?? '');
   const [isSubmitting, setSubmittingState] = useState(false);
   const [members, setMembers] = useState<MemberFormRow[]>([

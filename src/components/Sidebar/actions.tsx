@@ -7,7 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import { Fragment, useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button/index';
 import Modal from '@/components/Modal/index';
@@ -20,7 +20,7 @@ type CreateWorkspaceResponse = {
 };
 
 const Actions = () => {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { data, isLoading } = useWorkspaces();
   const { workspace, setWorkspace } = useWorkspace();
   const router = useRouter();

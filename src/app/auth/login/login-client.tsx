@@ -1,22 +1,22 @@
+'use client';
+
 import Link from 'next/link';
 import { getProviders, signIn, useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState, type ChangeEvent, type MouseEvent } from 'react';
+import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/lib/isEmail';
-
-import Meta from '@/components/Meta/index';
-import { AuthLayout } from '@/layouts/index';
 
 type SocialProvider = {
   id: string;
   name: string;
 };
 
-const Login = () => {
+const LoginClient = () => {
   const { status } = useSession();
   const [email, setEmail] = useState('');
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [socialProviders, setSocialProviders] = useState<SocialProvider[]>([]);
   const validate = isEmail(email);
@@ -65,11 +65,8 @@ const Login = () => {
   }, []);
 
   return (
-    <AuthLayout>
-      <Meta
-        title="NextJS SaaS Boilerplate | Login"
-        description="A boilerplate for your NextJS SaaS projects."
-      />
+    <main className="relative flex flex-col items-center justify-center h-screen p-10 space-y-10">
+      <Toaster position="bottom-center" toastOptions={{ duration: 10000 }} />
       <div className="flex flex-col items-center justify-center p-5 m-auto space-y-5 rounded shadow-lg md:p-10 md:w-1/3">
         <div>
           <Link href="/" className="text-4xl font-bold">
@@ -118,8 +115,8 @@ const Login = () => {
           </>
         )}
       </div>
-    </AuthLayout>
+    </main>
   );
 };
 
-export default Login;
+export default LoginClient;

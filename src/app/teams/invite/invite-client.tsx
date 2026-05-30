@@ -1,6 +1,7 @@
-import type { GetServerSideProps } from 'next';
+'use client';
+
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -8,7 +9,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import apiFetch from '@/lib/common/api';
-import { getInvitation } from '@/prisma/services/workspace';
 
 type Invitation = {
   id: string;
@@ -17,7 +17,7 @@ type Invitation = {
   slug: string;
 };
 
-type InviteProps = {
+type InviteClientProps = {
   workspace: Invitation | null;
 };
 
@@ -26,7 +26,7 @@ type JoinResponse = {
   errors?: Record<string, { msg: string }>;
 };
 
-const Invite = ({ workspace }: InviteProps) => {
+const InviteClient = ({ workspace }: InviteClientProps) => {
   const { data } = useSession();
   const router = useRouter();
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -99,12 +99,4 @@ const Invite = ({ workspace }: InviteProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<InviteProps> = async (
-  context
-) => {
-  const code = typeof context.query.code === 'string' ? context.query.code : '';
-  const workspace = code ? await getInvitation(code) : null;
-  return { props: { workspace } };
-};
-
-export default Invite;
+export default InviteClient;

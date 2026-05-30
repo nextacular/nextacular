@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { useEffect, useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isSlug from 'validator/lib/isSlug';
 
@@ -35,7 +35,7 @@ type MutationResponse = {
 const General = ({ isTeamOwner, workspace }: GeneralProps) => {
   const router = useRouter();
   const { setWorkspace } = useWorkspace();
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [name, setName] = useState(workspace?.name ?? '');
   const [slug, setSlug] = useState(workspace?.slug ?? '');

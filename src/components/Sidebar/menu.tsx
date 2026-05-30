@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import type { SidebarMenuSection } from '@/config/menu/sidebar-static';
 
@@ -11,7 +11,7 @@ type MenuProps = {
 };
 
 const Menu = ({ data, isLoading = false, showMenu = false }: MenuProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   if (!showMenu) return null;
 

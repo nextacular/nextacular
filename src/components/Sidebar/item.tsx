@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import type { SidebarMenuItem } from '@/config/menu/sidebar-static';
 
@@ -9,7 +9,7 @@ type ItemProps = {
 };
 
 const Item = ({ data = null, isLoading = false }: ItemProps) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   if (isLoading || !data) {
     return <div className="h-6 mb-3 bg-gray-600 rounded animate-pulse" />;

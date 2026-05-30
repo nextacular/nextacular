@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { useState, type ChangeEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
@@ -25,7 +25,7 @@ type MutationResponse = {
 
 const Advanced = ({ isCreator }: AdvancedProps) => {
   const { setWorkspace, workspace } = useWorkspace();
-  const { t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
   const [isSubmitting, setSubmittingState] = useState(false);
   const [showModal, setModalState] = useState(false);

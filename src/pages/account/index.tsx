@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
@@ -29,7 +29,7 @@ const Welcome = () => {
   const { data: workspacesData, isLoading: isFetchingWorkspaces } =
     useWorkspaces();
   const { setWorkspace } = useWorkspace();
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [isSubmitting, setSubmittingState] = useState(false);
   const workspaces =
     (workspacesData?.workspaces as Workspace[] | undefined) ?? [];
