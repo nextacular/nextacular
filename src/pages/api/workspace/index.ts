@@ -1,3 +1,4 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
 import slugify from 'slugify';
 
 import {
@@ -6,14 +7,14 @@ import {
 } from '@/config/api-validation/index';
 import { createWorkspace } from '@/prisma/services/workspace';
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'POST') {
     const session = await validateSession(req, res);
     await validateCreateWorkspace(req, res);
-    const { name } = req.body;
-    let slug = slugify(name.toLowerCase());
+    const { name } = req.body as { name: string };
+    const slug = slugify(name.toLowerCase());
     await createWorkspace(session.user.userId, session.user.email, name, slug);
     res.status(200).json({ data: { name, slug } });
   } else {

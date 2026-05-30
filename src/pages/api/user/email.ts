@@ -1,15 +1,18 @@
-import {
-  validateUpdateEmail,
-  validateSession,
-} from '@/config/api-validation/index';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req, res) => {
+import {
+  validateSession,
+  validateUpdateEmail,
+} from '@/config/api-validation/index';
+import { updateEmail } from '@/prisma/services/user';
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'PUT') {
     const session = await validateSession(req, res);
     await validateUpdateEmail(req, res);
-    const { email } = req.body;
+    const { email } = req.body as { email: string };
     await updateEmail(session.user.userId, email, session.user.email);
     res.status(200).json({ data: { email } });
   } else {

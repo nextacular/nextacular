@@ -1,12 +1,15 @@
-import { getMembers } from '@/prisma/services/membership';
-import { validateSession } from '@/config/api-validation';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req, res) => {
+import { validateSession } from '@/config/api-validation';
+import { getMembers } from '@/prisma/services/membership';
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'GET') {
     await validateSession(req, res);
-    const members = await getMembers(req.query.workspaceSlug);
+    const { workspaceSlug } = req.query as { workspaceSlug: string };
+    const members = await getMembers(workspaceSlug);
     res.status(200).json({ data: { members } });
   } else {
     res

@@ -1,9 +1,11 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { validateSession } from '@/config/api-validation';
 import { deactivate } from '@/prisma/services/user';
 
 const ALLOW_DEACTIVATION = false;
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'DELETE') {

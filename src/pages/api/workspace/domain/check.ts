@@ -1,14 +1,20 @@
-import { validateSession } from '@/config/api-validation';
-import api from '@/lib/common/api';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (req, res) => {
+import { validateSession } from '@/config/api-validation';
+import apiFetch from '@/lib/common/api';
+
+type VercelDomainConfig = {
+  configuredBy?: string | null;
+};
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'GET') {
     await validateSession(req, res);
-    const { domain } = req.query;
+    const { domain } = req.query as { domain: string };
     const teamId = process.env.VERCEL_TEAM_ID;
-    const response = await api(
+    const response = await apiFetch<VercelDomainConfig>(
       `${process.env.VERCEL_API_URL}/v6/domains/${domain}/config${
         teamId ? `?teamId=${teamId}` : ''
       }`,

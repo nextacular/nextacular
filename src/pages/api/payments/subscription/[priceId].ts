@@ -1,17 +1,32 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { validateSession } from '@/config/api-validation';
 import stripe from '@/lib/server/stripe';
 import { getPayment } from '@/prisma/services/customer';
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'POST') {
     const session = await validateSession(req, res);
-    const { priceId } = req.query;
+    const { priceId } = req.query as { priceId: string };
     const [customerPayment, price] = await Promise.all([
-      getPayment(session.user?.email),
+      getPayment(session.user.email),
       stripe.prices.retrieve(priceId),
     ]);
+
+    if (!customerPayment) {
+      return res
+        .status(404)
+        .json({ errors: { error: { msg: 'Payment account not found' } } });
+    }
+
+    if (typeof price.product !== 'string') {
+      return res.status(400).json({
+        errors: { error: { msg: 'Price has no associated product' } },
+      });
+    }
+
     const product = await stripe.products.retrieve(price.product);
     const lineItems = [
       {
@@ -28,7 +43,7 @@ const handler = async (req, res) => {
       cancel_url: `${process.env.APP_URL}/account/payment?status=cancelled`,
       metadata: {
         customerId: customerPayment.customerId,
-        type: product.metadata.type,
+        type: product.metadata.type ?? null,
       },
     });
     res.status(200).json({ data: { sessionId: paymentSession.id } });

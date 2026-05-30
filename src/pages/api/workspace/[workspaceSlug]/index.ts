@@ -1,18 +1,17 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { validateSession } from '@/config/api-validation';
 import { deleteWorkspace } from '@/prisma/services/workspace';
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method === 'DELETE') {
     const session = await validateSession(req, res);
-    deleteWorkspace(
-      session.user.userId,
-      session.user.email,
-      req.query.workspaceSlug
-    )
+    const { workspaceSlug } = req.query as { workspaceSlug: string };
+    deleteWorkspace(session.user.userId, session.user.email, workspaceSlug)
       .then((slug) => res.status(200).json({ data: { slug } }))
-      .catch((error) =>
+      .catch((error: Error) =>
         res.status(404).json({ errors: { error: { msg: error.message } } })
       );
   } else {

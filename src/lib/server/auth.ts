@@ -13,11 +13,10 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, user }) => {
       if (session.user && user.email) {
         const customerPayment = await getPayment(user.email);
-        (session.user as { userId?: string }).userId = user.id;
+        session.user.userId = user.id;
 
         if (customerPayment) {
-          (session.user as { subscription?: string }).subscription =
-            customerPayment.subscriptionType;
+          session.user.subscription = customerPayment.subscriptionType;
         }
       }
 
@@ -31,12 +30,8 @@ export const authOptions: NextAuthOptions = {
 
       const customerPayment = await getPayment(user.email);
 
-      if (
-        isNewUser ||
-        customerPayment === null ||
-        (user as { createdAt?: Date | null }).createdAt === null
-      ) {
-        await Promise.all([createPaymentAccount(user.email, user.id)]);
+      if (isNewUser || customerPayment === null) {
+        await createPaymentAccount(user.email, user.id);
       }
     },
   },
