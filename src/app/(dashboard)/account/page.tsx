@@ -1,14 +1,14 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
 import { useInvitations, useWorkspaces } from '@/hooks/data/index';
-import { AccountLayout } from '@/layouts/index';
 import apiFetch from '@/lib/common/api';
 import { useWorkspace, type Workspace } from '@/providers/workspace';
 
@@ -78,8 +78,7 @@ const Welcome = () => {
   };
 
   return (
-    <AccountLayout>
-      <Meta title="Nextacular - Dashboard" />
+    <>
       <Content.Title
         title={t('workspace.dashboard.header.title')}
         subtitle={t('workspace.dashboard.header.description')}
@@ -162,7 +161,7 @@ const Welcome = () => {
           )}
         </div>
       </Content.Container>
-    </AccountLayout>
+    </>
   );
 };
 

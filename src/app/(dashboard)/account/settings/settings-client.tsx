@@ -1,20 +1,18 @@
+'use client';
+
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import type { GetServerSideProps } from 'next';
-import { getSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 import isEmail from 'validator/lib/isEmail';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
 import Modal from '@/components/Modal/index';
-import { AccountLayout } from '@/layouts/index';
 import { copyToClipboard } from '@/lib/client/clipboard';
 import apiFetch from '@/lib/common/api';
-import { getUser } from '@/prisma/services/user';
 
 type SettingsUser = {
   email: string;
@@ -22,7 +20,7 @@ type SettingsUser = {
   userCode: string;
 };
 
-type SettingsProps = {
+type SettingsClientProps = {
   user: SettingsUser;
 };
 
@@ -30,7 +28,7 @@ type MutationResponse = {
   errors?: Record<string, { msg: string }>;
 };
 
-const Settings = ({ user }: SettingsProps) => {
+const SettingsClient = ({ user }: SettingsClientProps) => {
   const [email, setEmail] = useState(user.email || '');
   const [isSubmitting, setSubmittingState] = useState(false);
   const [name, setName] = useState(user.name || '');
@@ -130,8 +128,7 @@ const Settings = ({ user }: SettingsProps) => {
   };
 
   return (
-    <AccountLayout>
-      <Meta title="Nextacular - Account Settings" />
+    <>
       <Content.Title
         title={t('settings.header.title')}
         subtitle={t('settings.header.description')}
@@ -254,31 +251,8 @@ const Settings = ({ user }: SettingsProps) => {
           </Modal>
         </Card>
       </Content.Container>
-    </AccountLayout>
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<SettingsProps> = async (
-  context
-) => {
-  const session = await getSession(context);
-  const userId = session?.user?.userId;
-
-  if (!userId) {
-    return { redirect: { destination: '/auth/login', permanent: false } };
-  }
-
-  const user = await getUser(userId);
-
-  return {
-    props: {
-      user: {
-        email: user?.email ?? '',
-        name: user?.name ?? '',
-        userCode: user?.userCode ?? '',
-      },
-    },
-  };
-};
-
-export default Settings;
+export default SettingsClient;

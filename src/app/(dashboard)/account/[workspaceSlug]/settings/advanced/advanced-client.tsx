@@ -1,21 +1,18 @@
-import type { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/react';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState, type ChangeEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
 import Modal from '@/components/Modal/index';
-import { AccountLayout } from '@/layouts/index';
 import apiFetch from '@/lib/common/api';
 import { useWorkspace } from '@/providers/workspace';
-import { getWorkspace, isWorkspaceCreator } from '@/prisma/services/workspace';
 
-type AdvancedProps = {
+type AdvancedClientProps = {
   isCreator: boolean;
 };
 
@@ -23,7 +20,7 @@ type MutationResponse = {
   errors?: Record<string, { msg: string }>;
 };
 
-const Advanced = ({ isCreator }: AdvancedProps) => {
+const AdvancedClient = ({ isCreator }: AdvancedClientProps) => {
   const { setWorkspace, workspace } = useWorkspace();
   const t = useTranslations();
   const router = useRouter();
@@ -62,8 +59,7 @@ const Advanced = ({ isCreator }: AdvancedProps) => {
   };
 
   return (
-    <AccountLayout>
-      <Meta title={`Nextacular - ${workspace?.name} | Advanced Settings`} />
+    <>
       <Content.Title
         title={t('settings.workspace.advanced')}
         subtitle={t('settings.workspace.manage.label')}
@@ -131,35 +127,8 @@ const Advanced = ({ isCreator }: AdvancedProps) => {
           </Modal>
         </Card>
       </Content.Container>
-    </AccountLayout>
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<AdvancedProps> = async (
-  context
-) => {
-  const session = await getSession(context);
-  let isCreator = false;
-
-  if (session?.user) {
-    const workspaceSlug =
-      typeof context.params?.workspaceSlug === 'string'
-        ? context.params.workspaceSlug
-        : '';
-    const workspace = workspaceSlug
-      ? await getWorkspace(
-          session.user.userId,
-          session.user.email,
-          workspaceSlug
-        )
-      : null;
-
-    if (workspace) {
-      isCreator = isWorkspaceCreator(session.user.userId, workspace.creatorId);
-    }
-  }
-
-  return { props: { isCreator } };
-};
-
-export default Advanced;
+export default AdvancedClient;

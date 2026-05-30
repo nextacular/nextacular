@@ -1,13 +1,15 @@
+'use client';
+
 import { Listbox, Transition } from '@headlessui/react';
 import {
   CheckIcon,
   ChevronUpDownIcon,
   PlusIcon,
 } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Fragment, useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button/index';
 import Modal from '@/components/Modal/index';

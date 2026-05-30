@@ -1,10 +1,10 @@
+'use client';
+
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import type { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { getSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 import { mutate } from 'swr';
 import isFQDN from 'validator/lib/isFQDN';
 
@@ -12,11 +12,8 @@ import Button from '@/components/Button/index';
 import DomainCard, { type DomainInfo } from '@/components/Card/domain';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
 import { useDomains } from '@/hooks/data';
-import { AccountLayout } from '@/layouts/index';
 import apiFetch from '@/lib/common/api';
-import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
 
 type WorkspaceForDomain = {
   slug: string;
@@ -25,7 +22,7 @@ type WorkspaceForDomain = {
   hostname: string;
 };
 
-type DomainPageProps = {
+type DomainClientProps = {
   isTeamOwner: boolean;
   workspace: WorkspaceForDomain | null;
 };
@@ -34,7 +31,7 @@ type MutationResponse = {
   errors?: Record<string, { msg: string }>;
 };
 
-const DomainPage = ({ isTeamOwner, workspace }: DomainPageProps) => {
+const DomainClient = ({ isTeamOwner, workspace }: DomainClientProps) => {
   const t = useTranslations();
   const { data, isLoading } = useDomains(workspace?.slug ?? '');
   const [domain, setDomain] = useState('');
@@ -111,8 +108,7 @@ const DomainPage = ({ isTeamOwner, workspace }: DomainPageProps) => {
   const domains = data?.domains ?? [];
 
   return (
-    <AccountLayout>
-      <Meta title={`Nextacular - ${workspace.name} | Domains`} />
+    <>
       <Content.Title
         title={t('settings.domain.subdomain.management')}
         subtitle={t('settings.domain.subdomain.management.description')}
@@ -194,45 +190,8 @@ const DomainPage = ({ isTeamOwner, workspace }: DomainPageProps) => {
           </Content.Container>
         </>
       )}
-    </AccountLayout>
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<DomainPageProps> = async (
-  context
-) => {
-  const session = await getSession(context);
-  let isTeamOwner = false;
-  let workspace: WorkspaceForDomain | null = null;
-
-  if (session?.user) {
-    const workspaceSlug =
-      typeof context.params?.workspaceSlug === 'string'
-        ? context.params.workspaceSlug
-        : '';
-    const dbWorkspace = workspaceSlug
-      ? await getWorkspace(
-          session.user.userId,
-          session.user.email,
-          workspaceSlug
-        )
-      : null;
-
-    if (dbWorkspace && process.env.APP_URL) {
-      const { host } = new URL(process.env.APP_URL);
-      isTeamOwner = isWorkspaceOwner(session.user.email, dbWorkspace);
-      workspace = {
-        slug: workspaceSlug,
-        name: dbWorkspace.name,
-        host,
-        hostname: `${workspaceSlug}.${host}`,
-      };
-    }
-  }
-
-  return {
-    props: { isTeamOwner, workspace },
-  };
-};
-
-export default DomainPage;
+export default DomainClient;

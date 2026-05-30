@@ -1,6 +1,6 @@
+'use client';
+
 import formatDistance from 'date-fns/formatDistance';
-import type { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -9,17 +9,13 @@ import type Stripe from 'stripe';
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
 import Modal from '@/components/Modal/index';
-import { AccountLayout } from '@/layouts/index';
 import { redirectToCheckout } from '@/lib/client/stripe';
 import apiFetch from '@/lib/common/api';
-import { getInvoices, getProducts } from '@/lib/server/stripe';
-import { getPayment } from '@/prisma/services/customer';
 
 type ProductWithPrice = Stripe.Product & { prices?: Stripe.Price };
 
-type BillingProps = {
+type BillingClientProps = {
   invoices: Stripe.Invoice[];
   products: ProductWithPrice[];
 };
@@ -29,7 +25,7 @@ type SubscribeResponse = {
   data?: { sessionId: string };
 };
 
-const Billing = ({ invoices, products }: BillingProps) => {
+const BillingClient = ({ invoices, products }: BillingClientProps) => {
   const [isSubmitting, setSubmittingState] = useState(false);
   const [showModal, setModalVisibility] = useState(false);
 
@@ -53,8 +49,7 @@ const Billing = ({ invoices, products }: BillingProps) => {
   const toggleModal = () => setModalVisibility(!showModal);
 
   return (
-    <AccountLayout>
-      <Meta title="Nextacular - Billing" />
+    <>
       <Content.Title
         title="Billing"
         subtitle="Manage your billing and preferences"
@@ -153,7 +148,9 @@ const Billing = ({ invoices, products }: BillingProps) => {
                     {formatDistance(
                       new Date(invoice.created * 1000),
                       new Date(),
-                      { addSuffix: true }
+                      {
+                        addSuffix: true,
+                      }
                     )}
                   </td>
                   <td className="py-5">{invoice.status}</td>
@@ -177,27 +174,8 @@ const Billing = ({ invoices, products }: BillingProps) => {
           up here
         </Content.Empty>
       )}
-    </AccountLayout>
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<BillingProps> = async (
-  context
-) => {
-  const session = await getSession(context);
-  const customerPayment = session?.user?.email
-    ? await getPayment(session.user.email)
-    : null;
-  const [invoices, products] = await Promise.all([
-    customerPayment?.paymentId ? getInvoices(customerPayment.paymentId) : [],
-    getProducts(),
-  ]);
-  return {
-    props: {
-      invoices: (invoices ?? []) as Stripe.Invoice[],
-      products: (products ?? []) as ProductWithPrice[],
-    },
-  };
-};
-
-export default Billing;
+export default BillingClient;

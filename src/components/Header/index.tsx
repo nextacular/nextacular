@@ -1,3 +1,5 @@
+'use client';
+
 import { Menu, Transition } from '@headlessui/react';
 import {
   ArrowRightOnRectangleIcon,
@@ -11,8 +13,8 @@ import {
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
-import { Fragment, type MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
+import { Fragment, type MouseEvent } from 'react';
 
 const Header = () => {
   const { data } = useSession();

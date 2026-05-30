@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import { useEffect, type ReactNode } from 'react';
+'use client';
+
+import type { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import Content from '@/components/Content/index';
@@ -9,22 +9,13 @@ import Sidebar from '@/components/Sidebar/index';
 import menu from '@/config/menu/index';
 import { useWorkspace } from '@/providers/workspace';
 
-type AccountLayoutProps = {
+type DashboardShellProps = {
   children: ReactNode;
 };
 
-const AccountLayout = ({ children }: AccountLayoutProps) => {
-  const { status } = useSession();
-  const router = useRouter();
+const DashboardShell = ({ children }: DashboardShellProps) => {
   const { workspace } = useWorkspace();
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.replace('/auth/login');
-    }
-  }, [status, router]);
-
-  if (status === 'loading') return <></>;
   return (
     <main className="relative flex flex-col w-screen h-screen space-x-0 text-gray-800 dark:text-gray-200 md:space-x-5 md:flex-row bg-gray-50 dark:bg-gray-800">
       <Sidebar menu={menu(workspace?.slug)} />
@@ -37,4 +28,4 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
   );
 };
 
-export default AccountLayout;
+export default DashboardShell;

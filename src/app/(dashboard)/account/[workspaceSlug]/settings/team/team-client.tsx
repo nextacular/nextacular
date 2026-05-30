@@ -1,3 +1,5 @@
+'use client';
+
 import { Menu, Transition } from '@headlessui/react';
 import {
   ChevronDownIcon,
@@ -7,22 +9,17 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { InvitationStatus, TeamRole } from '@prisma/client';
-import type { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { Fragment, useState, type ChangeEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 import isEmail from 'validator/lib/isEmail';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
 import { useMembers } from '@/hooks/data';
-import { AccountLayout } from '@/layouts/index';
 import { copyToClipboard } from '@/lib/client/clipboard';
 import apiFetch from '@/lib/common/api';
-import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
 
 type MemberFormRow = { email: string; role: TeamRole };
 
@@ -42,7 +39,7 @@ type ListMember = {
   member?: { name?: string | null } | null;
 };
 
-type TeamProps = {
+type TeamClientProps = {
   isTeamOwner: boolean;
   workspace: WorkspaceForTeam | null;
 };
@@ -56,7 +53,7 @@ const MEMBERS_TEMPLATE: MemberFormRow = {
   role: TeamRole.MEMBER,
 };
 
-const Team = ({ isTeamOwner, workspace }: TeamProps) => {
+const TeamClient = ({ isTeamOwner, workspace }: TeamClientProps) => {
   const t = useTranslations();
   const { data, isLoading } = useMembers(workspace?.slug ?? '');
   const [isSubmitting, setSubmittingState] = useState(false);
@@ -161,8 +158,7 @@ const Team = ({ isTeamOwner, workspace }: TeamProps) => {
   };
 
   return (
-    <AccountLayout>
-      <Meta title={`Nextacular - ${workspace.name} | Team Management`} />
+    <>
       <Content.Title
         title={t('settings.team.management')}
         subtitle={t('settings.team.manage.members')}
@@ -385,45 +381,8 @@ const Team = ({ isTeamOwner, workspace }: TeamProps) => {
           </Card.Body>
         </Card>
       </Content.Container>
-    </AccountLayout>
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<TeamProps> = async (
-  context
-) => {
-  const session = await getSession(context);
-  let isTeamOwner = false;
-  let workspace: WorkspaceForTeam | null = null;
-
-  if (session?.user) {
-    const workspaceSlug =
-      typeof context.params?.workspaceSlug === 'string'
-        ? context.params.workspaceSlug
-        : '';
-    const dbWorkspace = workspaceSlug
-      ? await getWorkspace(
-          session.user.userId,
-          session.user.email,
-          workspaceSlug
-        )
-      : null;
-
-    if (dbWorkspace) {
-      isTeamOwner = isWorkspaceOwner(session.user.email, dbWorkspace);
-      workspace = {
-        slug: workspaceSlug,
-        name: dbWorkspace.name,
-        inviteCode: dbWorkspace.inviteCode,
-        inviteLink: `${process.env.APP_URL}/teams/invite?code=${encodeURI(dbWorkspace.inviteCode)}`,
-        creator: { email: dbWorkspace.creator.email },
-      };
-    }
-  }
-
-  return {
-    props: { isTeamOwner, workspace },
-  };
-};
-
-export default Team;
+export default TeamClient;

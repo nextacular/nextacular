@@ -1,24 +1,21 @@
+'use client';
+
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import type { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState, type ChangeEvent, type MouseEvent } from 'react';
 import toast from 'react-hot-toast';
-import { useTranslations } from 'next-intl';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isSlug from 'validator/lib/isSlug';
 
 import Button from '@/components/Button/index';
 import Card from '@/components/Card/index';
 import Content from '@/components/Content/index';
-import Meta from '@/components/Meta/index';
-import { AccountLayout } from '@/layouts/index';
 import { copyToClipboard } from '@/lib/client/clipboard';
 import apiFetch from '@/lib/common/api';
 import { useWorkspace, type Workspace } from '@/providers/workspace';
-import { getWorkspace, isWorkspaceOwner } from '@/prisma/services/workspace';
 
-type GeneralProps = {
+type GeneralClientProps = {
   isTeamOwner: boolean;
   workspace: Workspace | null;
 };
@@ -32,7 +29,7 @@ type MutationResponse = {
   errors?: Record<string, { msg: string }>;
 };
 
-const General = ({ isTeamOwner, workspace }: GeneralProps) => {
+const GeneralClient = ({ isTeamOwner, workspace }: GeneralClientProps) => {
   const router = useRouter();
   const { setWorkspace } = useWorkspace();
   const t = useTranslations();
@@ -111,8 +108,7 @@ const General = ({ isTeamOwner, workspace }: GeneralProps) => {
     setSlug(event.target.value);
 
   return (
-    <AccountLayout>
-      <Meta title={`Nextacular - ${workspace.name} | Settings`} />
+    <>
       <Content.Title
         title={t('settings.workspace.information')}
         subtitle={t('settings.general.workspace.description')}
@@ -198,39 +194,8 @@ const General = ({ isTeamOwner, workspace }: GeneralProps) => {
           </Card.Body>
         </Card>
       </Content.Container>
-    </AccountLayout>
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<GeneralProps> = async (
-  context
-) => {
-  const session = await getSession(context);
-  let isTeamOwner = false;
-  let workspace: Workspace | null = null;
-
-  if (session?.user) {
-    const workspaceSlug =
-      typeof context.params?.workspaceSlug === 'string'
-        ? context.params.workspaceSlug
-        : '';
-    const dbWorkspace = workspaceSlug
-      ? await getWorkspace(
-          session.user.userId,
-          session.user.email,
-          workspaceSlug
-        )
-      : null;
-
-    if (dbWorkspace) {
-      isTeamOwner = isWorkspaceOwner(session.user.email, dbWorkspace);
-      workspace = { ...(dbWorkspace as Workspace), slug: workspaceSlug };
-    }
-  }
-
-  return {
-    props: { isTeamOwner, workspace },
-  };
-};
-
-export default General;
+export default GeneralClient;
