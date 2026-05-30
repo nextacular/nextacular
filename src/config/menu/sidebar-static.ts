@@ -1,6 +1,14 @@
-import i18next from 'i18next';
+export type SidebarMenuItem = {
+  name: string;
+  path: string;
+};
 
-const sidebarMenu = () => [
+export type SidebarMenuSection = {
+  name: string;
+  menuItems: SidebarMenuItem[];
+};
+
+const sidebarMenu = (): SidebarMenuSection[] => [
   {
     name: 'Account',
     menuItems: [

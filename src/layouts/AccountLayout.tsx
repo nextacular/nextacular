@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useEffect, type ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import Content from '@/components/Content/index';
@@ -9,7 +9,11 @@ import Sidebar from '@/components/Sidebar/index';
 import menu from '@/config/menu/index';
 import { useWorkspace } from '@/providers/workspace';
 
-const AccountLayout = ({ children }) => {
+type AccountLayoutProps = {
+  children: ReactNode;
+};
+
+const AccountLayout = ({ children }: AccountLayoutProps) => {
   const { status } = useSession();
   const router = useRouter();
   const { workspace } = useWorkspace();

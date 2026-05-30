@@ -1,5 +1,6 @@
-const html = ({ email }) => {
-  return `
+type EmailUpdateInput = { email: string };
+
+const html = ({ email }: EmailUpdateInput): string => `
 <body>
     <p>Hello there!</p>
     <p>You have requested to update your email address to: <strong>${email}</strong></p>
@@ -8,10 +9,8 @@ const html = ({ email }) => {
     <p>Cheers,<br />${process.env.EMAIL_FROM}</p>
 </body>
 `;
-};
 
-const text = ({ email }) => {
-  return `
+const text = ({ email }: EmailUpdateInput): string => `
 Hello there!
 
 You have requested to update your email address to: ${email}
@@ -23,6 +22,5 @@ In case you need any assistance, just hit reply.
 Cheers,
 ${process.env.EMAIL_FROM}
 `;
-};
 
 export { html, text };

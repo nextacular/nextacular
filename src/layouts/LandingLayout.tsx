@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { useEffect, type ReactNode } from 'react';
 
-const LandingLayout = ({ children }) => {
+type LandingLayoutProps = {
+  children: ReactNode;
+};
+
+const LandingLayout = ({ children }: LandingLayoutProps) => {
   const { setTheme } = useTheme();
 
   useEffect(() => {

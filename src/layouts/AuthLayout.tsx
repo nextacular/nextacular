@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import { useEffect, type ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
-const AuthLayout = ({ children }) => {
+type AuthLayoutProps = {
+  children: ReactNode;
+};
+
+const AuthLayout = ({ children }: AuthLayoutProps) => {
   const router = useRouter();
   const { status } = useSession();
   const { setTheme } = useTheme();

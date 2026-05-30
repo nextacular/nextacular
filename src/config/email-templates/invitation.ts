@@ -1,28 +1,30 @@
-const html = ({ code, name }) => {
+type InvitationInput = { code: string; name: string };
+
+const html = ({ code, name }: InvitationInput): string => {
   const link = `${process.env.APP_URL}/teams/invite?code=${encodeURI(code)}`;
 
   return `
 <body>
     <p>Hello there!</p>
-    <p>You have created <strong>${name}</strong> workspace.</p>
+    <p>You have been invited to join <strong>${name}</strong> workspace.</p>
     <p>Workspaces encapsulates your project's activities with your dedicated teammates.</p>
-    <p>Start inviting your teammates by sharing this link: <a href="${link}">${link}</a></p>
+    <p>Login into your account or you may open this link: <a href="${link}">${link}</a></p>
     <p>In case you need any assistance, just hit reply.</p>
     <p>Cheers,<br />${process.env.EMAIL_FROM}</p>
 </body>
 `;
 };
 
-const text = ({ code, name }) => {
+const text = ({ code, name }: InvitationInput): string => {
   const link = `${process.env.APP_URL}/teams/invite?code=${encodeURI(code)}`;
 
   return `
 Hello there!
 
-You have created ${name} workspace.
+You have been invited to join ${name} workspace.
 Workspaces encapsulates your project's activities with your dedicated teammates.
 
-Start inviting your teammates by sharing this link: ${link}
+Login into your account or you may open this link: ${link}
 
 In case you need any assistance, just hit reply.
 

@@ -1,5 +1,6 @@
-const html = ({ email, url }) => {
-  return `
+type SignInInput = { email: string; url: string };
+
+const html = ({ email, url }: SignInInput): string => `
 <body>
     <p>Welcome! You are logging in with ${email}</p>
     <p>Click this link to sign in: <strong><a href="${url}" target="_blank">HERE</a></strong></p>
@@ -9,10 +10,8 @@ const html = ({ email, url }) => {
     <p>Cheers,<br />${process.env.EMAIL_FROM}</p>
 </body>
 `;
-};
 
-const text = ({ email, url }) => {
-  return `
+const text = ({ email, url }: SignInInput): string => `
 Welcome! You are logging in with ${email}
 
 You may now sign in using this link: ${url}
@@ -24,6 +23,5 @@ In case you need any assistance, just hit reply.
 Cheers,
 ${process.env.EMAIL_FROM}
 `;
-};
 
 export { html, text };

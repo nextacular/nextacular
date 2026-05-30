@@ -1,6 +1,12 @@
 import { SubscriptionType } from '@prisma/client';
 
-const rules = {
+export type SubscriptionRule = {
+  customDomains: number;
+  members: number;
+  workspaces: number;
+};
+
+const rules: Record<SubscriptionType, SubscriptionRule> = {
   [SubscriptionType.FREE]: {
     customDomains: 1,
     members: 1,

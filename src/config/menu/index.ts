@@ -1,4 +1,6 @@
-const menu = (workspaceId) => [
+import type { SidebarMenuSection } from './sidebar-static';
+
+const menu = (workspaceId: string | undefined): SidebarMenuSection[] => [
   {
     name: 'Workspace',
     menuItems: [
