@@ -12,6 +12,7 @@ import { SWRConfig } from 'swr';
 import swrConfig from '@/config/swr/index';
 import WorkspaceProvider from '@/providers/workspace';
 import enMessages from '@/../src/messages/en.json';
+import koMessages from '@/../src/messages/ko.json';
 
 import '@/styles/globals.css';
 import 'nprogress/nprogress.css';
@@ -21,6 +22,7 @@ NProgress.configure({ showSpinner: false });
 const langCode = 'en';
 const langObject: Record<string, { translation: typeof enMessages }> = {
   [langCode]: { translation: enMessages },
+  ko: { translation: koMessages },
 };
 
 i18n.use(initReactI18next).init({
