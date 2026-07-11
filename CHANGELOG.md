@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Korean (`ko`) translation catalog at `src/messages/ko.json`, covering all 93 keys from `src/messages/en.json`, registered as an i18next resource in `src/pages/_app.tsx`.
 - `docker-compose.yml` with Postgres 16, [Mailpit](https://mailpit.axllent.org/) (for capturing magic-link emails locally), and Adminer.
 - New npm scripts: `db:up`, `db:down`, `db:reset`, `db:logs`, `db:studio`, `seed`. Local dev now boots with `npm install && npm run db:up && npx prisma migrate deploy && npm run seed && npm run dev`.
 - Seed script (`prisma/seed.ts`, replacing `prisma/seed.js`) creates a demo workspace with an admin owner and two teammate users (one accepted, one pending invitation) so the dashboard is non-empty on first run.
