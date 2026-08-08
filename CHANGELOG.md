@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `CLAUDE.md` at repo root — operating guide for Claude Code, Cursor, GitHub Copilot, and any AI assistant. Mirrored by a short `AGENTS.md` pointer and a condensed `.cursorrules` for Cursor IDE.
 - Rewritten `.env.sample` with defaults that match `docker-compose.yml` and inline guidance grouped by feature area.
 - `tsx` devDependency so Prisma can run TypeScript seed and script files directly.
+- `EMAIL_SERVER_HOST`, `EMAIL_SERVER_PORT`, and `EMAIL_SERVER_SECURE` — point the mail transport at a raw SMTP server. Previously only `EMAIL_SERVICE` was read, so providers absent from [nodemailer's well-known list](https://nodemailer.com/smtp/well-known/) (and the local Mailpit container on port 1025) could not be configured at all, despite `.env.sample` and `docs/ENV.md` documenting host/port support. `EMAIL_SERVICE` still works and is unchanged when no host is set.
 - Server-side validation via Zod (`src/lib/server/validate.ts` → `parseBody`); schemas live in `src/config/api-validation/`.
 - `src/lib/client/clipboard.ts` (native Clipboard API wrapper) and `src/lib/server/raw-body.ts` (Stripe webhook raw body reader).
 

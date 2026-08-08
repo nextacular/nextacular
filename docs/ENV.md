@@ -15,6 +15,9 @@ A variable is **Required** if the app refuses to boot without it, **Conditional*
 | `EMAIL_FROM`                      | Conditional | Magic-link sign-in, invite/notify emails |
 | `EMAIL_SERVER_USER`               | Conditional | SMTP auth (nodemailer)                   |
 | `EMAIL_SERVER_PASSWORD`           | Conditional | SMTP auth (nodemailer)                   |
+| `EMAIL_SERVER_HOST`               | Conditional | SMTP host — overrides `EMAIL_SERVICE`    |
+| `EMAIL_SERVER_PORT`               | Conditional | SMTP port (defaults to nodemailer's)     |
+| `EMAIL_SERVER_SECURE`             | Optional    | Force implicit TLS on/off                |
 | `EMAIL_SERVICE`                   | Conditional | Nodemailer well-known SMTP service       |
 | `NEXT_PUBLIC_PUBLISHABLE_KEY`     | Conditional | Stripe.js on the billing page (client)   |
 | `PAYMENTS_SECRET_KEY`             | Conditional | Stripe SDK (server)                      |
@@ -38,7 +41,8 @@ DATABASE_URL=postgresql://nextacular:nextacular@localhost:5432/nextacular
 EMAIL_FROM="Nextacular <hello@nextacular.test>"
 EMAIL_SERVER_USER=
 EMAIL_SERVER_PASSWORD=
-EMAIL_SERVICE=
+EMAIL_SERVER_HOST=localhost
+EMAIL_SERVER_PORT=1025
 ADMIN_EMAIL=admin@nextacular.test
 ```
 
@@ -75,17 +79,33 @@ Standard PostgreSQL connection string. Examples:
 
 Prisma Migrate creates a temporary "shadow" database to detect unsafe schema changes. Most managed databases don't allow the database owner to `CREATE DATABASE`, so you need to point this at a separate, empty Postgres URL. Not required when running locally against a permissive Postgres.
 
-### Email (`EMAIL_FROM`, `EMAIL_SERVER_USER`, `EMAIL_SERVER_PASSWORD`, `EMAIL_SERVICE`)
+### Email (`EMAIL_FROM`, `EMAIL_SERVER_*`, `EMAIL_SERVICE`)
 
 Required to deliver magic-link sign-in emails (NextAuth's `EmailProvider`) and workspace invitations.
 
 - `EMAIL_FROM`: the sender address. Format: `Name <email@domain>` or plain `email@domain`.
-- `EMAIL_SERVICE`: matches a [nodemailer well-known service](https://nodemailer.com/smtp/well-known/) (e.g. `gmail`, `outlook`, `mailgun`). Leave blank if you supply a raw SMTP host/port via additional env vars.
 - `EMAIL_SERVER_USER` / `EMAIL_SERVER_PASSWORD`: SMTP credentials.
 
-For local development the `docker compose` stack runs [Mailpit](https://mailpit.axllent.org/). All outgoing mail is captured at <http://localhost:8025> and no credentials are required — leave `EMAIL_SERVER_USER` / `EMAIL_SERVER_PASSWORD` empty. Mailpit accepts any SMTP auth.
+Point the transport at a server in one of two ways:
 
-For production: use Resend, SendGrid, Postmark, AWS SES, or any other transactional email provider that exposes SMTP credentials.
+- `EMAIL_SERVER_HOST` / `EMAIL_SERVER_PORT` — a raw SMTP host. Works with every provider, and is the only option for a provider that nodemailer does not ship a shorthand for.
+- `EMAIL_SERVICE` — matches a [nodemailer well-known service](https://nodemailer.com/smtp/well-known/) (e.g. `gmail`, `outlook`, `mailgun`). Only these names resolve; anything else fails to connect.
+
+`EMAIL_SERVER_HOST` takes precedence when both are set.
+
+`EMAIL_SERVER_SECURE` forces implicit TLS on (`true`) or off (`false`). Leave it unset unless you have a reason: it defaults to `true` on port 465 and `false` everywhere else, which is correct for 587, 25, and Mailpit's 1025 (all of which upgrade via STARTTLS).
+
+For local development the `docker compose` stack runs [Mailpit](https://mailpit.axllent.org/) on port 1025. All outgoing mail is captured at <http://localhost:8025> and no credentials are required — leave `EMAIL_SERVER_USER` / `EMAIL_SERVER_PASSWORD` empty. Mailpit accepts any SMTP auth.
+
+For production, use any transactional provider that exposes SMTP credentials:
+
+| Provider | Host                                | Port |
+| -------- | ----------------------------------- | ---- |
+| Resend   | `smtp.resend.com`                   | 587  |
+| SendGrid | `smtp.sendgrid.net`                 | 587  |
+| Postmark | `smtp.postmarkapp.com`              | 587  |
+| AWS SES  | `email-smtp.<region>.amazonaws.com` | 587  |
+| MailKite | `smtp.mailkite.dev`                 | 587  |
 
 ### Stripe billing (`NEXT_PUBLIC_PUBLISHABLE_KEY`, `PAYMENTS_SECRET_KEY`, `PAYMENTS_SIGNING_SECRET`)
 
